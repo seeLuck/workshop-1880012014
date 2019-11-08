@@ -1,3 +1,6 @@
+local NewDamage = 100;
+local NewRange = 10;
+
 local assets =
 {
     Asset("ANIM", "anim/blow_dart.zip"),
@@ -301,8 +304,8 @@ local function OnAccept(inst, giver, item)
 	end
 	if not inst.components.weapon then
 		inst:AddComponent("weapon")
-		inst.components.weapon:SetDamage(TUNING.WALRUS_DAMAGE)
-		inst.components.weapon:SetRange(8, 10)
+		inst.components.weapon:SetDamage(NewDamage)
+		inst.components.weapon:SetRange(NewRange)
 		inst.components.weapon:SetProjectile("blowdart_walrus")
 	end
 end
@@ -347,15 +350,15 @@ local function commonN(anim, tags)
     end
 
 	inst:AddComponent("weapon")
-    inst.components.weapon:SetDamage(TUNING.WALRUS_DAMAGE)
-    inst.components.weapon:SetRange(8, 10)
+    inst.components.weapon:SetDamage(NewDamage)
+    inst.components.weapon:SetRange(NewRange)
 	inst.components.weapon:SetProjectile("blowdart_walrus")
 	
     -------
 
 	inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetMaxUses(6)
-    inst.components.finiteuses:SetUses(6)
+    inst.components.finiteuses:SetMaxUses(100)
+    inst.components.finiteuses:SetUses(1)
 	inst.components.finiteuses:SetOnFinished(onfinished)
 	
     inst:AddComponent("inspectable")

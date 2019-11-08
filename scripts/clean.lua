@@ -58,14 +58,14 @@ if IsServer then
             silk            = { max = 5 , stack = 5, reclean = 15 },       -- 蜘蛛丝
             spidergland     = { max = 5 , stack = 3, reclean = 3 },       -- 蜘蛛腺体
             spidereggsack   = { max = 0 , stack = 0, reclean = 3 },       -- 蜘蛛巢卵
-            stinger         = { max = 2 , stack = 5, reclean = 3 },       -- 蜂刺
+            stinger         = { max = 0 , stack = 0, reclean = 2 },       -- 蜂刺
             beardhair       = { max = 3 , stack = 3, reclean = 1 },       -- 胡须
             coontail        = { max = 3 , stack = 2, reclean = 3 },       -- 猫尾巴
             boneshard       = { max = 3 , stack = 0, reclean = 2 },       -- 骨头碎片
             cutreeds        = { max = 3 , stack = 1, reclean = 3 },       -- 芦苇
             feather_crow    = { max = 5 , stack = 0, reclean = 3 },       -- 黑羽毛
             furtuft         = { max = 0 , stack = 0, reclean = 1 },       -- 小熊毛
-            houndstooth     = { max = 0 , stack = 0, reclean = 1 },       -- 狗牙
+            houndstooth     = { max = 0 , stack = 0, reclean = 2 },       -- 狗牙
             mosquitosack    = { max = 0 , stack = 0, reclean = 1 },       -- 蚊子血袋
             tentaclespots   = { max = 0 , stack = 0, reclean = 1 },       -- 触手皮
             glommerfuel     = { max = 100 , stack = 0, reclean = 40 },       -- 格罗姆粘液
@@ -186,7 +186,9 @@ if IsServer then
     end
 
     local function CleanDelay(inst)
-        inst:DoTaskInTime(5, Clean)
+        if TheWorld.state.cycles > 200 then
+            inst:DoTaskInTime(5, Clean)
+        end
     end
 
     AddPrefabPostInit("world", function(inst)
