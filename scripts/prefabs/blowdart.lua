@@ -243,33 +243,6 @@ local function yellow()
 end
 
 -------------------------------------------------------------------------------
--- Walrus blowdart - use by walrus creature, not player
--------------------------------------------------------------------------------
-local function walrus()
-    local inst = common("idle_pipe", { "NOCLICK" }, true)
-
-    if not TheWorld.ismastersim then
-        return inst
-    end
-
-    inst.persists = false
-
-    inst.components.projectile:SetOnThrownFn(pipethrown)
-    inst.components.projectile:SetRange(TUNING.WALRUS_DART_RANGE)
-    inst.components.projectile:SetHoming(false)
-    inst.components.projectile:SetOnMissFn(inst.Remove)
-    inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
-    --Increase hitdist (default=1) to account for launch offset height
-    --math.sqrt(1 * 1 + 2 * 2)
-    inst.components.projectile:SetHitDist(math.sqrt(5))
-
-    local swap_data = {sym_build = "swap_blowdart_pipe", bank = "blow_dart", anim = "idle_pipe"}
-    inst.components.floater:SetBankSwapOnFloat(true, -4, swap_data)
-
-    return inst
-end
-
--------------------------------------------------------------------------------
 -- New Change
 -------------------------------------------------------------------------------
 local function onequipN(inst, owner)
@@ -373,6 +346,7 @@ local function commonN(anim, tags)
 
     return inst
 end
+
 -------------------------------------------------------------------------------
 -- Pipe Dart (Damage)
 -------------------------------------------------------------------------------
@@ -396,6 +370,33 @@ local function pipe()
     end
 
     inst.components.equippable:SetOnEquip(pipeequip)
+
+    local swap_data = {sym_build = "swap_blowdart_pipe", bank = "blow_dart", anim = "idle_pipe"}
+    inst.components.floater:SetBankSwapOnFloat(true, -4, swap_data)
+
+    return inst
+end
+
+-------------------------------------------------------------------------------
+-- Walrus blowdart - use by walrus creature, not player
+-------------------------------------------------------------------------------
+local function walrus()
+    local inst = common("idle_pipe", { "NOCLICK" }, true)
+
+    if not TheWorld.ismastersim then
+        return inst
+    end
+
+    inst.persists = false
+
+    inst.components.projectile:SetOnThrownFn(pipethrown)
+    inst.components.projectile:SetRange(TUNING.WALRUS_DART_RANGE)
+    inst.components.projectile:SetHoming(false)
+    inst.components.projectile:SetOnMissFn(inst.Remove)
+    inst.components.projectile:SetLaunchOffset(Vector3(3, 2, 0))
+    --Increase hitdist (default=1) to account for launch offset height
+    --math.sqrt(1 * 1 + 2 * 2)
+    inst.components.projectile:SetHitDist(math.sqrt(5))
 
     local swap_data = {sym_build = "swap_blowdart_pipe", bank = "blow_dart", anim = "idle_pipe"}
     inst.components.floater:SetBankSwapOnFloat(true, -4, swap_data)
