@@ -186,7 +186,7 @@ if IsServer then
     end
 
     local function CleanDelay(inst)
-        if TheWorld.state.cycles > 200 then
+        if GLOBAL.TheWorld.state.cycles > 200 then
             inst:DoTaskInTime(5, Clean)
         end
     end
