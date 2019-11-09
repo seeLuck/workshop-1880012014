@@ -40,19 +40,3 @@ modimport("scripts/wallmath.lua")
 modimport("scripts/dontdrop.lua")
 modimport("scripts/combinerepair.lua")
 modimport("scripts/eyeturret.lua")
-
-AddPrefabPostInit("houndstooth", function(inst)
-	if GLOBAL.TheWorld.ismastersim then
-		if not inst.components.tradable then
-			inst:AddComponent("tradable")
-		end
-	end
-end)
-
-AddPrefabPostInit("stinger", function(inst)
-	if GLOBAL.TheWorld.ismastersim then
-		if not inst.components.tradable then
-			inst:AddComponent("tradable")
-		end
-	end
-end)
