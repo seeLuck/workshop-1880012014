@@ -12,8 +12,8 @@ local prefabs = {
     "lightninggoat", --20
     "pigtorch", -- 20
     "slurtlehole", -- 10
-    "knight", -- 1
-    "bishop", -- 1
+    "knight", -- 2
+    "bishop", -- 2
     "rook", -- 1
     "mandrake", -- 2
     "blue_mushroom", -- 30
