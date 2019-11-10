@@ -2,8 +2,8 @@ if GetModConfigData("fiveslot") then
 	modimport("scripts/fiveslot.lua")
 end
 
-if GetModConfigData("epichealthbar") then
-	modimport("scripts/epichealthbar.lua")
+if GetModConfigData("usercmd") then
+	modimport("scripts/usercmd.lua")
 end
 
 if GetModConfigData("minisign") then
@@ -26,7 +26,11 @@ if GetModConfigData("wx78drop") then
 	modimport("scripts/wx78drop.lua")
 end
 
-modimport("scripts/usercmd.lua")
+if GetModConfigData("lanternColor") then
+	modimport("scripts/lanterncolor.lua")
+end
+
+modimport("scripts/epichealthbar.lua")
 modimport("scripts/trashcan.lua")
 modimport("scripts/stack.lua")
 modimport("scripts/clean.lua")
