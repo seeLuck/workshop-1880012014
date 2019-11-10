@@ -294,8 +294,8 @@ local NatureSpawn = Class(function(self, inst)
     self.inst = inst
 
     inst:ListenForEvent("cycleschanged", function()
-        local count_40days = TheWorld.state.cycles/40
-        if math.floor(count_40days) == count_40days and count_40days ~= 0 then --try spawn prefabs every 50 days
+        local count_60days = TheWorld.state.cycles/60
+        if math.floor(count_60days) == count_60days and count_60days ~= 0 then --try spawn prefabs every 50 days
             wasphive_spawner()
             beehive_spawner()
             houndmound_spawner()
