@@ -29,8 +29,9 @@ if IsServer then
             marsh_tree          = { max = 50 },                       -- 针刺树
             rock_petrified_tree = { max = 200 },                      -- 石化树
             skeleton_player     = { max = 20 },                       -- 玩家尸体
-            spiderden           = { max = 50 },                       -- 蜘蛛巢
-            burntground         = { max = 50 },                       -- 陨石痕跡
+            spiderden           = { max = 60 },                       -- 蜘蛛巢
+            burntground         = { max = 20 },                       -- 陨石痕跡
+            tentacle            = { max = 150 },
 
             ------------------------  可拾取物品  ------------------------
             seeds           = { max = 5, stack = 0, reclean = 1 },       -- 种子
@@ -41,9 +42,12 @@ if IsServer then
             acorn           = { max = 5, stack = 10, reclean = 1 },       -- 桦木果
             twiggy_nut      = { max = 5, stack = 10, reclean = 1 },       -- 桦木果
             cutgrass        = { max = 5, stack = 5, reclean = 1 },       -- 草
-            dug_grass       = { max = 3, stack = 1, reclean = 2 },        -- 草根
             twigs           = { max = 5, stack = 5, reclean = 1 },       -- 树枝
-            dug_sapling     = { max = 3, stack = 1, reclean = 2 },       -- 小树苗
+            dug_grass       = { max = 0, stack = 0, reclean = 2 },        -- 草根
+            dug_berrybush   = { max = 0, stack = 0, reclean = 2 },        -- 浆果苗
+            dug_berrybush2  = { max = 0, stack = 0, reclean = 2 },        -- 浆果苗
+            dug_berrybush_juicy  = { max = 0, stack = 0, reclean = 2 },        -- 浆果苗
+            dug_sapling     = { max = 0, stack = 0, reclean = 2 },       -- 小树苗
             rocks           = { max = 5, stack = 5, reclean = 1 },       -- 石头
             moonrocknugget  = { max = 3, stack = 0, reclean = 1 },       -- 月石
             thulecite_pieces  = { max = 10, stack = 0, reclean = 1 },       -- 铥矿碎片
@@ -61,8 +65,8 @@ if IsServer then
             stinger         = { max = 0 , stack = 0, reclean = 2 },       -- 蜂刺
             beardhair       = { max = 3 , stack = 3, reclean = 1 },       -- 胡须
             coontail        = { max = 3 , stack = 2, reclean = 3 },       -- 猫尾巴
-            boneshard       = { max = 3 , stack = 0, reclean = 2 },       -- 骨头碎片
-            cutreeds        = { max = 3 , stack = 1, reclean = 3 },       -- 芦苇
+            boneshard       = { max = 0 , stack = 0, reclean = 2 },       -- 骨头碎片
+            cutreeds        = { max = 0 , stack = 0, reclean = 3 },       -- 芦苇
             feather_crow    = { max = 5 , stack = 0, reclean = 3 },       -- 黑羽毛
             furtuft         = { max = 0 , stack = 0, reclean = 1 },       -- 小熊毛
             houndstooth     = { max = 0 , stack = 0, reclean = 2 },       -- 狗牙
@@ -118,7 +122,8 @@ if IsServer then
             winter_ornament_boss_moose      = { max = 2, stack = 1, reclean = 3 },
             winter_ornament_boss_toadstool  = { max = 2, stack = 1, reclean = 3 },
 
-            armor_sanity   = { max = 10 },    -- 影甲
+            -- armor_sanity   = { max = 10 },    -- 影甲
+            nightsword    = { max = 10 },    -- 影刀
             shadowheart    = { max = 3 },    -- 影心
         }
 
@@ -186,7 +191,7 @@ if IsServer then
     end
 
     local function CleanDelay(inst)
-        if GLOBAL.TheWorld.state.cycles > 200 then
+        if GLOBAL.TheWorld.state.cycles > 100 then
             inst:DoTaskInTime(5, Clean)
         end
     end

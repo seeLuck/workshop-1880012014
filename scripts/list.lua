@@ -17,6 +17,7 @@ Tools Are Fuels 1.2
 Dont Drop 170403.21:59
 Extra Equip Slots 1.8.0
 Eyeturret Shootius 1.0.1
+Respwan 1.1
 
 Less Ravenous Creatures 1.1
 No Grass Gekko 1.0

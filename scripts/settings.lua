@@ -51,3 +51,8 @@ AddPrefabPostInit("stinger", function(inst)
 		end
 	end
 end)
+
+-- 世界再生
+AddPrefabPostInit("forest", function(inst)
+	inst:AddComponent("naturespawn")
+end)
