@@ -57,4 +57,7 @@ if GetModConfigData("natureSpawn") then
 	AddPrefabPostInit("forest", function(inst)
 		inst:AddComponent("naturespawn")
 	end)
+	AddPrefabPostInit("cave", function(inst)
+		inst:AddComponent("naturespawn")
+	end)
 end

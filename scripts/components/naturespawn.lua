@@ -11,7 +11,6 @@ local prefabs = {
     "beefalo", --40
     "lightninggoat", --20
     "pigtorch", -- 20
-    "slurtlehole", -- 10
     "knight", -- 2
     "bishop", -- 2
     "rook", -- 1
@@ -19,6 +18,11 @@ local prefabs = {
     "blue_mushroom", -- 30
     "green_mushroom", -- 30
     "red_mushroom", -- 10
+    "fireflies", -- 150
+    "slurtlehole", -- 40
+    "flower_cave", -- 500
+    "spiderhole", -- 40
+    "rabbithouse", -- 40
 }
 
 local tilefns = {}
@@ -28,13 +32,12 @@ tilefns.houndmound = function(tile) return (tile == GROUND.DESERT_DIRT) end
 tilefns.pighouse = function(tile) return (tile == GROUND.DECIDUOUS) end
 tilefns.mermhouse = function(tile) return (tile == GROUND.FOREST or tile == GROUND.MARSH) end
 tilefns.catcoonden = function(tile) return (tile == GROUND.DECIDUOUS) end
-tilefns.spiderden = function(tile) return (tile == GROUND.ROCKY or tile == GROUND.FOREST) end
+tilefns.spiderden = function(tile) return (tile == GROUND.ROCKY or tile == GROUND.FOREST or tile == GROUND.SINKHOLE) end
 tilefns.tallbirdnest = function(tile) return (tile == GROUND.ROCKY or tile == GROUND.DESERT_DIRT) end
 tilefns.tentacle = function(tile) return (tile == GROUND.MARSH) end
 tilefns.beefalo = function(tile) return (tile == GROUND.SAVANNA) end
 tilefns.lightninggoat = function(tile) return (tile == GROUND.DESERT_DIRT) end
 tilefns.pigtorch = function(tile) return (tile == GROUND.FOREST or tile == GROUND.SAVANNA) end
-tilefns.slurtlehole = function(tile) return (tile == GROUND.MUD) end
 tilefns.knight = function(tile) return (tile == GROUND.ROCKY) end
 tilefns.bishop = function(tile) return (tile == GROUND.ROCKY) end
 tilefns.rook = function(tile) return (tile == GROUND.ROCKY) end
@@ -42,6 +45,11 @@ tilefns.mandrake = function(tile) return (tile == GROUND.FOREST) end
 tilefns.blue_mushroom = function(tile) return (tile == GROUND.FOREST or tile == GROUND.DECIDUOUS or tile == GROUND.GRASS) end
 tilefns.green_mushroom = function(tile) return (tile == GROUND.FOREST or tile == GROUND.DECIDUOUS or tile == GROUND.GRASS) end
 tilefns.red_mushroom = function(tile) return (tile == GROUND.FOREST or tile == GROUND.DECIDUOUS or tile == GROUND.GRASS) end
+tilefns.fireflies = function(tile) return (tile == GROUND.FOREST or tile == GROUND.DECIDUOUS or tile == GROUND.GRASS or tile == GROUND.SAVANNA) end
+tilefns.slurtlehole = function(tile) return (tile == GROUND.MUD) end
+tilefns.flower_cave = function(tile) return (tile == GROUND.MUD or tile == GROUND.SINKHOLE) end
+tilefns.spiderhole = function(tile) return (tile == GROUND.UNDERROCK) end
+tilefns.rabbithouse = function(tile) return (tile == GROUND.SINKHOLE) end
 
 function c_countprefabsonground(prefab)
     local count = 0
@@ -71,223 +79,267 @@ local function TrySpawn(strfab)
 end
 
 local function wasphive_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("wasphive")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("wasphive")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("wasphive")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("wasphive")
         end
+    end
 end
 
 local function beehive_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("beehive")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("beehive")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("beehive")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("beehive")
         end
+    end
 end
 
 local function houndmound_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("houndmound")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("houndmound")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("houndmound")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("houndmound")
         end
+    end
 end
 
 local function pighouse_spawner()
-        local min_num = 25
-        local count = c_countprefabsonground("pighouse")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("pighouse")
-            end
+    local min_num = 25
+    local count = c_countprefabsonground("pighouse")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("pighouse")
         end
+    end
 end
 
 local function mermhouse_spawner()
-        local min_num = 50
-        local count = c_countprefabsonground("mermhouse")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("mermhouse")
-            end
+    local min_num = 50
+    local count = c_countprefabsonground("mermhouse")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("mermhouse")
         end
+    end
 end
 
 local function catcoonden_spawner()
-        local min_num = 10
-        local count = c_countprefabsonground("catcoonden")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("catcoonden")
-            end
+    local min_num = 10
+    local count = c_countprefabsonground("catcoonden")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("catcoonden")
         end
+    end
 end
 
 local function spiderden_spawner()
-        local min_num = 40
-        local count = c_countprefabsonground("spiderden")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("spiderden")
-            end
+    local min_num = 40
+    local count = c_countprefabsonground("spiderden")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("spiderden")
         end
+    end
 end
 
 local function tallbirdnest_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("tallbirdnest")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("tallbirdnest")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("tallbirdnest")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("tallbirdnest")
         end
+    end
 end
 
 local function tentacle_spawner()
-        local min_num = 100
-        local count = c_countprefabsonground("tentacle")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("tentacle")
-            end
+    local min_num = 100
+    local count = c_countprefabsonground("tentacle")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("tentacle")
         end
+    end
 end
 
 local function beefalo_spawner()
-        local min_num = 40
-        local count = c_countprefabsonground("beefalo")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("beefalo")
-            end
+    local min_num = 40
+    local count = c_countprefabsonground("beefalo")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("beefalo")
         end
+    end
 end
 
 local function lightninggoat_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("lightninggoat")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("lightninggoat")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("lightninggoat")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("lightninggoat")
         end
+    end
 end
 
 local function pigtorch_spawner()
-        local min_num = 20
-        local count = c_countprefabsonground("pigtorch")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("pigtorch")
-            end
+    local min_num = 20
+    local count = c_countprefabsonground("pigtorch")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("pigtorch")
         end
-end
-
-local function slurtlehole_spawner()
-        local min_num = 10
-        local count = c_countprefabsonground("slurtlehole")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("slurtlehole")
-            end
-        end
+    end
 end
 
 local function knight_spawner()
-        local min_num = 2
-        local count = c_countprefabsonground("knight")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("knight")
-            end
+    local min_num = 2
+    local count = c_countprefabsonground("knight")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("knight")
         end
+    end
 end
 
 local function bishop_spawner()
-        local min_num = 2
-        local count = c_countprefabsonground("bishop")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("bishop")
-            end
+    local min_num = 2
+    local count = c_countprefabsonground("bishop")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("bishop")
         end
+    end
 end
 
 local function rook_spawner()
-        local min_num = 1
-        local count = c_countprefabsonground("rook")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("rook")
-            end
+    local min_num = 1
+    local count = c_countprefabsonground("rook")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("rook")
         end
+    end
 end
 
 local function mandrake_spawner()
-        local min_num = 2
-        local count = c_countprefabsonground("mandrake")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("mandrake")
-            end
+    local min_num = 2
+    local count = c_countprefabsonground("mandrake")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("mandrake")
         end
+    end
 end
 
 local function blue_mushroom_spawner()
-        local min_num = 30
-        local count = c_countprefabsonground("blue_mushroom")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("blue_mushroom")
-            end
+    local min_num = 30
+    local count = c_countprefabsonground("blue_mushroom")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("blue_mushroom")
         end
+    end
 end
 
 local function green_mushroom_spawner()
-        local min_num = 30
-        local count = c_countprefabsonground("green_mushroom")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("green_mushroom")
-            end
+    local min_num = 30
+    local count = c_countprefabsonground("green_mushroom")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("green_mushroom")
         end
+    end
 end
 
 local function red_mushroom_spawner()
-        local min_num = 10
-        local count = c_countprefabsonground("red_mushroom")
-        local numtospawn = min_num - count
-        if numtospawn > 0 then
-            for i = 1, numtospawn, 1 do
-                TrySpawn("red_mushroom")
-            end
+    local min_num = 10
+    local count = c_countprefabsonground("red_mushroom")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("red_mushroom")
         end
+    end
+end
+
+local function fireflies_spawner()
+    local min_num = 100
+    local count = c_countprefabsonground("fireflies")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("fireflies")
+        end
+    end
+end
+
+local function slurtlehole_spawner()
+    local min_num = 30
+    local count = c_countprefabsonground("slurtlehole")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("slurtlehole")
+        end
+    end
+end
+
+local function flower_cave_spawner()
+    local min_num = 500
+    local count = c_countprefabsonground("flower_cave")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("flower_cave")
+        end
+    end
+end
+
+local function spiderhole_spawner()
+    local min_num = 40
+    local count = c_countprefabsonground("spiderhole")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("spiderhole")
+        end
+    end
+end
+
+local function rabbithouse_spawner()
+    local min_num = 40
+    local count = c_countprefabsonground("rabbithouse")
+    local numtospawn = min_num - count
+    if numtospawn > 0 then
+        for i = 1, numtospawn, 1 do
+            TrySpawn("rabbithouse")
+        end
+    end
 end
 
 local NatureSpawn = Class(function(self, inst)
@@ -296,26 +348,33 @@ local NatureSpawn = Class(function(self, inst)
     inst:ListenForEvent("cycleschanged", function()
         local count_60days = TheWorld.state.cycles/60
         if math.floor(count_60days) == count_60days and count_60days ~= 0 then --try spawn prefabs every 50 days
-            wasphive_spawner()
-            beehive_spawner()
-            houndmound_spawner()
-            pighouse_spawner()
-            mermhouse_spawner()
-            catcoonden_spawner()
+            if TheWorld:HasTag("forest") then
+                wasphive_spawner()
+                beehive_spawner()
+                houndmound_spawner()
+                pighouse_spawner()
+                mermhouse_spawner()
+                catcoonden_spawner()
+                tallbirdnest_spawner()
+                tentacle_spawner()
+                beefalo_spawner()
+                lightninggoat_spawner()
+                pigtorch_spawner()
+                knight_spawner()
+                bishop_spawner()
+                rook_spawner()
+                mandrake_spawner()
+                blue_mushroom_spawner()
+                green_mushroom_spawner()
+                red_mushroom_spawner()
+                fireflies_spawner()
+            else if TheWorld:HasTag("cave") then
+                slurtlehole_spawner()
+                flower_cave_spawner()
+                spiderhole_spawner()
+                rabbithouse_spawner()
+            end
             spiderden_spawner()
-            tallbirdnest_spawner()
-            tentacle_spawner()
-            beefalo_spawner()
-            lightninggoat_spawner()
-            pigtorch_spawner()
-            -- slurtlehole_spawner()
-            knight_spawner()
-            bishop_spawner()
-            rook_spawner()
-            mandrake_spawner()
-            blue_mushroom_spawner()
-            green_mushroom_spawner()
-            red_mushroom_spawner()
         end
     end)
 end)
