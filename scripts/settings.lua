@@ -53,11 +53,11 @@ AddPrefabPostInit("stinger", function(inst)
 end)
 
 -- 世界再生
-if GetModConfigData("natureSpawn") then
-	AddPrefabPostInit("forest", function(inst)
-		inst:AddComponent("naturespawn")
-	end)
-	AddPrefabPostInit("cave", function(inst)
-		inst:AddComponent("naturespawn")
-	end)
-end
+-- if GetModConfigData("natureSpawn") then
+-- 	AddPrefabPostInit("forest", function(inst)
+-- 		inst:AddComponent("naturespawn")
+-- 	end)
+-- 	AddPrefabPostInit("cave", function(inst)
+-- 		inst:AddComponent("naturespawn")
+-- 	end)
+-- end
