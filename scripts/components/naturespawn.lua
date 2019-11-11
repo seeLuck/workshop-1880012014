@@ -368,7 +368,7 @@ local NatureSpawn = Class(function(self, inst)
                 green_mushroom_spawner()
                 red_mushroom_spawner()
                 fireflies_spawner()
-            else if TheWorld:HasTag("cave") then
+            elseif TheWorld:HasTag("cave") then
                 slurtlehole_spawner()
                 flower_cave_spawner()
                 spiderhole_spawner()
