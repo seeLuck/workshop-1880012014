@@ -3,7 +3,7 @@ BeeNice 0.7
 Birdcage 17.12.14
 Repair Combine1.0
 WallMath 1.1
-MiniSign 1.1.0
+MiniSign 1.1.1
 Equipment Switcher 1.33
 Refillable Bucket 1.0.0
 Trashcan 1.0.2

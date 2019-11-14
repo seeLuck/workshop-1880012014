@@ -62,23 +62,33 @@ local function bugu(inst)
 					end
 				end
 				inst.huafx.AnimState:OverrideSymbol("SWAP_SIGN", build, image)
+                if item.inv_image_bg and item.inv_image_bg.atlas then
+                    inst.huafx.AnimState:OverrideSymbol("SWAP_SIGN_BG", GLOBAL.resolvefilepath(item.inv_image_bg.atlas), item.inv_image_bg.image)
+                else
+                    inst.huafx.AnimState:ClearOverrideSymbol("SWAP_SIGN_BG")
+                end
 				break
 			end
 			if i == container:GetNumSlots() and item == nil then
 				inst.huafx.AnimState:ClearOverrideSymbol("SWAP_SIGN")
+				inst.huafx.AnimState:ClearOverrideSymbol("SWAP_SIGN_BG")
 			end
 		end
 	end
 end
 local function onsave(inst, data)
-	inst.old_Save(inst, data)
+    if inst.components.burnable ~= nil and inst.components.burnable:IsBurning() or inst:HasTag("burnt") then
+        data.burnt = true
+    end
 	if inst:HasTag("nohuaminisign") then
 		data.nohuaminisign = true
 	end
 end
 
 local function onload(inst, data)
-	inst.old_Load(inst, data)
+    if data ~= nil and data.burnt and inst.components.burnable ~= nil then
+        inst.components.burnable.onburnt(inst)
+    end
 	if data ~= nil and data.nohuaminisign then
 		inst:AddTag("nohuaminisign")
 	end
@@ -108,10 +118,8 @@ local function draw(inst)
 		end
 	end
 	
-	if inst.prefab == "treasurechest"  and GLOBAL.TUNING.HUAMINISIGN  == true then
-		inst.old_Save = inst.OnSave 
+	if inst.prefab == "treasurechest" then
 		inst.OnSave = onsave
-		inst.old_Load = inst.OnLoad
 		inst.OnLoad = onload
 	end
 end
@@ -119,39 +127,11 @@ end
 AddPrefabPostInit("treasurechest", draw)
 AddPrefabPostInit("dragonflychest", draw)
 
-function PrintTable( tbl ,maxlevel, level)
-
-	if tbl then
-		local msg = ""
-		level = level or 1
-		maxlevel = maxlevel or 2
-		if level > maxlevel then
-			return 
-		end
-		local indent_str = ""
-		for i = 1, level do
-		indent_str = indent_str.."--"
-		end
-		indent_str = indent_str.."->"
-		if level == 1 then
-		end
-		for k,v in pairs(tbl) do
-			local item_str = string.format("%s%s = %s", indent_str .. " ",tostring(k), tostring(v))
-			if type(v) == "table" then
-				PrintTable(v,maxlevel, level + 1)
-			end
-		end
-		if level == 1 then
-		end
-	else
-	end
-end
-
-
+--读取所有已加载的mod
 local enabledmods = GLOBAL.ModManager.enabledmods
 
 local thisname = env.modname 
-
+--hook一下加载prefabs 加载完prefabs在检索数据
 local oldRegisterPrefabs = GLOBAL.ModManager.RegisterPrefabs 
 
 GLOBAL.ModManager.RegisterPrefabs = function(self)
@@ -159,9 +139,12 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 	
 	for i,modname in ipairs(enabledmods) do
 		local mod = GLOBAL.ModManager:GetMod(modname)
+		
+		--检索 modmain里注册的资源
 		if mod.Assets then 
 			local modatlas = {}
 			local modatlas_build = {}
+			--检索所有的贴图
 			for k,v in ipairs (mod.Assets) do
 				if v.type == "ATLAS" then 
 					table.insert(modatlas,v.file)
@@ -170,6 +153,7 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 				end
 				
 			end
+			--判断是否有对应的ATLAS_BUILD
 			for k,v in ipairs(modatlas) do
 				local notfind = true
 				for x,y in ipairs(modatlas_build) do
@@ -179,16 +163,20 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 					end
 				end
 				if notfind then
+				--没有就插入
+				--因为注册的时候会自动搜索路径，所以自己注册的时候要还原回原来的路径
 				v = string.gsub(v,"%.%./mods/[^/]+/","",1)
 				table.insert(Assets,Asset("ATLAS_BUILD",v,256))
 				end
 			end
 		end
 		
+		--检索 prefabs 里注册的资源
 		if mod.Prefabs then
 			for n,prefab in pairs(mod.Prefabs) do
 				local modatlas = {}
 				local modatlas_build = {}
+				--检索所有的贴图
 				if prefab.assets then
 					for k,v in pairs (prefab.assets) do
 						if v.type == "ATLAS" then 
@@ -198,6 +186,7 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 						end
 					end
 				end
+				--判断是否有对应的ATLAS_BUILD
 				for k,v in ipairs(modatlas) do
 					local notfind = true
 					for x,y in ipairs(modatlas_build) do
@@ -207,6 +196,7 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 						end
 					end
 					if notfind then
+					--没有就插入
 					v = string.gsub(v,"%.%./mods/[^/]+/","",1)
 					table.insert(Assets,Asset("ATLAS_BUILD",v,256))
 					end
@@ -214,6 +204,7 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 			end
 		end
 	end
+	--注册资源
 	GLOBAL.RegisterPrefabs(GLOBAL.Prefab("MOD_SMARTSIGNOTHER",nil,Assets,nil,true))
 	GLOBAL.TheSim:LoadPrefabs({"MOD_SMARTSIGNOTHER"})
 	table.insert(self.loadedprefabs,"MOD_SMARTSIGNOTHER")
@@ -221,5 +212,13 @@ GLOBAL.ModManager.RegisterPrefabs = function(self)
 end
 
 
+
+
 GLOBAL.TUNING.SMART_SIGN_DRAW_ENABLE = true
 GLOBAL.SMART_SIGN_DRAW = draw
+--示例代码  
+--[[
+if TUNING.SMART_SIGN_DRAW_ENABLE then
+		SMART_SIGN_DRAW(inst)
+	end
+	]]--
