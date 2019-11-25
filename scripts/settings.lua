@@ -51,6 +51,41 @@ AddPrefabPostInit("stinger", function(inst)
 		end
 	end
 end)
+AddPrefabPostInit("feather_robin", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
+AddPrefabPostInit("feather_robin_winter", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
+AddPrefabPostInit("feather_crow", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
+AddPrefabPostInit("feather_canary", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
+AddPrefabPostInit("boneshard", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
 
 -- 世界再生
 if GetModConfigData("natureSpawn") then

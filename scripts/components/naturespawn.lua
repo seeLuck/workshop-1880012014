@@ -1,28 +1,28 @@
 local prefabs = {
-    "wasphive", -- 15
-    "beehive", -- 30
-    "houndmound", -- 10
-    "pighouse", -- 30
-    "mermhouse", --50
-    "catcoonden", -- 10
-    "spiderden", -- 40
-    "tallbirdnest", --10
-    "tentacle", --100
-    "beefalo", --40
-    "lightninggoat", --20
-    "pigtorch", -- 20
-    "knight", -- 2
-    "bishop", -- 2
-    "rook", -- 1
-    "mandrake", -- 2
-    "blue_mushroom", -- 30
-    "green_mushroom", -- 30
-    "red_mushroom", -- 10
-    "fireflies", -- 150
-    "slurtlehole", -- 40
-    "flower_cave", -- 500
-    "spiderhole", -- 40
-    "rabbithouse", -- 40
+    "wasphive" = 20,
+    "beehive" = 30,
+    "houndmound" = 20,
+    "pighouse" = 25,
+    "mermhouse" = 50,
+    "catcoonden" = 10,
+    "spiderden" = 30,
+    "tallbirdnest" = 30,
+    "tentacle" = 120,
+    "beefalo" = 30,
+    "lightninggoat" = 20,
+    "pigtorch" = 30,
+    "knight" = 2,
+    "bishop" = 2,
+    "rook" = 1,
+    "mandrake" = 2,
+    "blue_mushroom" = 30,
+    "green_mushroom" = 30,
+    "red_mushroom" = 10,
+    "fireflies" = 120,
+    "slurtlehole" = 30,
+    "flower_cave" = 500,
+    "spiderhole" = 40,
+    "rabbithouse" = 30,
 }
 
 local tilefns = {}
@@ -79,7 +79,7 @@ local function TrySpawn(strfab)
 end
 
 local function wasphive_spawner()
-    local min_num = 20
+    local min_num = prefabs.wasphive
     local count = c_countprefabsonground("wasphive")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -90,7 +90,7 @@ local function wasphive_spawner()
 end
 
 local function beehive_spawner()
-    local min_num = 20
+    local min_num = prefabs.beehive
     local count = c_countprefabsonground("beehive")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -101,7 +101,7 @@ local function beehive_spawner()
 end
 
 local function houndmound_spawner()
-    local min_num = 20
+    local min_num = prefabs.houndmound
     local count = c_countprefabsonground("houndmound")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -112,7 +112,7 @@ local function houndmound_spawner()
 end
 
 local function pighouse_spawner()
-    local min_num = 25
+    local min_num = prefabs.pighouse
     local count = c_countprefabsonground("pighouse")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -123,7 +123,7 @@ local function pighouse_spawner()
 end
 
 local function mermhouse_spawner()
-    local min_num = 50
+    local min_num = prefabs.mermhouse
     local count = c_countprefabsonground("mermhouse")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -134,7 +134,7 @@ local function mermhouse_spawner()
 end
 
 local function catcoonden_spawner()
-    local min_num = 10
+    local min_num = prefabs.catcoonden
     local count = c_countprefabsonground("catcoonden")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -145,7 +145,7 @@ local function catcoonden_spawner()
 end
 
 local function spiderden_spawner()
-    local min_num = 40
+    local min_num = prefabs.spiderden
     local count = c_countprefabsonground("spiderden")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -156,7 +156,7 @@ local function spiderden_spawner()
 end
 
 local function tallbirdnest_spawner()
-    local min_num = 20
+    local min_num = prefabs.tallbirdnest
     local count = c_countprefabsonground("tallbirdnest")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -167,7 +167,7 @@ local function tallbirdnest_spawner()
 end
 
 local function tentacle_spawner()
-    local min_num = 100
+    local min_num = prefabs.tentacle
     local count = c_countprefabsonground("tentacle")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -178,7 +178,7 @@ local function tentacle_spawner()
 end
 
 local function beefalo_spawner()
-    local min_num = 40
+    local min_num = prefabs.beefalo
     local count = c_countprefabsonground("beefalo")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -189,7 +189,7 @@ local function beefalo_spawner()
 end
 
 local function lightninggoat_spawner()
-    local min_num = 20
+    local min_num = prefabs.lightninggoat
     local count = c_countprefabsonground("lightninggoat")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -200,7 +200,7 @@ local function lightninggoat_spawner()
 end
 
 local function pigtorch_spawner()
-    local min_num = 20
+    local min_num = prefabs.pigtorch
     local count = c_countprefabsonground("pigtorch")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -211,7 +211,7 @@ local function pigtorch_spawner()
 end
 
 local function knight_spawner()
-    local min_num = 2
+    local min_num = prefabs.knight
     local count = c_countprefabsonground("knight")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -222,7 +222,7 @@ local function knight_spawner()
 end
 
 local function bishop_spawner()
-    local min_num = 2
+    local min_num = prefabs.bishop
     local count = c_countprefabsonground("bishop")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -233,7 +233,7 @@ local function bishop_spawner()
 end
 
 local function rook_spawner()
-    local min_num = 1
+    local min_num = prefabs.rook
     local count = c_countprefabsonground("rook")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -244,7 +244,7 @@ local function rook_spawner()
 end
 
 local function mandrake_spawner()
-    local min_num = 2
+    local min_num = prefabs.mandrake
     local count = c_countprefabsonground("mandrake")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -255,7 +255,7 @@ local function mandrake_spawner()
 end
 
 local function blue_mushroom_spawner()
-    local min_num = 30
+    local min_num = prefabs.blue_mushroom
     local count = c_countprefabsonground("blue_mushroom")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -266,7 +266,7 @@ local function blue_mushroom_spawner()
 end
 
 local function green_mushroom_spawner()
-    local min_num = 30
+    local min_num = prefabs.green_mushroom
     local count = c_countprefabsonground("green_mushroom")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -277,7 +277,7 @@ local function green_mushroom_spawner()
 end
 
 local function red_mushroom_spawner()
-    local min_num = 10
+    local min_num = prefabs.red_mushroom
     local count = c_countprefabsonground("red_mushroom")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -288,7 +288,7 @@ local function red_mushroom_spawner()
 end
 
 local function fireflies_spawner()
-    local min_num = 100
+    local min_num = prefabs.fireflies
     local count = c_countprefabsonground("fireflies")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -299,7 +299,7 @@ local function fireflies_spawner()
 end
 
 local function slurtlehole_spawner()
-    local min_num = 30
+    local min_num = prefabs.slurtlehole
     local count = c_countprefabsonground("slurtlehole")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -310,7 +310,7 @@ local function slurtlehole_spawner()
 end
 
 local function flower_cave_spawner()
-    local min_num = 500
+    local min_num = prefabs.flower_cave
     local count = c_countprefabsonground("flower_cave")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -321,7 +321,7 @@ local function flower_cave_spawner()
 end
 
 local function spiderhole_spawner()
-    local min_num = 40
+    local min_num = prefabs.spiderhole
     local count = c_countprefabsonground("spiderhole")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -332,7 +332,7 @@ local function spiderhole_spawner()
 end
 
 local function rabbithouse_spawner()
-    local min_num = 40
+    local min_num = prefabs.rabbithouse
     local count = c_countprefabsonground("rabbithouse")
     local numtospawn = min_num - count
     if numtospawn > 0 then
@@ -375,6 +375,8 @@ local NatureSpawn = Class(function(self, inst)
                 rabbithouse_spawner()
             end
             spiderden_spawner()
+            TheNet:Announce("世界资源再生中...")
+            TheNet:Announce("退出3分钟重进可解决显示BUG")
         end
     end)
 end)

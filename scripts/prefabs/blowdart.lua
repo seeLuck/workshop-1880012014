@@ -1,4 +1,4 @@
-local NewDamage = 100;
+local NewDamage = 50;
 local NewRange = 10;
 
 local assets =

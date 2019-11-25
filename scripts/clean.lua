@@ -34,9 +34,9 @@ if IsServer then
             tentacle            = { max = 150 },
 
             ------------------------  可拾取物品  ------------------------
-            seeds           = { max = 5, stack = 0, reclean = 1 },       -- 种子
+            seeds           = { max = 3, stack = 0, reclean = 1 },       -- 种子
             log             = { max = 5, stack = 5, reclean = 1 },       -- 木头
-            livinglog       = { max = 3, stack = 1, reclean = 2 },        -- 活木
+            livinglog       = { max = 3, stack = 0, reclean = 2 },        -- 活木
             charcoal        = { max = 5, stack = 5, reclean = 2 },        -- 木炭
             pinecone        = { max = 5, stack = 10, reclean = 1 },       -- 松果
             acorn           = { max = 5, stack = 10, reclean = 1 },       -- 桦木果
@@ -59,7 +59,7 @@ if IsServer then
             guano           = { max = 10 , stack = 3, reclean = 5 },       -- 鸟屎
             manrabbit_tail  = { max = 5 , stack = 0, reclean = 2 },       -- 兔毛
             pigskin         = { max = 5 , stack = 0, reclean = 2 },       -- 猪皮
-            silk            = { max = 5 , stack = 5, reclean = 15 },       -- 蜘蛛丝
+            silk            = { max = 5 , stack = 3, reclean = 7 },       -- 蜘蛛丝
             spidergland     = { max = 5 , stack = 3, reclean = 3 },       -- 蜘蛛腺体
             spidereggsack   = { max = 0 , stack = 0, reclean = 3 },       -- 蜘蛛巢卵
             stinger         = { max = 0 , stack = 0, reclean = 2 },       -- 蜂刺
@@ -67,16 +67,19 @@ if IsServer then
             coontail        = { max = 3 , stack = 2, reclean = 3 },       -- 猫尾巴
             boneshard       = { max = 0 , stack = 0, reclean = 2 },       -- 骨头碎片
             cutreeds        = { max = 0 , stack = 0, reclean = 3 },       -- 芦苇
-            feather_crow    = { max = 5 , stack = 0, reclean = 3 },       -- 黑羽毛
+            feather_crow    = { max = 3 , stack = 0, reclean = 3 },       -- 黑羽毛
+            feather_robin    = { max = 2 , stack = 0, reclean = 3 },       -- 羽毛
+            feather_robin_winter    = { max = 2 , stack = 0, reclean = 3 },       -- 羽毛
+            feather_canary    = { max = 2 , stack = 0, reclean = 3 },       -- 羽毛
             furtuft         = { max = 0 , stack = 0, reclean = 1 },       -- 小熊毛
             houndstooth     = { max = 0 , stack = 0, reclean = 2 },       -- 狗牙
             mosquitosack    = { max = 0 , stack = 0, reclean = 1 },       -- 蚊子血袋
             tentaclespots   = { max = 0 , stack = 0, reclean = 1 },       -- 触手皮
-            glommerfuel     = { max = 100 , stack = 0, reclean = 40 },       -- 格罗姆粘液
+            glommerfuel     = { max = 50 , stack = 0, reclean = 30 },       -- 格罗姆粘液
             slurtleslime    = { max = 0 , stack = 0, reclean = 1 },       -- 鼻涕虫粘液
             slurtle_shellpieces = { max = 0 , stack = 0, reclean = 1 },   -- 鼻涕虫壳碎片
 
-            spoiled_food    = { max = 5, stack = 5, reclean = 15 },       -- 腐烂食物
+            spoiled_food    = { max = 5, stack = 5, reclean = 10 },       -- 腐烂食物
             winter_food4    = { max = 2, stack = 1, reclean = 3 },        -- 维多利亚面包
 
             winter_ornament_plain1 = { max = 2, stack = 1, reclean = 3 }, -- 节日小饰品
@@ -191,7 +194,7 @@ if IsServer then
     end
 
     local function CleanDelay(inst)
-        if GLOBAL.TheWorld.state.cycles > 100 then
+        if GLOBAL.TheWorld.state.cycles > 80 then
             inst:DoTaskInTime(5, Clean)
         end
     end
