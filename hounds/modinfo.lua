@@ -5,7 +5,7 @@
 name = "Hounds Attack"
 description = "Adjust hound attacks.\n- Numbers of hound\n- Days gap\n- Add wargs\nAll settings can be configured."
 author = "雪绕风飞"
-version = "1.16"
+version = "1.17"
 api_version = 10
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"

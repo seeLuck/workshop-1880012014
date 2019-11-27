@@ -54,19 +54,26 @@ local houndCfg =
 
 if wargStrength == 0 then
 	TUNING.WARG_HEALTH = 900
-	TUNING.WARG_DAMAGE = 25
+    TUNING.WARG_DAMAGE = 25
+    TUNING.WARG_BASE_HOUND_AMOUNT = 1
 elseif wargStrength == 1 then
 	TUNING.WARG_HEALTH = 1800
 	TUNING.WARG_DAMAGE = 50
 elseif wargStrength == 2 then
 	TUNING.WARG_HEALTH = 3000
-	TUNING.WARG_DAMAGE = 100
+    TUNING.WARG_DAMAGE = 100
+    TUNING.WARG_SUMMONPERIOD = 30
+    TUNING.WARG_BASE_HOUND_AMOUNT = 4
 elseif wargStrength == 3 then
 	TUNING.WARG_HEALTH = 6000
-	TUNING.WARG_DAMAGE = 200
+    TUNING.WARG_DAMAGE = 200
+    TUNING.WARG_SUMMONPERIOD = 45
+    TUNING.WARG_BASE_HOUND_AMOUNT = 6
 elseif wargStrength == 4 then
 	TUNING.WARG_HEALTH = 10000
-	TUNING.WARG_DAMAGE = 300
+    TUNING.WARG_DAMAGE = 300
+    TUNING.WARG_SUMMONPERIOD = 60
+    TUNING.WARG_BASE_HOUND_AMOUNT = 8
 end
 
 if houndMode == "customized" then
@@ -178,7 +185,7 @@ if balanceSetting ~= 0 and houndMode == "customized" then
             end
             if target.prefab == "warg" and (attacker.prefab == "tentacle" or attacker.prefab == "pigman" or
                 attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or attacker.prefab == "bunnyman" or
-                attacker.prefab == "eyeturret") then
+                attacker.prefab == "eyeturret" or attacker.prefab == "winona_catapult") then
                 bonus = 1 - damage
             end
             return bonus
