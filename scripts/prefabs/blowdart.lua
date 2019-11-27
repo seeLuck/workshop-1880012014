@@ -264,7 +264,14 @@ local function onfinished(inst, owner)
 end
 
 local function AbleToAcceptTest(inst, item)
-	return item ~= nil and item.prefab == "houndstooth" or item.prefab == "stinger"
+    return item ~= nil and 
+    item.prefab == "houndstooth" or 
+    item.prefab == "stinger" or 
+    item.prefab == "feather_robin" or 
+    item.prefab == "feather_robin_winter" or 
+    item.prefab == "feather_crow" or 
+    item.prefab == "feather_canary" or 
+    item.prefab == "boneshard"
 end
 
 local function OnAccept(inst, giver, item)
