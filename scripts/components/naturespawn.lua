@@ -384,7 +384,6 @@ local NatureSpawn = Class(function(self, inst)
             end
             spiderden_spawner()
             TheNet:Announce("世界资源再生中...")
-            TheNet:Announce("退出3分钟重进可解决显示BUG")
         end
     end)
 end)
