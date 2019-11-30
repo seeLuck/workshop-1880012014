@@ -72,8 +72,12 @@ local function TrySpawn(strfab)
     if canspawn and tilecheck(tile) then
         local b = SpawnPrefab(strfab)
         if b ~= nil then
-            b.Physics:Teleport(pt:Get())
-            if b.components.spawnfader ~= nil then
+            if b.Physics ~= nil then
+                b.Physics:Teleport(pt:Get())
+            else
+                b.Transform:SetPosition(pt:Get())
+            end
+            if b.components and b.components.spawnfader ~= nil then
                 b.components.spawnfader:FadeIn()
             end
         end
