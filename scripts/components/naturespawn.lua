@@ -69,10 +69,14 @@ local function TrySpawn(strfab)
     local tile = TheWorld.Map:GetTileAtPoint(pt.x, pt.y, pt.z)
     local canspawn = tile ~= GROUND.IMPASSABLE and tile ~= GROUND.INVALID and tile ~= 255
     local tilecheck = tilefns[strfab]
-    canspawn = canspawn and tilecheck(tile)
-    if canspawn then
+    if canspawn and tilecheck(tile) then
         local b = SpawnPrefab(strfab)
-        b.Transform:SetPosition(pt:Get())
+        if b ~= nil then
+            b.Physics:Teleport(pt:Get())
+            if b.components.spawnfader ~= nil then
+                b.components.spawnfader:FadeIn()
+            end
+        end
     else
         TrySpawn(strfab)
     end
