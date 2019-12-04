@@ -67,21 +67,30 @@ end
 local function TrySpawn(strfab, inst)
     local pt = Vector3(math.random(-1000, 1000), 0, math.random(-1000, 1000))
     local tile = TheWorld.Map:GetTileAtPoint(pt.x, pt.y, pt.z)
+    local playerInRange = IsAnyPlayerInRange(pt.x, pt.y, pt.z, 50)
     local canspawn = tile ~= GROUND.IMPASSABLE and tile ~= GROUND.INVALID and tile ~= 255
     local tilecheck = tilefns[strfab]
-    if canspawn and tilecheck(tile) then
+    if canspawn and tilecheck(tile) and not playerInRange then
         local b = SpawnPrefab(strfab)
         if b ~= nil then
-            inst:DoTaskInTime(math.random(1, 120), function(target)
-                if b.Physics ~= nil then
-                    b.Physics:Teleport(pt:Get())
-                else
-                    b.Transform:SetPosition(pt:Get())
-                end
-                if b.components and b.components.spawnfader ~= nil then
-                    b.components.spawnfader:FadeIn()
-                end
-            end)
+            if b.Physics ~= nil then
+                b.Physics:Teleport(pt:Get())
+            else
+                b.Transform:SetPosition(pt:Get())
+            end
+            if b.components and b.components.spawnfader ~= nil then
+                b.components.spawnfader:FadeIn()
+            end
+            -- inst:DoTaskInTime(math.random(1, 120), function(target)
+            --     if b.Physics ~= nil then
+            --         b.Physics:Teleport(pt:Get())
+            --     else
+            --         b.Transform:SetPosition(pt:Get())
+            --     end
+            --     if b.components and b.components.spawnfader ~= nil then
+            --         b.components.spawnfader:FadeIn()
+            --     end
+            -- end)
         end
     else
         TrySpawn(strfab, inst)
