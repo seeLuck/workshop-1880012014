@@ -70,7 +70,7 @@ local function TrySpawn(strfab, inst)
     --local playerInRange = IsAnyPlayerInRange(pt.x, pt.y, pt.z, 50)
     local canspawn = tile ~= GROUND.IMPASSABLE and tile ~= GROUND.INVALID and tile ~= 255
     local tilecheck = tilefns[strfab]
-    if canspawn and tilecheck(tile) not IsAnyPlayerInRange(pt.x, pt.y, pt.z, 64 * 1.2, nil) then
+    if canspawn and tilecheck(tile) and not IsAnyPlayerInRange(pt.x, pt.y, pt.z, 64 * 1.2, nil) then
         --inst:DoTaskInTime(math.random(1, 240), function(target)
             local b = SpawnPrefab(strfab)
             if b ~= nil then
