@@ -70,8 +70,8 @@ local function TrySpawn(strfab, inst)
     --local playerInRange = IsAnyPlayerInRange(pt.x, pt.y, pt.z, 50)
     local canspawn = tile ~= GROUND.IMPASSABLE and tile ~= GROUND.INVALID and tile ~= 255
     local tilecheck = tilefns[strfab]
-    if canspawn and tilecheck(tile) then
-        inst:DoTaskInTime(math.random(1, 240), function(target)
+    if canspawn and tilecheck(tile) and inst.Map:CanPlantAtPoint(pt:Get()) and inst.Map:CanPlacePrefabFilteredAtPoint(pt:Get()) then
+        --inst:DoTaskInTime(math.random(1, 240), function(target)
             local b = SpawnPrefab(strfab)
             if b ~= nil then
                 if b.Physics ~= nil then
@@ -83,7 +83,7 @@ local function TrySpawn(strfab, inst)
                     b.components.spawnfader:FadeIn()
                 end
             end
-        end)
+        --end)
     else
         TrySpawn(strfab, inst)
     end
