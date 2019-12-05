@@ -73,9 +73,9 @@ elseif wargStrength == 4 then
 	TUNING.WARG_HEALTH = 10000
     TUNING.WARG_DAMAGE = 300
     TUNING.WARG_ATTACKRANGE = 6.5 -- 5
-    TUNING.WARG_RUNSPEED = 6.5 -- 5.5
+    TUNING.WARG_RUNSPEED = 7 -- 5.5
     TUNING.WARG_SUMMONPERIOD = 60
-    TUNING.WARG_BASE_HOUND_AMOUNT = 6
+    TUNING.WARG_BASE_HOUND_AMOUNT = 8
 end
 
 if houndMode == "customized" then
@@ -276,10 +276,15 @@ if houndMode == 'customized' and wargStrength > 1 then
     AddPrefabPostInit("warg", function(inst)
         inst:RemoveComponent("sleeper")
         if wargStrength == 4 then
-            inst.Transform:SetScale(1.5, 1.5, 1.5)
-            _G.MakeCharacterPhysics(inst, 1500, 1.5)
+            inst.Transform:SetScale(1.6, 1.6, 1.6)
+            _G.MakeCharacterPhysics(inst, 1600, 1.6)
             inst.components.health:StartRegen(3, 1)
-            inst.components.lootdropper:SetLoot({ "deerclops_eyeball" })
+            _G.SetSharedLootTable("warg", {
+                { "winter_ornament_light5", 1 },
+                { "winter_ornament_light6", 1 },
+                { "winter_ornament_light7", 1 },
+                { "winter_ornament_light8", 1 }
+            })
         end
     end)
 end

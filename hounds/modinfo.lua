@@ -5,7 +5,7 @@
 name = "Hounds Attack"
 description = "Adjust hound attacks.\n- Numbers of hound\n- Days gap\n- Add wargs\nAll settings can be configured."
 author = "雪绕风飞"
-version = "1.17"
+version = "1.18"
 api_version = 10
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
@@ -111,7 +111,7 @@ configuration_options =
 			{description = "Default", data = 1, hover = "Health 1800/Damage 50"},
 			{description = "Strong", data = 2, hover = "Health 3000/Damage 100"},
 			{description = "Dangerous", data = 3, hover = "Health 6000/Damage 200"},
-			{description = "Monster", data = 4, hover = "Health 10000/Damage 300"}
+			{description = "Monster", data = 4, hover = "Health 10000/Damage 300 and Bigger"}
         },
         default = 1,
 	},
