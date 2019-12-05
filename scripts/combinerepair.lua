@@ -1,7 +1,7 @@
 
 local _G = GLOBAL
 
-TUNING.REPAIRCOMBINE_maxweapon = 1
+TUNING.REPAIRCOMBINE_maxweapon = 1.5
 TUNING.REPAIRCOMBINE_bonus = 0
 
 local function MakeRepairWithItself(inst)
