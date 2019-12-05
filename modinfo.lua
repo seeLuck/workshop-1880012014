@@ -1,7 +1,7 @@
 name = "Mod Collections"
 description = "自用。整合并小修改了一些我常用的mod，随时可能再改，最好别订阅。\nSelf-use mod collections. Updating at any time. No recommend to subscribe it."
 author = "雪绕风飞"
-version = "1.41"
+version = "1.45"
 forumthread = ""
 api_version = 10
 icon_atlas = "modicon.xml"
@@ -18,17 +18,7 @@ configuration_options =
 {
     {
         name = "fiveslot",
-        label = "FiveSlot",
-        options =
-        {
-            {description = "OFF", data = false, hover = "OFF"},
-            {description = "ON", data = true, hover = "ON"},
-        },
-        default = false,
-    },
-    {
-        name = "usercmd",
-        label = "UserCMD",
+        label = "5格物品栏",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -38,17 +28,7 @@ configuration_options =
     },
     {
         name = "minisign",
-        label = "MiniSign",
-        options =
-        {
-            {description = "OFF", data = false, hover = "OFF"},
-            {description = "ON", data = true, hover = "ON"},
-        },
-        default = false,
-    },
-    {
-        name = "salt",
-        label = "Salt",
+        label = "迷你木板",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -58,7 +38,7 @@ configuration_options =
     },
     {
         name = "refiller",
-        label = "Refiller",
+        label = "便便桶填充",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -67,8 +47,8 @@ configuration_options =
         default = false,
     },
     {
-        name = "beenice",
-        label = "BeeNice",
+        name = "epichealthbar",
+        label = "史诗血条",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -77,8 +57,8 @@ configuration_options =
         default = false,
     },
     {
-        name = "wx78drop",
-        label = "WX78Drop",
+        name = "combinerepair",
+        label = "合并修理",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -87,38 +67,8 @@ configuration_options =
         default = false,
     },
     {
-        name = "smartIceMachine",
-        label = "SmartIceMachine",
-        options =
-        {
-            {description = "OFF", data = false, hover = "OFF"},
-            {description = "ON", data = true, hover = "ON"},
-        },
-        default = false,
-    },
-    {
-        name = "boatHealth",
-        label = "BoatHealth",
-        options =
-        {
-            {description = "OFF", data = false, hover = "OFF"},
-            {description = "ON", data = true, hover = "ON"},
-        },
-        default = false,
-    },
-    {
-        name = "natureSpawn",
-        label = "NatureSpawn",
-        options =
-        {
-            {description = "OFF", data = false, hover = "OFF"},
-            {description = "ON", data = true, hover = "ON"},
-        },
-        default = false,
-    },
-    {
-        name = "lanternColor",
-        label = "LanternColor",
+        name = "dart",
+        label = "飞镖增强",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
