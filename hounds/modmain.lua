@@ -74,6 +74,7 @@ elseif wargStrength == 4 then
     TUNING.WARG_DAMAGE = 300
     TUNING.WARG_ATTACKRANGE = 6.5 -- 5
     TUNING.WARG_RUNSPEED = 7 -- 5.5
+    TUNING.WARG_ATTACKPERIOD = 2.5 -- 3
     TUNING.WARG_SUMMONPERIOD = 60
     TUNING.WARG_BASE_HOUND_AMOUNT = 8
 end
@@ -276,6 +277,8 @@ if houndMode == 'customized' and wargStrength > 1 then
     AddPrefabPostInit("warg", function(inst)
         inst:RemoveComponent("sleeper")
         if wargStrength == 4 then
+            inst:RemoveComponent("burnable")
+            inst:RemoveComponent("freezable")
             inst.Transform:SetScale(1.6, 1.6, 1.6)
             _G.MakeCharacterPhysics(inst, 1600, 1.6)
             inst.components.health:StartRegen(3, 1)
