@@ -246,10 +246,10 @@ AddClassPostConstruct("components/hounded", function(self)
         if not _targetableplayers[target.GUID] or _targetableplayers[target.GUID] == "land" then
             local spawn = nil
             if wargNumber ~= nil and wargNumber > 0 and wargRealsed < wargNumber then
-                SummonSpawn(target:GetPosition())
+                spawn = SummonSpawn(target:GetPosition())
                 wargRealsed = wargRealsed + 1
             else
-                _SummonSpawn(target:GetPosition())
+                spawn = _SummonSpawn(target:GetPosition())
             end
             if spawn ~= nil then
                 spawn.components.combat:SuggestTarget(target)
