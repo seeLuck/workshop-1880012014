@@ -330,6 +330,11 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     {
         Asset("SOUND", "sound/vargr.fsb"),
     }
+    if TUNING.WARG_RUNSPEED == 7 then
+        bank = "claywarg"
+        build = "claywarg"
+    end
+    
     if bank == "warg" then
         table.insert(assets, Asset("ANIM", "anim/warg_actions.zip"))
     elseif bank ~= build then
@@ -365,6 +370,9 @@ local function MakeWarg(name, bank, build, prefabs, tag)
                 inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
                 inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
             end
+        elseif tag == nil and TUNING.WARG_RUNSPEED == 7 then
+            inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
+            inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
         end
 
         inst.AnimState:SetBank(bank)
@@ -450,10 +458,5 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     return Prefab(name, fn, assets, prefabs)
 end
 
-if TUNING.WARG_HEALTH == 10000 then
-    return MakeWarg("warg", "warg", "warg_build", prefabs_clay, nil),
-        MakeWarg("claywarg", "claywarg", "claywarg", prefabs_clay, "clay")
-else
-    return MakeWarg("warg", "warg", "warg_build", prefabs_basic, nil),
-    MakeWarg("claywarg", "claywarg", "claywarg", prefabs_clay, "clay")
-end
+return MakeWarg("warg", "warg", "warg_build", prefabs_basic, nil),
+MakeWarg("claywarg", "claywarg", "claywarg", prefabs_clay, "clay")
