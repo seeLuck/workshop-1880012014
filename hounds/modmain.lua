@@ -11,7 +11,6 @@ local houndNumber = houndMode and GetModConfigData("houndNumber") or 1 -- 1 = us
 local daysGap = houndMode and GetModConfigData("daysGap") or 1 -- 1 = use the game's default
 local wormMode = GetModConfigData("wormMode") or false -- false = use the game's default
 local safeKey = GetModConfigData("safeKey") or 111 -- keyboard 'o'
-local balanceSetting = GetModConfigData("balanceSetting") or 0 -- keyboard 'o'
 local DAYS_IN_ADVANCE = GetModConfigData("days") or -1
 local wargNumber = houndMode and GetModConfigData("wargNumber") or 0
 local wargStrength = houndMode and GetModConfigData("wargStrength") or 1 -- 1 = use the game's default
@@ -67,7 +66,7 @@ elseif wargStrength == 2 then
 elseif wargStrength == 3 then
 	TUNING.WARG_HEALTH = 6000
     TUNING.WARG_DAMAGE = 150
-    TUNING.WARG_SUMMONPERIOD = 30
+    TUNING.WARG_SUMMONPERIOD = 45
     TUNING.WARG_BASE_HOUND_AMOUNT = 6
 elseif wargStrength == 4 then
 	TUNING.WARG_HEALTH = 15000
@@ -76,7 +75,7 @@ elseif wargStrength == 4 then
     TUNING.WARG_RUNSPEED = 7 -- 5.5
     TUNING.WARG_ATTACKPERIOD = 2.5 -- 3
     TUNING.WARG_SUMMONPERIOD = 60
-    TUNING.WARG_BASE_HOUND_AMOUNT = 10
+    TUNING.WARG_BASE_HOUND_AMOUNT = 8
     wargNumber = 1
 end
 
@@ -265,7 +264,7 @@ if houndMode == 'customized' and wargStrength > 1 then
                 { "bluegem", 1 },
                 { "bluegem", 1 }
             })
-        if wargStrength == 3 then
+        elseif wargStrength == 3 then
             inst:RemoveComponent("sleeper")
             inst:RemoveComponent("burnable")
             inst:RemoveComponent("freezable")
@@ -305,14 +304,12 @@ if houndMode == 'customized' and wargStrength > 1 then
                     end
                     return bonus
                 end
-                inst.onhitfn = function(myself, attacker, damage)
-                    if myself.prefab == "warg" then
-                        if myself.components.health <= 10000 then
-                            TUNING.WARG_BASE_HOUND_AMOUNT = 50
-                            TUNING.WARG_SUMMONPERIOD = 20
-                        end
-                    end
-                end
+                -- inst.onhitfn = function(myself, attacker, damage)
+                --     if myself.prefab == "warg" then
+                --         if myself.components.health.currenthealth <= 10000 then
+                --         end
+                --     end
+                -- end
             end)
         end
     end)

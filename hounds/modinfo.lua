@@ -89,7 +89,7 @@ configuration_options =
 	{
         name = "wargNumber",
         label = "Warg Number",
-        hover = "Set number of warg(Hound King).",
+        hover = "Set number of warg(Hound King).\nForce to be 1 while Warg Strength is Monster",
         options =
         {
             {description = "None", data = 0, hover = "No Warg"},
@@ -111,7 +111,7 @@ configuration_options =
 			{description = "Default", data = 1, hover = "Health 1800/Damage 50"},
 			{description = "Strong", data = 2, hover = "Health 3000/Damage 100"},
 			{description = "Dangerous", data = 3, hover = "Health 6000/Damage 200"},
-			{description = "Monster", data = 4, hover = "Health 10000/Damage 300 and Bigger"}
+			{description = "Monster", data = 4, hover = "Health 15000/Damage 300 and more..."}
         },
         default = 1,
 	},
@@ -133,18 +133,6 @@ configuration_options =
 			return values
 		end)(),
 		default = 111, -- ASCII code for "o"
-	},
-	{
-		name = "balanceSetting",
-		label = "Balance Setting",
-		hover = "Only players can truely harm wargs.\nWhich means even tons of bunnyman cannot defeat Warg. You need kill Warg on your own.",
-		options =
-		{
-			{description = "Disable", data = 0, hover = "No change"},
-			{description = "Enable", data = 1, hover = "Only players can truely harm wargs"},
-
-		},
-		default = 0,
 	},
 	{
 		name = "",
