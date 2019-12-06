@@ -76,7 +76,9 @@ elseif wargStrength == 4 then
     TUNING.WARG_ATTACKPERIOD = 2.5 -- 3
     TUNING.WARG_SUMMONPERIOD = 60
     TUNING.WARG_BASE_HOUND_AMOUNT = 8
-    wargNumber = 1
+    if wargNumber > 1 then
+        wargNumber = 1
+    end
 end
 
 if houndMode == "customized" then
@@ -278,8 +280,8 @@ if houndMode == 'customized' and wargStrength > 1 then
             inst:RemoveComponent("burnable")
             inst:RemoveComponent("freezable")
             inst:AddComponent("explosiveresist")
-            inst.Transform:SetScale(1.8, 1.8, 1.8)
-            _G.MakeCharacterPhysics(inst, 1800, 1.8)
+            inst.Transform:SetScale(1.6, 1.6, 1.6)
+            _G.MakeCharacterPhysics(inst, 1600, 1.6)
             inst.components.health:StartRegen(5, 1)
             _G.SetSharedLootTable("warg", {
                 { "winter_ornament_light5", 1 },

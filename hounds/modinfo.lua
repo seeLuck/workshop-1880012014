@@ -5,7 +5,7 @@
 name = "Hounds Attack"
 description = "Adjust hound attacks.\n- Numbers of hound\n- Days gap\n- Add wargs\nAll settings can be configured."
 author = "雪绕风飞"
-version = "1.20"
+version = "1.21"
 api_version = 10
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
@@ -31,7 +31,7 @@ configuration_options =
 			{description = "3 Days", data = 3},
 			{description = "4 Days", data = 4}
 		},
-		default = 2,
+		default = -1,
 	},
 	{
 		name = "",
@@ -81,8 +81,7 @@ configuration_options =
             {description = "25", data = 2.5, hover = "25 Hounds"},
 			{description = "50", data = 5, hover = "50 Hounds"},
 			{description = "100", data = 10, hover = "100 Hounds"},
-			{description = "200", data = 20, hover = "200 Hounds"},
-			{description = "300", data = 30, hover = "300 Hounds"}
+			{description = "250", data = 25, hover = "250 Hounds"}
         },
         default = 1,
 	},
@@ -96,8 +95,7 @@ configuration_options =
 			{description = "1", data = 1, hover = "1 Warg"},
 			{description = "2", data = 2, hover = "2 Warg"},
 			{description = "3", data = 3, hover = "3 Warg"},
-			{description = "4", data = 4, hover = "4 Warg"},
-			{description = "5", data = 5, hover = "5 Warg"}
+			{description = "4", data = 4, hover = "4 Warg"}
         },
         default = 0,
 	},
