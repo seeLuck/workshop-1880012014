@@ -33,13 +33,38 @@ function CombineRepairable:Repair(doer, repair_item)
         divide = math.max(1,self.inst.components.stackable:StackSize()) -- if the item we want to repair is a stack, then make the repair less efficient, depending on the stacksize
     end
     if self.inst.components.finiteuses~=nil and repair_item.components.finiteuses~=nil then
-        self.inst.components.finiteuses:SetPercent(math.max(math.min(((repair_item.components.finiteuses:GetPercent()/divide) + self.inst.components.finiteuses:GetPercent())+actualbonus,TUNING.REPAIRCOMBINE_maxweapon),0.01))
+        if TUNING.REPAIRCOMBINE_overmaxfiniteuses then
+            self.inst.components.finiteuses:SetMaxUses(self.inst.components.finiteuses.total*divide + repair_item.components.finiteuses.total)
+            self.inst.components.finiteuses:SetUses(self.inst.components.finiteuses:GetUses()*divide + repair_item.components.finiteuses:GetUses())
+            self.inst.components.finiteuses:SetUses(math.min(math.ceil(self.inst.components.finiteuses:GetUses() * (1+actualbonus)),self.inst.components.finiteuses.total))
+        else
+            self.inst.components.finiteuses:SetPercent(math.max(math.min(((repair_item.components.finiteuses:GetPercent()/divide) + self.inst.components.finiteuses:GetPercent())+actualbonus,TUNING.REPAIRCOMBINE_maxweapon),0.01))
+        end
     elseif self.inst.components.armor~=nil and repair_item.components.armor~=nil then
-        self.inst.components.armor:SetPercent(math.max(((repair_item.components.armor:GetPercent()/divide) + self.inst.components.armor:GetPercent())+actualbonus,0.01)) -- a max of 100% is in component
+        if TUNING.REPAIRCOMBINE_overmaxarmor then
+            self.inst.components.armor.maxcondition = self.inst.components.armor.maxcondition*divide + repair_item.components.armor.maxcondition
+            self.inst.components.armor:SetCondition(self.inst.components.armor.condition*divide + repair_item.components.armor.condition)
+            self.inst.components.armor:SetCondition(math.min(math.ceil(self.inst.components.armor.condition * (1+actualbonus)),self.inst.components.armor.maxcondition))
+        else
+            self.inst.components.armor:SetPercent(math.max(math.min(((repair_item.components.armor:GetPercent()/divide) + self.inst.components.armor:GetPercent())+actualbonus,TUNING.REPAIRCOMBINE_maxweapon),0.01))
+        end
     elseif self.inst.components.fueled~=nil and repair_item.components.fueled~=nil then
-        self.inst.components.fueled:SetPercent(math.max(((repair_item.components.fueled:GetPercent()/divide) + self.inst.components.fueled:GetPercent())+actualbonus,0.01)) -- a max of 100% is in component
+        if TUNING.REPAIRCOMBINE_overmaxfueled then
+            self.inst.components.fueled.maxfuel = self.inst.components.fueled.maxfuel*divide + repair_item.components.fueled.maxfuel
+            self.inst.components.fueled.currentfuel = self.inst.components.fueled.currentfuel*divide + repair_item.components.fueled.currentfuel
+            self.inst.components.fueled.currentfuel = math.min(math.ceil(self.inst.components.fueled.currentfuel * (1+actualbonus)),self.inst.components.fueled.maxfuel)
+        else
+            self.inst.components.fueled:SetPercent(math.max(math.min(((repair_item.components.fueled:GetPercent()/divide) + self.inst.components.fueled:GetPercent())+actualbonus,TUNING.REPAIRCOMBINE_maxweapon),0.01))
+        end
     elseif self.inst.components.perishable~=nil and self.inst.components.equippable~=nil and repair_item.components.perishable~=nil and repair_item.components.equippable~=nil then
-        self.inst.components.perishable:SetPercent(math.max(((repair_item.components.perishable:GetPercent()/divide) + self.inst.components.perishable:GetPercent())+actualbonus,0.01)) -- a max of 100% is in component
+        if TUNING.REPAIRCOMBINE_overmaxperishable then
+            self.inst.components.perishable.perishtime = self.inst.components.perishable.perishtime*divide + repair_item.components.perishable.perishtime
+            self.inst.components.perishable.perishremainingtime = math.min(math.ceil((self.inst.components.perishable.perishremainingtime*divide + repair_item.components.perishable.perishremainingtime) * (1+actualbonus)),self.inst.components.perishable.perishtime)
+            -- self.inst.components.perishable.perishremainingtime = math.min(math.ceil(self.inst.components.perishable.perishremainingtime * (1+actualbonus)),self.inst.components.perishable.perishtime) -- done above in single line
+            self.inst.components.perishable.inst:PushEvent("perishchange", {percent = self.inst.components.perishable:GetPercent()})
+        else
+            self.inst.components.perishable:SetPercent(math.max(((repair_item.components.perishable:GetPercent()/divide) + self.inst.components.perishable:GetPercent())+actualbonus,0.01)) -- a max of 100% is in component
+        end
     else
         return false
     end

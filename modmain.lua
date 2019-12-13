@@ -22,4 +22,8 @@ if GetModConfigData("dart") then
 	modimport("scripts/dart.lua")
 end
 
+if GetModConfigData("largeboat") then
+	modimport("scripts/largeboat.lua")
+end
+
 modimport("scripts/trashcan.lua")
