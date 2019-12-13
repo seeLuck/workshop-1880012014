@@ -87,4 +87,3 @@ configuration_options =
         default = false,
     }
 }
-}
