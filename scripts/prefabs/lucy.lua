@@ -152,6 +152,20 @@ local function fn()
     inst.components.talker.offset = Vector3(0, 0, 0)
     inst.components.talker.symbol = "swap_object"
 
+    --Dedicated server does not need to spawn the local sound fx
+    if not GetModConfigData("mutelucy") and not TheNet:IsDedicated() then
+        inst.localsounds = CreateEntity()
+        inst.localsounds:AddTag("FX")
+        --[[Non-networked entity]]
+        inst.localsounds.entity:AddTransform()
+        inst.localsounds.entity:AddSoundEmitter()
+        inst.localsounds.entity:SetParent(inst.entity)
+        inst.localsounds:Hide()
+        inst.localsounds.persists = false
+        inst:ListenForEvent("ontalk", ontalk)
+        inst:ListenForEvent("donetalking", ondonetalking)
+    end
+
     local swap_data = {sym_build = "swap_lucy_axe", bank = "Lucy_axe"}
     MakeInventoryFloatable(inst, "small", 0.05, {1.2, 0.75, 1.2}, true, -11, swap_data)
 
