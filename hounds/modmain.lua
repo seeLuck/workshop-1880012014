@@ -7,13 +7,13 @@ local HoundFlag = -1
 local secADay = 8 * 60
 -----------------------------------------------------------------------------------------------------------------
 local houndMode = GetModConfigData("houndMode") or false -- false = use the game's default
-local houndNumber = houndMode and GetModConfigData("houndNumber") or 1 -- 1 = use the game's default
-local daysGap = houndMode and GetModConfigData("daysGap") or 1 -- 1 = use the game's default
 local wormMode = GetModConfigData("wormMode") or false -- false = use the game's default
 local safeKey = GetModConfigData("safeKey") or 111 -- keyboard 'o'
-local DAYS_IN_ADVANCE = GetModConfigData("days") or -1
-local wargNumber = houndMode and GetModConfigData("wargNumber") or 0
+local DAYS_IN_ADVANCE = houndMode ~= "never" and GetModConfigData("days") or -1
+local houndNumber = houndMode and GetModConfigData("houndNumber") or 1 -- 1 = use the game's default
+local daysGap = houndMode and GetModConfigData("daysGap") or 1 -- 1 = use the game's default
 local wargStrength = houndMode and GetModConfigData("wargStrength") or 1 -- 1 = use the game's default
+local wargNumber = houndMode == "customized" and GetModConfigData("wargNumber") or 0
 local wargRealsed = 0
 
 -- Hound config

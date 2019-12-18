@@ -67,8 +67,8 @@ configuration_options =
         default = false,
     },
     {
-        name = "dart",
-        label = "吹箭增强",
+        name = "largeboat",
+        label = "大船",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
@@ -77,8 +77,8 @@ configuration_options =
         default = false,
     },
     {
-        name = "largeboat",
-        label = "大船",
+        name = "dart",
+        label = "吹箭增强",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
