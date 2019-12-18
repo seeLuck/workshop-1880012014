@@ -185,6 +185,15 @@ local function open_fn()
         return inst
     end
 
+    if not GetModConfigData("noentrancebat") then
+        inst:AddComponent("childspawner")
+        inst.components.childspawner:SetRegenPeriod(60)
+        inst.components.childspawner:SetSpawnPeriod(.1)
+        inst.components.childspawner:SetMaxChildren(6)
+        inst.components.childspawner.canspawnfn = canspawn
+        inst.components.childspawner.childname = "bat"
+    end
+
     inst.components.inspectable.getstatus = GetStatus
 
     inst:ListenForEvent("migration_available", open)
