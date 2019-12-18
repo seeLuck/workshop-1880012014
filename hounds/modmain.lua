@@ -51,6 +51,10 @@ local houndCfg =
     },
 }
 
+if wargNumber == 0 then
+    wargStrength = 1
+end
+
 if wargStrength == 0 then
 	TUNING.WARG_HEALTH = 900
     TUNING.WARG_DAMAGE = 25
