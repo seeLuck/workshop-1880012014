@@ -185,7 +185,7 @@ local function open_fn()
         return inst
     end
 
-    if not GetModConfigData("noentrancebat") then
+    if not TUNING.NO_CAVE_ENTRANCE_BAT then
         inst:AddComponent("childspawner")
         inst.components.childspawner:SetRegenPeriod(60)
         inst.components.childspawner:SetSpawnPeriod(.1)

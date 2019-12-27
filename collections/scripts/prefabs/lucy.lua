@@ -153,7 +153,7 @@ local function fn()
     inst.components.talker.symbol = "swap_object"
 
     --Dedicated server does not need to spawn the local sound fx
-    if not GetModConfigData("mutelucy") and not TheNet:IsDedicated() then
+    if not TUNING.MUTE_LUCY and not TheNet:IsDedicated() then
         inst.localsounds = CreateEntity()
         inst.localsounds:AddTag("FX")
         --[[Non-networked entity]]

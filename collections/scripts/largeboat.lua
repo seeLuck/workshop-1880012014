@@ -27,12 +27,12 @@ end)
 
 AddSimPostInit(function()
     local WALKABLE_PLATFORM_TAGS={"walkableplatform"}
-    GLOBAL.Map.GetPlatformAtPoint=function(self,pos_x,pos_y, pos_z)
+    GLOBAL.Map.GetPlatformAtPoint=function(self,pos_x,pos_y, pos_z, extra_radius)
         if pos_z == nil then
             pos_z = pos_y
             pos_y = 0
         end
-        local entities = TheSim:FindEntities(pos_x, pos_y, pos_z, TUNING.MAX_WALKABLE_PLATFORM_RADIUS*10, WALKABLE_PLATFORM_TAGS)
+        local entities = TheSim:FindEntities(pos_x, pos_y, pos_z, TUNING.MAX_WALKABLE_PLATFORM_RADIUS*10 + (extra_radius or 0), WALKABLE_PLATFORM_TAGS)
         for i, v in ipairs(entities) do
             if v.components.walkableplatform~=nil and math.sqrt(v:GetDistanceSqToPoint(pos_x, 0, pos_z))<=v.components.walkableplatform.radius then
                 return v 

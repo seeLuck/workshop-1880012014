@@ -80,7 +80,7 @@ local function fn()
     inst.DynamicShadow:SetSize(2, .75)
     inst.Transform:SetFourFaced()
 
-    if not GetModConfigData("muteGlommer") then
+    if not TUNING.MUTE_GLOMMER then
         inst.entity:AddSoundEmitter()
     end
 

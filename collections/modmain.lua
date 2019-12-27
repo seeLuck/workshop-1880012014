@@ -18,12 +18,15 @@ if GetModConfigData("combinerepair") then
 	modimport("scripts/combinerepair.lua")
 end
 
-if GetModConfigData("dart") then
-	modimport("scripts/dart.lua")
-end
-
 if GetModConfigData("largeboat") then
 	modimport("scripts/largeboat.lua")
 end
 
+if GetModConfigData("dart") then
+	modimport("scripts/dart.lua")
+end
+
 modimport("scripts/trashcan.lua")
+TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
+TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
+TUNING.MUTE_GLOMMER = GetModConfigData("muteGlommer")
