@@ -14,9 +14,27 @@ local prefabs_clay =
     "clayhound",
 }
 
+local prefabs_gingerbread =
+{
+	"warg_gooicing",
+	"wintersfeastfuel",
+    "houndstooth",
+	"crumbs",
+}
+
 local brain = require("brains/wargbrain")
 
 local sounds =
+{
+    idle = "dontstarve_DLC001/creatures/vargr/idle",
+    howl = "dontstarve_DLC001/creatures/vargr/howl",
+    hit = "dontstarve_DLC001/creatures/vargr/hit",
+    attack = "dontstarve_DLC001/creatures/vargr/attack",
+    death = "dontstarve_DLC001/creatures/vargr/death",
+    sleep = "dontstarve_DLC001/creatures/vargr/sleep",
+}
+
+local sounds_gingerbread =
 {
     idle = "dontstarve_DLC001/creatures/vargr/idle",
     howl = "dontstarve_DLC001/creatures/vargr/howl",
@@ -51,20 +69,6 @@ SetSharedLootTable('warg',
     {'houndstooth',             0.33},
 })
 
-SetSharedLootTable('claywarg',
-{
-    {'redpouch',                1.00},
-    {'redpouch',                1.00},
-    {'redpouch',                1.00},
-    {'redpouch',                1.00},
-    {'redpouch',                0.50},
-    {'redpouch',                0.50},
-
-    {'houndstooth',             1.00},
-    {'houndstooth',             0.66},
-    {'houndstooth',             0.33},
-})
-
 local function RetargetFn(inst)
     return not (inst.sg:HasStateTag("hidden") or inst.sg:HasStateTag("statue"))
         and FindEntity(
@@ -73,7 +77,7 @@ local function RetargetFn(inst)
                 function(guy)
                     return inst.components.combat:CanTarget(guy)
                 end,
-                nil,
+                inst.sg:HasStateTag("intro_state") and {"character"} or nil,
                 { "wall", "warg", "hound" }
             )
         or nil
@@ -83,8 +87,8 @@ local function KeepTargetFn(inst, target)
     return target ~= nil
         and not (inst.sg:HasStateTag("hidden") or inst.sg:HasStateTag("statue"))
         and inst:IsNear(target, 40)
-        and not target.components.health:IsDead()
         and inst.components.combat:CanTarget(target)
+        and not target.components.health:IsDead()
 end
 
 local function OnAttacked(inst, data)
@@ -325,6 +329,25 @@ local function GetStatus(inst)
         or nil
 end
 
+local function LaunchGooIcing(inst)
+	local theta = math.random() * 2 * PI
+	local r = inst:GetPhysicsRadius(0) + 0.25 + math.sqrt(math.random()) * TUNING.WARG_GINGERBREAD_GOO_DIST_VAR
+	local x, y, z = inst.Transform:GetWorldPosition()
+	local dest_x, dest_z = math.cos(theta) * r + x, math.sin(theta) * r + z
+
+	local goo = SpawnPrefab("warg_gooicing")
+    goo.Transform:SetPosition(x, y, z)
+	goo.Transform:SetRotation(theta / DEGREES)
+	goo._caster = inst
+
+	Launch2(goo, inst, 1.5, 1, 3, .75)
+
+	inst._next_goo_time = GetTime() + TUNING.WARG_GINGERBREAD_GOO_COOLDOWN
+end
+
+local function NoGooIcing()
+end
+
 local function MakeWarg(name, bank, build, prefabs, tag)
     local assets =
     {
@@ -340,6 +363,7 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     elseif bank ~= build then
         table.insert(assets, Asset("ANIM", "anim/"..bank..".zip"))
     end
+
     table.insert(assets, Asset("ANIM", "anim/"..build..".zip"))
 
     local function fn()
@@ -363,14 +387,7 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddTag("houndfriend")
         inst:AddTag("largecreature")
 
-        if tag ~= nil then
-            inst:AddTag(tag)
-
-            if tag == "clay" then
-                inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
-                inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
-            end
-        elseif tag == nil and TUNING.WARG_RUNSPEED == 7 then
+        if tag == nil and TUNING.WARG_RUNSPEED == 7 then
             inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
             inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
         end
@@ -408,49 +425,18 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddComponent("lootdropper")
         inst.components.lootdropper:SetChanceLootTable(name)
 
-        if tag == "clay" then
-            inst.NumHoundsToSpawn = NoHoundsToSpawn
-            inst.OnSave = OnClaySave
-            inst.OnPreLoad = OnClayPreLoad
-            inst.OnReanimated = OnClayReanimated
-            inst.OnBecameStatue = OnClayBecameStatue
-            inst.OnEntitySleep = OnClayEntitySleep
-            inst.OnEntityWake = OnClayEntityWake
+        inst.components.combat:SetHurtSound("dontstarve_DLC001/creatures/vargr/hit")
+        inst:AddComponent("sleeper")
+        inst.NumHoundsToSpawn = NumHoundsToSpawn
 
-            inst.sounds = sounds_clay
-            inst.noidlesound = true
+        inst.LaunchGooIcing = LaunchGooIcing
+        
+        inst.sounds = sounds
 
-            inst:ListenForEvent("spawnedforhunt", OnSpawnedForHunt)
-            inst:ListenForEvent("restoredfollower", OnRestoredFollower)
-        else
-            inst.components.combat:SetHurtSound("dontstarve_DLC001/creatures/vargr/hit")
-
-            inst:AddComponent("sleeper")
-
-            inst.NumHoundsToSpawn = NumHoundsToSpawn
-
-            inst.sounds = sounds
-
-            MakeLargeBurnableCharacter(inst, "swap_fire")
-        end
-
+        MakeLargeBurnableCharacter(inst, "swap_fire")
         MakeLargeFreezableCharacter(inst)
-
         inst:SetStateGraph("SGwarg")
-
-        if tag == "clay" then
-            inst:AddComponent("hauntable")
-            inst.components.hauntable:SetHauntValue(TUNING.HAUNT_TINY)
-        else
-            MakeHauntableGoToState(inst, "howl", TUNING.HAUNT_CHANCE_OCCASIONAL, TUNING.HAUNT_COOLDOWN_MEDIUM, TUNING.HAUNT_CHANCE_LARGE)
-        end
-
         inst:SetBrain(brain)
-
-        if inst:HasTag("clay") then
-            inst.noidlesound = false
-            inst.sg:GoToState("statue")
-        end
 
         return inst
     end
@@ -458,5 +444,4 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     return Prefab(name, fn, assets, prefabs)
 end
 
-return MakeWarg("warg", "warg", "warg_build", prefabs_basic, nil),
-MakeWarg("claywarg", "claywarg", "claywarg", prefabs_clay, "clay")
+return MakeWarg("warg", "warg", "warg_build", prefabs_basic, nil)
