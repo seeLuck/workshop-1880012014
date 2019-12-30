@@ -15,6 +15,12 @@ local daysGap = houndMode and GetModConfigData("daysGap") or 1 -- 1 = use the ga
 local wargStrength = houndMode and GetModConfigData("wargStrength") or 1 -- 1 = use the game's default
 local wargNumber = houndMode == "customized" and GetModConfigData("wargNumber") or 0
 local wargRealsed = 0
+TUNING.WARG_BOSS_STRENGTH = wargStrength
+
+PrefabFiles = 
+{
+    "warg_boss"
+}
 
 -- Hound config
 local houndCfg =
@@ -55,34 +61,8 @@ if wargNumber == 0 then
     wargStrength = 1
 end
 
-if wargStrength == 0 then
-	TUNING.WARG_HEALTH = 900
-    TUNING.WARG_DAMAGE = 25
-    TUNING.WARG_BASE_HOUND_AMOUNT = 1
-elseif wargStrength == 1 then
-	TUNING.WARG_HEALTH = 1800
-	TUNING.WARG_DAMAGE = 50
-elseif wargStrength == 2 then
-	TUNING.WARG_HEALTH = 3000
-    TUNING.WARG_DAMAGE = 100
-    TUNING.WARG_SUMMONPERIOD = 30
-    TUNING.WARG_BASE_HOUND_AMOUNT = 4
-elseif wargStrength == 3 then
-	TUNING.WARG_HEALTH = 6000
-    TUNING.WARG_DAMAGE = 150
-    TUNING.WARG_SUMMONPERIOD = 45
-    TUNING.WARG_BASE_HOUND_AMOUNT = 6
-elseif wargStrength == 4 then
-	TUNING.WARG_HEALTH = 15000
-    TUNING.WARG_DAMAGE = 300
-    TUNING.WARG_ATTACKRANGE = 6.5 -- 5
-    TUNING.WARG_RUNSPEED = 7 -- 5.5
-    TUNING.WARG_ATTACKPERIOD = 2.5 -- 3
-    TUNING.WARG_SUMMONPERIOD = 60
-    TUNING.WARG_BASE_HOUND_AMOUNT = 8
-    if wargNumber > 1 then
-        wargNumber = 1
-    end
+if wargStrength == 4 and wargNumber > 1 then
+    wargNumber = 1
 end
 
 if houndMode == "customized" then
@@ -124,7 +104,7 @@ end
 local function EraseHound()
     if wargNumber > 0 then
         for _,v in pairs(GLOBAL.Ents) do
-            if v.prefab == "hound" or v.prefab == "warg" then
+            if v.prefab == "hound" or v.prefab == "warg_boss" then
                 v:Remove()
             end
         end
@@ -216,7 +196,7 @@ AddClassPostConstruct("components/hounded", function(self)
     local function SummonSpawn(pt)
         local spawn_pt = GetSpawnPoint(pt)
         if spawn_pt ~= nil then
-            local spawn = _G.SpawnPrefab("wargboss")
+            local spawn = _G.SpawnPrefab("warg_boss")
             if spawn ~= nil then
                 spawn.Physics:Teleport(spawn_pt:Get())
                 spawn:FacePoint(pt)
@@ -254,69 +234,27 @@ AddClassPostConstruct("components/hounded", function(self)
     end
 end)
 
-if houndMode == 'customized' and wargStrength > 1 then
-	AddClassPostConstruct("components/hunter", function (self)
-		local alternate_beasts = { "spat" }
-		UpvalueHacker.SetUpvalue(self.OnDirtInvestigated, alternate_beasts, "SpawnHuntedBeast", "_alternate_beasts")
-	end)
-    AddPrefabPostInit("wargboss", function(inst)
-        if wargStrength == 2 then
-            inst:RemoveComponent("sleeper")
-            _G.SetSharedLootTable("wargboss", {
-                { "redgem", 1 },
-                { "redgem", 1 },
-                { "redgem", 1 },
-                { "bluegem", 1 },
-                { "bluegem", 1 },
-                { "bluegem", 1 }
-            })
-        elseif wargStrength == 3 then
-            inst:RemoveComponent("sleeper")
-            inst:RemoveComponent("burnable")
-            inst:RemoveComponent("freezable")
-            _G.SetSharedLootTable("wargboss", {
-                { "orangegem", 1 },
-                { "greengem", 1 },
-                { "yellowgem", 1 }
-            })
-        elseif wargStrength == 4 then
-            inst:RemoveComponent("sleeper")
-            inst:RemoveComponent("burnable")
-            inst:RemoveComponent("freezable")
-            inst:AddComponent("explosiveresist")
-            inst.Transform:SetScale(1.6, 1.6, 1.6)
-            _G.MakeCharacterPhysics(inst, 1600, 1.6)
-            inst.components.health:StartRegen(5, 1)
-            _G.SetSharedLootTable("wargboss", {
-                { "winter_ornament_light5", 1 },
-                { "winter_ornament_light6", 1 },
-                { "winter_ornament_light7", 1 },
-                { "winter_ornament_light8", 1 }
-            })
-            AddComponentPostInit("combat",function(inst)
-                if not GLOBAL.TheWorld.ismastersim then
-                    return
-                end
-                local oldbonusdamagefn = inst.bonusdamagefn
-                inst.bonusdamagefn = function(attacker, target, damage, weapon)
-                    local bonus = 0
-                    if oldbonusdamagefn then
-                        bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
-                    end
-                    if target.prefab == "wargboss" and (attacker.prefab == "tentacle" or attacker.prefab == "pigman" or
-                        attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or attacker.prefab == "bunnyman" or
-                        attacker.prefab == "eyeturret" or attacker.prefab == "winona_catapult" or attacker.prefab == "trap_teeth") then
-                        bonus = 1 - damage
-                    end
-                    return bonus
-                end
-                -- inst.onhitfn = function(myself, attacker, damage)
-                --     if myself.prefab == "warg" then
-                --         if myself.components.health.currenthealth <= 10000 then
-                --         end
-                --     end
-                -- end
-            end)
+if houndMode == 'customized' and wargStrength == 4 then
+	-- AddClassPostConstruct("components/hunter", function (self)
+	-- 	local alternate_beasts = { "spat" }
+	-- 	UpvalueHacker.SetUpvalue(self.OnDirtInvestigated, alternate_beasts, "SpawnHuntedBeast", "_alternate_beasts")
+    -- end)
+    AddComponentPostInit("combat",function(inst)
+        if not GLOBAL.TheWorld.ismastersim then
+            return
+        end
+        local oldbonusdamagefn = inst.bonusdamagefn
+        inst.bonusdamagefn = function(attacker, target, damage, weapon)
+            local bonus = 0
+            if oldbonusdamagefn then
+                bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
+            end
+            if target.prefab == "warg_boss" and (attacker.prefab == "tentacle" or attacker.prefab == "pigman" or
+                attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or attacker.prefab == "bunnyman" or
+                attacker.prefab == "eyeturret" or attacker.prefab == "winona_catapult" or attacker.prefab == "trap_teeth") then
+                bonus = 1 - damage
+            end
+            return bonus
         end
     end)
 end

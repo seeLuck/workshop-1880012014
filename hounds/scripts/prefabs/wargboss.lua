@@ -1,3 +1,43 @@
+TUNING.WARG_BOSS_HEALTH = 600 * 3, --harder for multiplayer
+TUNING.WARG_BOSS_DAMAGE = 50,
+TUNING.WARG_BOSS_ATTACKPERIOD = 3,
+TUNING.WARG_BOSS_ATTACKRANGE = 5,
+TUNING.WARG_BOSS_FOLLOWERS = 6,
+TUNING.WARG_BOSS_SUMMONPERIOD = 15,
+TUNING.WARG_BOSS_MAXHELPERS = 10,
+TUNING.WARG_BOSS_TARGETRANGE = 10,
+TUNING.WARG_BOSS_NEARBY_PLAYERS_DIST = 30,
+TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 2,
+TUNING.WARG_BOSS_GINGERBREAD_GOO_DIST_VAR = 3,
+TUNING.WARG_BOSS_GINGERBREAD_GOO_COOLDOWN = 10,
+
+if TUNING.WARG_BOSS_STRENGTH == 0 then
+	TUNING.WARG_BOSS_HEALTH = 900
+    TUNING.WARG_BOSS_DAMAGE = 25
+    TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 1
+elseif TUNING.WARG_BOSS_STRENGTH == 2 then
+	TUNING.WARG_BOSS_HEALTH = 3000
+    TUNING.WARG_BOSS_DAMAGE = 100
+    TUNING.WARG_BOSS_SUMMONPERIOD = 30
+    TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 4
+elseif TUNING.WARG_BOSS_STRENGTH == 3 then
+	TUNING.WARG_BOSS_HEALTH = 6000
+    TUNING.WARG_BOSS_DAMAGE = 150
+    TUNING.WARG_BOSS_SUMMONPERIOD = 45
+    TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 6
+elseif TUNING.WARG_BOSS_STRENGTH == 4 then
+	TUNING.WARG_BOSS_HEALTH = 10000
+    TUNING.WARG_BOSS_DAMAGE = 300
+    TUNING.WARG_BOSS_ATTACKRANGE = 6.5 -- 5
+    TUNING.WARG_BOSS_RUNSPEED = 7 -- 5.5
+    TUNING.WARG_BOSS_ATTACKPERIOD = 2.5 -- 3
+    TUNING.WARG_BOSS_SUMMONPERIOD = 60
+    TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 8
+    if wargNumber > 1 then
+        wargNumber = 1
+    end
+end
+
 local prefabs_basic =
 {
     "hound",
@@ -55,7 +95,7 @@ local sounds_clay =
     alert = "dontstarve_DLC001/creatures/together/claywarg/alert",
 }
 
-SetSharedLootTable('wargboss',
+SetSharedLootTable('warg_boss',
 {
     {'monstermeat',             1.00},
     {'monstermeat',             1.00},
@@ -73,7 +113,7 @@ local function RetargetFn(inst)
     return not (inst.sg:HasStateTag("hidden") or inst.sg:HasStateTag("statue"))
         and FindEntity(
                 inst,
-                TUNING.WARG_TARGETRANGE,
+                TUNING.WARG_BOSS_TARGETRANGE,
                 function(guy)
                     return inst.components.combat:CanTarget(guy)
                 end,
@@ -93,19 +133,19 @@ end
 
 local function OnAttacked(inst, data)
     inst.components.combat:SetTarget(data.attacker)
-    inst.components.combat:ShareTarget(data.attacker, TUNING.WARG_MAXHELPERS,
+    inst.components.combat:ShareTarget(data.attacker, TUNING.WARG_BOSS_MAXHELPERS,
         function(dude)
             return not (dude.components.health ~= nil and dude.components.health:IsDead())
                 and (dude:HasTag("hound") or dude:HasTag("warg"))
                 and data.attacker ~= (dude.components.follower ~= nil and dude.components.follower.leader or nil)
-        end, TUNING.WARG_TARGETRANGE)
+        end, TUNING.WARG_BOSS_TARGETRANGE)
 end
 
 local function NumHoundsToSpawn(inst)
-    local numHounds = TUNING.WARG_BASE_HOUND_AMOUNT
+    local numHounds = TUNING.WARG_BOSS_BASE_HOUND_AMOUNT
 
     local pt = Vector3(inst.Transform:GetWorldPosition())
-    local ents = TheSim:FindEntities(pt.x, pt.y, pt.z, TUNING.WARG_NEARBY_PLAYERS_DIST, {"player"}, {"playerghost"})
+    local ents = TheSim:FindEntities(pt.x, pt.y, pt.z, TUNING.WARG_BOSS_NEARBY_PLAYERS_DIST, {"player"}, {"playerghost"})
     for i,player in ipairs(ents) do
         local playerAge = player.components.age:GetAgeInDays()
         local addHounds = math.clamp(Lerp(1, 4, playerAge/100), 1, 4)
@@ -331,7 +371,7 @@ end
 
 local function LaunchGooIcing(inst)
 	local theta = math.random() * 2 * PI
-	local r = inst:GetPhysicsRadius(0) + 0.25 + math.sqrt(math.random()) * TUNING.WARG_GINGERBREAD_GOO_DIST_VAR
+	local r = inst:GetPhysicsRadius(0) + 0.25 + math.sqrt(math.random()) * TUNING.WARG_BOSS_GINGERBREAD_GOO_DIST_VAR
 	local x, y, z = inst.Transform:GetWorldPosition()
 	local dest_x, dest_z = math.cos(theta) * r + x, math.sin(theta) * r + z
 
@@ -342,7 +382,7 @@ local function LaunchGooIcing(inst)
 
 	Launch2(goo, inst, 1.5, 1, 3, .75)
 
-	inst._next_goo_time = GetTime() + TUNING.WARG_GINGERBREAD_GOO_COOLDOWN
+	inst._next_goo_time = GetTime() + TUNING.WARG_BOSS_GINGERBREAD_GOO_COOLDOWN
 end
 
 local function NoGooIcing()
@@ -353,7 +393,7 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     {
         Asset("SOUND", "sound/vargr.fsb"),
     }
-    if TUNING.WARG_RUNSPEED == 7 then
+    if TUNING.WARG_BOSS_STRENGTH == 4 then
         bank = "claywarg"
         build = "claywarg"
     end
@@ -386,7 +426,7 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddTag("houndfriend")
         inst:AddTag("largecreature")
 
-        if tag == nil and TUNING.WARG_RUNSPEED == 7 then
+        if TUNING.WARG_BOSS_STRENGTH == 4 then
             inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
             inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
         end
@@ -407,19 +447,19 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddComponent("leader")
 
         inst:AddComponent("locomotor")
-        inst.components.locomotor.runspeed = tag == "clay" and TUNING.CLAYWARG_RUNSPEED or TUNING.WARG_RUNSPEED
+        inst.components.locomotor.runspeed = TUNING.WARG_BOSS_RUNSPEED
         inst.components.locomotor:SetShouldRun(true)
 
         inst:AddComponent("combat")
-        inst.components.combat:SetDefaultDamage(TUNING.WARG_DAMAGE)
-        inst.components.combat:SetRange(TUNING.WARG_ATTACKRANGE)
-        inst.components.combat:SetAttackPeriod(TUNING.WARG_ATTACKPERIOD)
+        inst.components.combat:SetDefaultDamage(TUNING.WARG_BOSS_DAMAGE)
+        inst.components.combat:SetRange(TUNING.WARG_BOSS_ATTACKRANGE)
+        inst.components.combat:SetAttackPeriod(TUNING.WARG_BOSS_ATTACKPERIOD)
         inst.components.combat:SetRetargetFunction(1, RetargetFn)
         inst.components.combat:SetKeepTargetFunction(KeepTargetFn)
         inst:ListenForEvent("attacked", OnAttacked)
 
         inst:AddComponent("health")
-        inst.components.health:SetMaxHealth(TUNING.WARG_HEALTH)
+        inst.components.health:SetMaxHealth(TUNING.WARG_BOSS_HEALTH)
 
         inst:AddComponent("lootdropper")
         inst.components.lootdropper:SetChanceLootTable(name)
@@ -437,10 +477,45 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:SetStateGraph("SGwarg")
         inst:SetBrain(brain)
 
+        if TUNING.WARG_BOSS_STRENGTH == 2 then
+            inst:RemoveComponent("sleeper")
+            _G.SetSharedLootTable("warg_boss", {
+                { "redgem", 1 },
+                { "redgem", 1 },
+                { "redgem", 1 },
+                { "bluegem", 1 },
+                { "bluegem", 1 },
+                { "bluegem", 1 }
+            })
+        elseif TUNING.WARG_BOSS_STRENGTH == 3 then
+            inst:RemoveComponent("sleeper")
+            inst:RemoveComponent("burnable")
+            inst:RemoveComponent("freezable")
+            _G.SetSharedLootTable("warg_boss", {
+                { "orangegem", 1 },
+                { "greengem", 1 },
+                { "yellowgem", 1 }
+            })
+        elseif TUNING.WARG_BOSS_STRENGTH == 4 then
+            inst:RemoveComponent("sleeper")
+            inst:RemoveComponent("burnable")
+            inst:RemoveComponent("freezable")
+            inst:AddComponent("explosiveresist")
+            inst.Transform:SetScale(1.6, 1.6, 1.6)
+            _G.MakeCharacterPhysics(inst, 1600, 1.6)
+            inst.components.health:StartRegen(5, 1)
+            _G.SetSharedLootTable("warg_boss", {
+                { "winter_ornament_light5", 1 },
+                { "winter_ornament_light6", 1 },
+                { "winter_ornament_light7", 1 },
+                { "winter_ornament_light8", 1 }
+            })
+        end
+
         return inst
     end
 
     return Prefab(name, fn, assets, prefabs)
 end
 
-return MakeWarg("wargboss", "warg", "warg_build", prefabs_basic, nil)
+return MakeWarg("warg_boss", "warg", "warg_build", prefabs_basic, nil)
