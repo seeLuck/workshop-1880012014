@@ -55,7 +55,7 @@ local sounds_clay =
     alert = "dontstarve_DLC001/creatures/together/claywarg/alert",
 }
 
-SetSharedLootTable('warg',
+SetSharedLootTable('wargboss',
 {
     {'monstermeat',             1.00},
     {'monstermeat',             1.00},
@@ -363,7 +363,6 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     elseif bank ~= build then
         table.insert(assets, Asset("ANIM", "anim/"..bank..".zip"))
     end
-
     table.insert(assets, Asset("ANIM", "anim/"..build..".zip"))
 
     local function fn()
@@ -444,4 +443,4 @@ local function MakeWarg(name, bank, build, prefabs, tag)
     return Prefab(name, fn, assets, prefabs)
 end
 
-return MakeWarg("warg", "warg", "warg_build", prefabs_basic, nil)
+return MakeWarg("wargboss", "warg", "warg_build", prefabs_basic, nil)
