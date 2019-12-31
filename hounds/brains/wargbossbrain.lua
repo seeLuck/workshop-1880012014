@@ -3,7 +3,7 @@ require "behaviours/standstill"
 require "behaviours/chaseandattack"
 require "behaviours/leash"
 
-local WargBrain = Class(Brain, function(self, inst)
+local WargBossBrain = Class(Brain, function(self, inst)
     Brain._ctor(self, inst)
     --self.reanimatetime = nil
     --self.petrifytime = nil
@@ -28,7 +28,7 @@ local function TryReanimate(self)
     end
 end
 
-function WargBrain:OnStart()
+function WargBossBrain:OnStart()
     local isclay = self.inst:HasTag("clay")
     local root = PriorityNode(
     {

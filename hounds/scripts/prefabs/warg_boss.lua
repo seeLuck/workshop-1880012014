@@ -487,8 +487,8 @@ local function MakeWarg(name, bank, build, prefabs, tag)
                 { "yellowgem", 1 }
             })
         elseif TUNING.WARG_BOSS_STRENGTH == 4 then
-            inst:AddTag("gingerbread")
-            inst.LaunchGooIcing = LaunchGooIcing
+            --inst:AddTag("gingerbread")
+            --inst.LaunchGooIcing = LaunchGooIcing
             inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
             inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
             inst:RemoveComponent("sleeper")
