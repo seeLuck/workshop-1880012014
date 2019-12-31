@@ -33,6 +33,8 @@ elseif TUNING.WARG_BOSS_STRENGTH == 4 then
     TUNING.WARG_BOSS_ATTACKPERIOD = 2.5 -- 3
     TUNING.WARG_BOSS_SUMMONPERIOD = 60
     TUNING.WARG_BOSS_BASE_HOUND_AMOUNT = 8
+    TUNING.WARG_BOSS_GINGERBREAD_GOO_DIST_VAR = 5
+    TUNING.WARG_BOSS_GINGERBREAD_GOO_COOLDOWN = 20
 end
 
 local prefabs_basic =
@@ -59,7 +61,7 @@ local prefabs_gingerbread =
 	"crumbs",
 }
 
-local brain = require("brains/wargbrain")
+local brain = require("brains/wargbossbrain")
 
 local sounds =
 {
@@ -423,11 +425,6 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddTag("houndfriend")
         inst:AddTag("largecreature")
 
-        if TUNING.WARG_BOSS_STRENGTH == 4 then
-            inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
-            inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
-        end
-
         inst.AnimState:SetBank(bank)
         inst.AnimState:SetBuild(build)
         inst.AnimState:PlayAnimation("idle_loop", true)
@@ -465,14 +462,10 @@ local function MakeWarg(name, bank, build, prefabs, tag)
         inst:AddComponent("sleeper")
         inst.NumHoundsToSpawn = NumHoundsToSpawn
 
-        inst.LaunchGooIcing = LaunchGooIcing
-        
         inst.sounds = sounds
 
         MakeLargeBurnableCharacter(inst, "swap_fire")
         MakeLargeFreezableCharacter(inst)
-        inst:SetStateGraph("SGwarg")
-        inst:SetBrain(brain)
 
         if TUNING.WARG_BOSS_STRENGTH == 2 then
             inst:RemoveComponent("sleeper")
@@ -494,6 +487,10 @@ local function MakeWarg(name, bank, build, prefabs, tag)
                 { "yellowgem", 1 }
             })
         elseif TUNING.WARG_BOSS_STRENGTH == 4 then
+            inst:AddTag("gingerbread")
+            inst.LaunchGooIcing = LaunchGooIcing
+            inst._eyeflames = net_bool(inst.GUID, "claywarg._eyeflames", "eyeflamesdirty")
+            inst:ListenForEvent("eyeflamesdirty", OnEyeFlamesDirty)
             inst:RemoveComponent("sleeper")
             inst:RemoveComponent("burnable")
             inst:RemoveComponent("freezable")
@@ -508,6 +505,9 @@ local function MakeWarg(name, bank, build, prefabs, tag)
                 { "winter_ornament_light8", 1 }
             })
         end
+        
+        inst:SetStateGraph("SGwarg")
+        inst:SetBrain(brain)
 
         return inst
     end
