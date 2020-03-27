@@ -33,18 +33,6 @@ local function IsDressingUp(inst)
 end
 
 local function ChangeFace(inst, prefix)
-    -- if inst:HasTag("fire") then
-    --     prefix = "screaming"
-    -- end
-    -- prefix = prefix or "scary"
-
-    -- local prev_face = inst.face or 1
-    -- inst.face = math.random(numfaces[prefix]-1)
-    -- if inst.face >= prev_face then
-    --     inst.face = inst.face + 1
-    -- end
-
-    -- inst.AnimState:OverrideSymbol("swap_scarecrow_face", "swap_scarecrow_face", prefix.."face"..inst.face)
 end
 
 local function onhammered(inst)

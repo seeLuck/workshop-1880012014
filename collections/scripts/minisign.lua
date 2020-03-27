@@ -55,9 +55,15 @@ local function bugu(inst)
 				if showbundle and item.components.unwrappable ~= nil and item.components.unwrappable.itemdata then
 					for i, v in ipairs(item.components.unwrappable.itemdata) do
 						if  v  then
-							image = v.prefab..".tex"
-							build =  GetAtlas(image)
-							break
+							local copy = GLOBAL.SpawnPrefab(v.prefab)
+							if copy then 
+								if copy.replica.inventoryitem ~= nil  then
+									image = copy.replica.inventoryitem:GetImage()
+									build  = copy.replica.inventoryitem:GetHuaAtlas()
+								end
+								copy:Remove()
+								break
+							end
 						end
 					end
 				end
@@ -77,18 +83,12 @@ local function bugu(inst)
 	end
 end
 local function onsave(inst, data)
-    if inst.components.burnable ~= nil and inst.components.burnable:IsBurning() or inst:HasTag("burnt") then
-        data.burnt = true
-    end
 	if inst:HasTag("nohuaminisign") then
 		data.nohuaminisign = true
 	end
 end
 
 local function onload(inst, data)
-    if data ~= nil and data.burnt and inst.components.burnable ~= nil then
-        inst.components.burnable.onburnt(inst)
-    end
 	if data ~= nil and data.nohuaminisign then
 		inst:AddTag("nohuaminisign")
 	end
@@ -119,8 +119,22 @@ local function draw(inst)
 	end
 	
 	if inst.prefab == "treasurechest" then
-		inst.OnSave = onsave
-		inst.OnLoad = onload
+		
+		local oldsave = inst.OnSave
+		inst.OnSave = function(inst,data)
+			if oldsave ~= nil then
+				oldsave(inst,data)
+			end
+			onsave(inst,data)
+		end
+
+		local oldload = inst.OnLoad
+		inst.OnLoad = function(inst,data)
+			if oldload ~= nil then
+				oldload(inst,data)
+			end
+			onload(inst,data)
+		end
 	end
 end
 

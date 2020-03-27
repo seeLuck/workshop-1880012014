@@ -25,7 +25,7 @@ AddComponentPostInit("boatphysics",function(self,inst)
     end
 end)
 
-AddSimPostInit(function()
+AddPrefabPostInit("world",function()
     local WALKABLE_PLATFORM_TAGS={"walkableplatform"}
     GLOBAL.Map.GetPlatformAtPoint=function(self,pos_x,pos_y, pos_z, extra_radius)
         if pos_z == nil then
