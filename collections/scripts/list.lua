@@ -6,3 +6,4 @@ Trashcan 1.0.2
 Epic HealthBar 1.5
 Extra Equip Slots 1.8.0
 Large Boat 1.05
+Farmer 4.3

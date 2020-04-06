@@ -26,6 +26,10 @@ if GetModConfigData("dart") then
 	modimport("scripts/dart.lua")
 end
 
+if GetModConfigData("farmer") then
+	modimport("scripts/farmer.lua")
+end
+
 modimport("scripts/trashcan.lua")
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
