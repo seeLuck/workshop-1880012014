@@ -9,8 +9,8 @@ local STOP_RUN_DIST = 10
 local SEE_PLAYER_DIST = 5
 local SEE_FOOD_DIST = 15
 local near = 20
-local SEE_BUSH_DIST = 25
-local SEE_SHRINE_DIST = 25
+local SEE_BUSH_DIST = 30
+local SEE_SHRINE_DIST = 30
 local MIN_SHRINE_WANDER_DIST = 4
 local MAX_SHRINE_WANDER_DIST = 15
 local MAX_WANDER_DIST = 20
@@ -23,55 +23,55 @@ local COOLING_TIME = 5 -- 说话冷却时间
 
 
 local prefabName = {
-    "berries"
-    ,"berries_juicy"
-    ,"cutgrass"
-    , "twigs"
-    ,"bird_egg"
-    ,"seeds"
+    -- "berries"
+    -- ,"berries_juicy"
+    "cutgrass"
+    ,"twigs"
+    -- ,"bird_egg"
+    -- ,"seeds"
     ,"poop"
-    , "honey"
+    ,"honey"
     ,"pinecone"
     ,"log"
-    ,"blue_cap"
-    , "green_cap"
-    ,"red_cap"
-    ,"drumstick"
+    -- ,"blue_cap"
+    -- , "green_cap"
+    -- ,"red_cap"
+    -- ,"drumstick"
     ,"spoiled_food"
-    ,"carrot"
-    ,"watermelon"
-    ,"boards"
-    ,"dragonfruit"
-    ,"corn"
+    -- ,"carrot"
+    -- ,"watermelon"
+    -- ,"boards"
+    -- ,"dragonfruit"
+    -- ,"corn"
     ,"froglegs"
     ,"livinglog"
-    ,"guano"
-    ,"bird_egg"
-    ,"rottenegg"
+    -- ,"guano"
+    -- ,"bird_egg"
+    -- ,"rottenegg"
     ,"charcoal"
     ,"twiggy_nut"
     ,"acorn"
-    ,"eggplant"
-    ,"durian"
-    ,"pumpkin"
-    ,"dug_sapling"
-    ,"dug_sapling_moon"
-    ,"dug_berrybush"
-    ,"dug_berrybush2"
-    ,"dug_berrybush_juicy"
-    ,"dug_grass"
-    ,"dug_marsh_bush"
+    -- ,"eggplant"
+    -- ,"durian"
+    -- ,"pumpkin"
+    -- ,"dug_sapling"
+    -- ,"dug_sapling_moon"
+    -- ,"dug_berrybush"
+    -- ,"dug_berrybush2"
+    -- ,"dug_berrybush_juicy"
+    -- ,"dug_grass"
+    -- ,"dug_marsh_bush"
     ,"meat"
     ,"monstermeat"
-    ,"pomegranate"
-    ,"fertilizer"
-    ,"nitre"
+    -- ,"pomegranate"
+    -- ,"fertilizer"
+    -- ,"nitre"
     ,"flint"
     ,"rocks"
     ,"marble"
     ,"marblebean"
     ,"goldnugget"
-    ,"peach"
+    -- ,"peach"
 }
 
 local excludes = { "INLIMBO","burnt","oldfish_farmer","oldfish_farmhome","insect", "playerghost","animal","player","spider" }
@@ -135,12 +135,12 @@ local function IsPrefab(item, inst)
         end
     end
 
-    if item.prefab ~= nil then
-        local result = string.find(item.prefab, "seeds")
-        if result ~= nil then
-            return true
-        end
-    end
+    -- if item.prefab ~= nil then
+    --     local result = string.find(item.prefab, "seeds")
+    --     if result ~= nil then
+    --         return true
+    --     end
+    -- end
 
     return false
 end
@@ -154,9 +154,8 @@ local function HasBerry(item, inst)
     if not item:IsNear(inst.myHome, near) then
         return
     end
-    if item.components.dryer then
-        return item:HasTag("dried")
-    elseif item.components.harvestable
+
+    if item.components.harvestable
             and item.components.harvestable:CanBeHarvested()
             and (item:HasTag("beebox") or item:HasTag("mushroom_farm")) then
         return true
@@ -164,6 +163,8 @@ local function HasBerry(item, inst)
         if item.components.crop:IsReadyForHarvest() or item:HasTag("withered") then
             return true
         end
+    elseif item.components.dryer then
+        return item:HasTag("dried")
     else
         if item.components.pickable ~= nil then
             return item.components.pickable.canbepicked
@@ -298,18 +299,19 @@ local function makeNewPlantAction(inst)
     end
 
     local seends = inst.components.container:FindItem(function(v)
-        return v.prefab == "dug_sapling"
-                or v.prefab == "dug_sapling_moon"
-                or v.prefab == "dug_berrybush"
-                or v.prefab == "dug_berrybush2"
-                or v.prefab == "dug_berrybush_juicy"
-                or v.prefab == "dug_marsh_bush"
-                or v.prefab == "dug_grass"
-                or v.prefab == "pinecone"
-                or v.prefab == "twiggy_nut"
-                or v.prefab == "acorn"
-                or v.prefab == "marblebean"
-                or v.prefab == "peach"
+        return v.prefab == "pinecone" or v.prefab == "marblebean"
+        -- return v.prefab == "dug_sapling"
+        --         or v.prefab == "dug_sapling_moon"
+        --         or v.prefab == "dug_berrybush"
+        --         or v.prefab == "dug_berrybush2"
+        --         or v.prefab == "dug_berrybush_juicy"
+        --         or v.prefab == "dug_marsh_bush"
+        --         or v.prefab == "dug_grass"
+        --         or v.prefab == "pinecone"
+        --         or v.prefab == "twiggy_nut"
+        --         or v.prefab == "acorn"
+        --         or v.prefab == "marblebean"
+        --         or v.prefab == "peach"
     end)
 
     local lcoalPos = inst.myHome:GetPosition()
@@ -359,17 +361,17 @@ local function PickBerriesAction(inst)
 
     local target = FindEntity(inst, SEE_BUSH_DIST, HasBerry, nil ,excludes)
     if target then
-        if target:HasTag("dried") then
+        if target:HasTag("beebox") and target.components.harvestable.produce >= 6 then
             return BufferedAction(inst, target, ACTIONS.HARVEST)
-        elseif target:HasTag("beebox") and target.components.harvestable.produce >= 6 then
+        elseif target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6 then
+            return BufferedAction(inst, target, ACTIONS.HARVEST)
+        elseif target:HasTag("dried") then
             return BufferedAction(inst, target, ACTIONS.HARVEST)
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
                 return BufferedAction(inst, target, ACTIONS.HARVEST)
             end
-        elseif target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 4 then
-            return BufferedAction(inst, target, ACTIONS.HARVEST)
-        elseif  target.components.pickable then
+        elseif target.components.pickable then
             return BufferedAction(inst, target, ACTIONS.PICK)
         end
     end
@@ -418,81 +420,80 @@ local function canPlant(inst)
         end
     end
 
-    local target = FindEntity(inst, SEE_BUSH_DIST, hasFarm, {"structure"}, excludes)
-    if target and target.components.grower ~= nil then
+    -- local target = FindEntity(inst, SEE_BUSH_DIST, hasFarm, {"structure"}, excludes)
+    -- if target and target.components.grower ~= nil then
 
-        if target.components.crop then
-            if target.components.crop.onwithered == nil then
-                return
-            end
-        end
-
-
-        if target.prefab == "slow_farmplot" or target.prefab == "fast_farmplot" then
-            if target.components.grower:GetFertilePercent() < 0.5 then
-                local seends = inst.components.container:FindItem(function(v)
-                    return v.prefab == "fertilizer"
-                end)
-                -- if seends == nil then
-                --     speak(inst,STRINGS.FERTILIZER_NOTIFICATION)
-                -- else
-                --     return BufferedAction(inst, target, ACTIONS.AUTO_FERTILIZE, seends)
-                -- end
-                if seends ~= nil and seends.components ~= nil and seends.components.fertilizer ~= nil then
-                    return BufferedAction(inst, target, ACTIONS.AUTO_FERTILIZE, seends)
-                else
-                    speak(inst,STRINGS.FERTILIZER_NOTIFICATION)
-                end
-            end
-
-            if target.components.grower:IsEmpty() then
-
-                if TheWorld.state.iswinter then
-                    return
-                end
-
-                local seends = inst.components.container:FindItem(function(v)
-                    return string.find(v.prefab, "seeds") ~= nil
-                            and v.components.deployable ~= nil
-                            and v.components.deployable.ondeploy  ~= nil
-                            and v.components.deployable.mode == DEPLOYMODE.PLANT
-                end)
-                if seends == nil then
-                    speak(inst,STRINGS.PLANT_NOTIFICATION)
-                else
-                    return BufferedAction(inst, target, ACTIONS.AUTO_PLANT,seends)
-                end
-            end
-        end
-    end
+    --     if target.components.crop then
+    --         if target.components.crop.onwithered == nil then
+    --             return
+    --         end
+    --     end
 
 
-    local target = FindEntity(inst, SEE_BUSH_DIST, hasMushroomFarm, {"oldfish_mushroom_farm"}, excludes)
-    if target and target.components.harvestable and target.components.harvestable.produce == 0 then
-        if target.prefab == "mushroom_farm" then
-            local seends
-            if target.remainingharvests == 0 then
-                seends = inst.components.container:FindItem(function(v)
-                    return v.prefab == "livinglog"
-                end)
-                if seends == nil then
-                    speak(inst,STRINGS.ACTIVATE_MUSHROOM)
-                end
-            else
-                seends = inst.components.container:FindItem(function(v)
-                    return v.prefab == "blue_cap"
-                            or v.prefab == "green_cap"
-                            or v.prefab == "red_cap"
-                end)
-            end
-            if seends then
-                if TheWorld.state.iswinter then
-                    return
-                end
-                return BufferedAction(inst, target, ACTIONS.GIVE,seends)
-            end
-        end
-    end
+    --     if target.prefab == "slow_farmplot" or target.prefab == "fast_farmplot" then
+    --         if target.components.grower:GetFertilePercent() < 0.5 then
+    --             local seends = inst.components.container:FindItem(function(v)
+    --                 return v.prefab == "poop"
+    --                         or v.prefab == "spoiled_food"
+    --                         or v.prefab == "guano"
+    --                         or v.prefab == "rottenegg"
+    --                         or v.prefab == "fertilizer"
+    --             end)
+    --             if seends == nil then
+    --                 speak(inst,STRINGS.FERTILIZER_NOTIFICATION)
+    --             else
+    --                 return BufferedAction(inst, target, ACTIONS.AUTO_FERTILIZE, seends)
+    --             end
+    --         end
+
+    --         if target.components.grower:IsEmpty() then
+
+    --             if TheWorld.state.iswinter then
+    --                 return
+    --             end
+
+    --             local seends = inst.components.container:FindItem(function(v)
+    --                 return string.find(v.prefab, "seeds") ~= nil
+    --                         and v.components.deployable ~= nil
+    --                         and v.components.deployable.ondeploy  ~= nil
+    --                         and v.components.deployable.mode == DEPLOYMODE.PLANT
+    --             end)
+    --             if seends == nil then
+    --                 speak(inst,STRINGS.PLANT_NOTIFICATION)
+    --             else
+    --                 return BufferedAction(inst, target, ACTIONS.AUTO_PLANT,seends)
+    --             end
+    --         end
+    --     end
+    -- end
+
+
+    -- local target = FindEntity(inst, SEE_BUSH_DIST, hasMushroomFarm, {"oldfish_mushroom_farm"}, excludes)
+    -- if target and target.components.harvestable and target.components.harvestable.produce == 0 then
+    --     if target.prefab == "mushroom_farm" then
+    --         local seends
+    --         if target.remainingharvests == 0 then
+    --             seends = inst.components.container:FindItem(function(v)
+    --                 return v.prefab == "livinglog"
+    --             end)
+    --             if seends == nil then
+    --                 speak(inst,STRINGS.ACTIVATE_MUSHROOM)
+    --             end
+    --         else
+    --             seends = inst.components.container:FindItem(function(v)
+    --                 return v.prefab == "blue_cap"
+    --                         or v.prefab == "green_cap"
+    --                         or v.prefab == "red_cap"
+    --             end)
+    --         end
+    --         if seends then
+    --             if TheWorld.state.iswinter then
+    --                 return
+    --             end
+    --             return BufferedAction(inst, target, ACTIONS.GIVE,seends)
+    --         end
+    --     end
+    -- end
 
 end
 
@@ -501,29 +502,33 @@ local function needFertilize(inst)
         return
     end
 
-    -- local target = FindEntity(inst, SEE_BUSH_DIST, isfiresuppressor, {"oldfish_firesuppressor"}, excludes)
-    -- if target then
-    --     if target.prefab == "firesuppressor" then
-    --         if target.components.fueled ~= nil
-    --             and target.components.fueled.currentfuel / target.components.fueled.maxfuel < 0.5 then
-    --             local seends = inst.components.container:FindItem(function(v)
-    --                 return v.components.fuel ~= nil
-    --             end)
-    --             if seends == nil then
-    --                 speak(inst,STRINGS.FIRESUPPRESSOR_FUEL)
-    --             else
-    --                 return BufferedAction(inst, target, ACTIONS.ADDFUEL, seends)
-    --             end
-    --         end
-    --     end
-    -- end
+    local target = FindEntity(inst, SEE_BUSH_DIST, isfiresuppressor, {"oldfish_firesuppressor"}, excludes)
+    if target then
+        if target.prefab == "firesuppressor" then
+            if target.components.fueled ~= nil
+                and target.components.fueled.currentfuel / target.components.fueled.maxfuel < 0.5 then
+                local seends = inst.components.container:FindItem(function(v)
+                    return v.components.fuel ~= nil
+                end)
+                if seends == nil then
+                    speak(inst,STRINGS.FIRESUPPRESSOR_FUEL)
+                else
+                    return BufferedAction(inst, target, ACTIONS.ADDFUEL, seends)
+                end
+            end
+        end
+    end
 
     local target = FindEntity(inst, SEE_BUSH_DIST, needActivation, {"plant"}, excludes)
     if target and target.components.pickable ~= nil and  target.components.pickable:CanBeFertilized() then
         local seends = inst.components.container:FindItem(function(v)
-            return v.prefab == "fertilizer"
+            return v.prefab == "poop"
+                    or v.prefab == "spoiled_food"
+                    or v.prefab == "guano"
+                    or v.prefab == "rottenegg"
+                    or v.prefab == "fertilizer"
         end)
-        if seends ~= nil and seends.components ~= nil and seends.components.fertilizer ~= nil then
+        if seends then
             return BufferedAction(inst, target, ACTIONS.AUTO_FERTILIZE, seends)
         end
     end
@@ -540,7 +545,7 @@ local function chopTree(inst)
     local target = FindEntity(inst, SEE_BUSH_DIST, hasTree, nil, excludes)
     if target then
         if not target:HasTag("stump") then
-            if target.components.growable and target.components.growable.stage == 3  then
+            if target.components.growable and target.components.growable.stage >= 3  then
                 changeEquipment(inst,"axe")
                 return BufferedAction(inst, target, ACTIONS.CHOP)
             end
@@ -603,14 +608,14 @@ function farmerBrain:OnStart()
                 return self.inst.myHome end, "approach home",
                 PriorityNode({
                     EventNode(self.inst, "gohome", DoAction(self.inst, goHomeAction, "go home", true )),
-                    DoAction(self.inst, isDiseased, "is diseased", true),
-                    DoAction(self.inst, makeNewPlantAction, "plannt pos", true),
-                    DoAction(self.inst, needFertilize, "need fertilize", true),
-                    DoAction(self.inst, canPlant, "can plant", true),
-                    DoAction(self.inst, pickUpAction, "pick up", true),
+                    --DoAction(self.inst, isDiseased, "is diseased", true),
+                    --DoAction(self.inst, needFertilize, "need fertilize", true),
                     DoAction(self.inst, PickBerriesAction, "Pick Thing", true),
+                    DoAction(self.inst, canPlant, "can plant", true),
                     DoAction(self.inst, chopTree, "chop tree", true),
                     DoAction(self.inst, mineRock, "mine rock", true),
+                    DoAction(self.inst, pickUpAction, "pick up", true),
+                    DoAction(self.inst, makeNewPlantAction, "plannt pos", true),
                     Leash(self.inst, getNoLeaderHomePos, MAX_SHRINE_WANDER_DIST, MIN_SHRINE_WANDER_DIST),
                     Wander(self.inst, getNoLeaderHomePos, MAX_SHRINE_WANDER_DIST - MIN_SHRINE_WANDER_DIST,{ minwaittime = SHRINE_LOITER_TIME * .5, randwaittime = SHRINE_LOITER_TIME_VAR })
                 }, .2)

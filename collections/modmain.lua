@@ -33,3 +33,4 @@ end
 modimport("scripts/trashcan.lua")
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
+TUNING.MUTE_BEE = GetModConfigData("mutebee")
