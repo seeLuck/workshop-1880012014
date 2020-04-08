@@ -169,3 +169,26 @@ for k,v in ipairs(needTags) do
         inst:AddTag("oldfish_"..v)
     end)
 end
+
+local function NormalRetargetFn(inst)
+    return not inst:IsInLimbo()
+        and FindEntity(
+                inst,
+                TUNING.PIG_TARGET_DIST,
+                function(guy)
+                    return inst.components.combat:CanTarget(guy)
+                        and (guy:HasTag("monster") or guy:HasTag("oldfish_farmer")
+                            or (guy.components.inventory ~= nil and
+                                guy:IsNear(inst, TUNING.BUNNYMAN_SEE_MEAT_DIST) and
+                                guy.components.inventory:FindItem(is_meat) ~= nil))
+                end,
+                { "_combat", "_health" }, -- see entityreplica.lua
+                nil,
+                { "oldfish_farmer", "monster", "player" }
+            )
+        or nil
+end
+
+AddPrefabPostInit("bunnyman", function(inst)
+    inst.components.combat:SetRetargetFunction(3, NormalRetargetFn)
+end)

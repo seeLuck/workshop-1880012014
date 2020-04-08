@@ -30,6 +30,10 @@ local prefabName = {
     -- ,"bird_egg"
     -- ,"seeds"
     ,"poop"
+    ,"guano"
+    ,"manrabbit_tail"
+    ,"stinger"
+    ,"houndstooth"
     ,"honey"
     ,"pinecone"
     ,"log"
@@ -38,14 +42,13 @@ local prefabName = {
     -- ,"red_cap"
     -- ,"drumstick"
     ,"spoiled_food"
-    -- ,"carrot"
+    ,"carrot"
     -- ,"watermelon"
     -- ,"boards"
     -- ,"dragonfruit"
     -- ,"corn"
     ,"froglegs"
     ,"livinglog"
-    -- ,"guano"
     -- ,"bird_egg"
     -- ,"rottenegg"
     ,"charcoal"
@@ -165,6 +168,8 @@ local function HasBerry(item, inst)
         end
     elseif item.components.dryer then
         return item:HasTag("dried")
+    elseif item.components.stewer then
+        return item.components.stewer:IsDone()
     else
         if item.components.pickable ~= nil then
             return item.components.pickable.canbepicked
@@ -373,10 +378,8 @@ local function PickBerriesAction(inst)
             or target:HasTag("dried")) 
             and not target:HasTag("burnt") then   
             return BufferedAction(inst, target, ACTIONS.HARVEST)
-        elseif target.components.stewer ~= nil then
-            if target.components.stewer:HasTag("donecooking") then
-                return BufferedAction(inst, target, ACTIONS.HARVEST)
-            end
+        elseif target.components.stewer ~= nil and target.components.stewer:IsDone() then
+            return BufferedAction(inst, target, ACTIONS.HARVEST)
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
                 return BufferedAction(inst, target, ACTIONS.HARVEST)

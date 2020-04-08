@@ -28,7 +28,7 @@ local function OnLoadPostPass(inst, newents, data)
 end
 
 local function OnAttacked(inst, data)
-    if data.attacker.prefab == "marsh_bush" then
+    if data.attacker.prefab == "bunnyman" or data.attacker.prefab == "bee" or data.attacker.prefab == "leif" then
         return
     end
     inst:PushEvent("gohome")
