@@ -28,8 +28,7 @@ local function OnLoadPostPass(inst, newents, data)
 end
 
 local function OnAttacked(inst, data)
-    if data.attacker.prefab == "bunnyman" then
-        inst.components.combat:SetTarget(data.attacker)
+    if data.attacker.prefab == "marsh_bush" then
         return
     end
     inst:PushEvent("gohome")
@@ -125,22 +124,9 @@ local function fn()
         end)
     end
 
-    local function NormalKeepTargetFn(inst, target)
-        return not (target.sg ~= nil and target.sg:HasStateTag("hiding")) and inst.components.combat:CanTarget(target)
-    end
 
-    local function NormalRetargetFn(inst)
-        return FindEntity(
-                    inst,
-                    TUNING.PIG_TARGET_DIST,
-                    function(guy)
-                        return inst.components.combat:CanTarget(guy)
-                            and guy.prefab == "bunnyman"
-                    end,
-                    { "_combat", "_health" }, -- see entityreplica.lua
-                    nil
-                )
-    end
+
+
 
     inst:AddComponent("locomotor")
     inst.components.locomotor.runspeed = TUNING.PERD_RUN_SPEED
@@ -162,12 +148,13 @@ local function fn()
 
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "pig_torso"
-    inst.components.health:SetMaxHealth(9999)
-    inst.components.combat:SetDefaultDamage(250)
-    inst.components.combat:SetAttackPeriod(1)
-    inst.components.combat:SetKeepTargetFunction(NormalKeepTargetFn)
-    inst.components.combat:SetRetargetFunction(3, NormalRetargetFn)
-    
+    inst.components.health:SetMaxHealth(1000)
+    inst.components.combat:SetDefaultDamage(1)
+    inst.components.combat:SetAttackPeriod(10)
+
+    inst:AddComponent("damagereflect")
+    inst.components.damagereflect:SetDefaultDamage(150)
+
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetLoot(loot)
 

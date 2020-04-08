@@ -361,11 +361,18 @@ local function PickBerriesAction(inst)
 
     local target = FindEntity(inst, SEE_BUSH_DIST, HasBerry, nil ,excludes)
     if target then
-        if target:HasTag("beebox") and target.components.harvestable.produce >= 6 then
-            return BufferedAction(inst, target, ACTIONS.HARVEST)
-        elseif target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6 then
-            return BufferedAction(inst, target, ACTIONS.HARVEST)
-        elseif target:HasTag("dried") then
+        -- if target:HasTag("beebox") and target.components.harvestable.produce >= 6 then
+        --     return BufferedAction(inst, target, ACTIONS.HARVEST)
+        -- elseif target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6 then
+        --     return BufferedAction(inst, target, ACTIONS.HARVEST)
+        -- elseif target:HasTag("dried") then
+        --     return BufferedAction(inst, target, ACTIONS.HARVEST)
+
+        if ((target:HasTag("beebox") and target.components.harvestable.produce >= 6)
+            or (target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6)
+            or target:HasTag("dried")
+            or target:HasTag("donecooking")) 
+            and not target:HasTag("burnt") then   
             return BufferedAction(inst, target, ACTIONS.HARVEST)
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
