@@ -28,7 +28,8 @@ local function OnLoadPostPass(inst, newents, data)
 end
 
 local function OnAttacked(inst, data)
-    if data.attacker.prefab == "marsh_bush" then
+    if data.attacker.prefab == "bunnyman" then
+        inst.components.combat:SetTarget(data.attacker)
         return
     end
     inst:PushEvent("gohome")
@@ -148,9 +149,9 @@ local function fn()
 
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "pig_torso"
-    inst.components.health:SetMaxHealth(300)
-    inst.components.combat:SetDefaultDamage(1)
-    inst.components.combat:SetAttackPeriod(10)
+    inst.components.health:SetMaxHealth(9999)
+    inst.components.combat:SetDefaultDamage(250)
+    inst.components.combat:SetAttackPeriod(1)
 
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetLoot(loot)
