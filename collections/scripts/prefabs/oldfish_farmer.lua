@@ -60,6 +60,12 @@ local function OnPreLoad(inst, data)
 
 end
 
+local function ReflectDamageFn(inst, attacker, damage, weapon, stimuli)
+    if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" then
+        return 1000
+    end
+end
+
 local function fn()
     local inst = CreateEntity()
     inst.entity:AddTransform()
@@ -148,12 +154,12 @@ local function fn()
 
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "pig_torso"
-    inst.components.health:SetMaxHealth(1000)
+    inst.components.health:SetMaxHealth(300)
     inst.components.combat:SetDefaultDamage(1)
     inst.components.combat:SetAttackPeriod(10)
 
     inst:AddComponent("damagereflect")
-    inst.components.damagereflect:SetDefaultDamage(150)
+    inst.components.damagereflect:SetReflectDamageFn(ReflectDamageFn)
 
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetLoot(loot)

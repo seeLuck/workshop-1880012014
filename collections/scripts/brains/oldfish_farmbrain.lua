@@ -370,15 +370,18 @@ local function PickBerriesAction(inst)
 
         if ((target:HasTag("beebox") and target.components.harvestable.produce >= 6)
             or (target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6)
-            or target:HasTag("dried")
-            or target:HasTag("donecooking")) 
+            or target:HasTag("dried")) 
             and not target:HasTag("burnt") then   
             return BufferedAction(inst, target, ACTIONS.HARVEST)
+        elseif target.components.stewer ~= nil then
+            if target.components.stewer:HasTag("donecooking") then
+                return BufferedAction(inst, target, ACTIONS.HARVEST)
+            end
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
                 return BufferedAction(inst, target, ACTIONS.HARVEST)
             end
-        elseif target.components.pickable then
+        elseif target.components.pickable and not target:HasTag("fire") then
             return BufferedAction(inst, target, ACTIONS.PICK)
         end
     end
