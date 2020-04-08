@@ -62,7 +62,7 @@ end
 
 local function ReflectDamageFn(inst, attacker, damage, weapon, stimuli)
     if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" then
-        return 1000
+        return 5000
     end
 end
 

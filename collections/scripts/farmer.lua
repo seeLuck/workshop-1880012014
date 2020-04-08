@@ -170,6 +170,10 @@ for k,v in ipairs(needTags) do
     end)
 end
 
+local function is_meat(item)
+    return item.components.edible ~= nil and item.components.edible.foodtype == FOODTYPE.MEAT and not item:HasTag("smallcreature")
+end
+
 local function NormalRetargetFn(inst)
     return not inst:IsInLimbo()
         and FindEntity(
@@ -190,5 +194,25 @@ local function NormalRetargetFn(inst)
 end
 
 AddPrefabPostInit("bunnyman", function(inst)
-    inst.components.combat:SetRetargetFunction(3, NormalRetargetFn)
+    if inst.components.combat ~= nil then
+        inst.components.combat:SetRetargetFunction(3, NormalRetargetFn)
+    end
+end)
+
+AddComponentPostInit("combat",function(inst)
+	if not GLOBAL.TheWorld.ismastersim then
+		return
+	end
+	local oldbonusdamagefn = inst.bonusdamagefn
+	inst.bonusdamagefn = function(attacker, target, damage, weapon)
+		local bonus = 0
+		if oldbonusdamagefn then
+			bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
+		end
+		if target.prefab == "oldfish_farmer" and (attacker.prefab == "bunnyman" or
+		attacker.prefab == "bee" or attacker.prefab == "leif") then
+			bonus = 1 - damage
+		end
+		return bonus
+	end
 end)
