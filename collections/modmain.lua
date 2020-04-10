@@ -30,7 +30,10 @@ if GetModConfigData("farmer") then
 	modimport("scripts/farmer.lua")
 end
 
-modimport("scripts/trashcan.lua")
+if GetModConfigData("trashcan") then
+	modimport("scripts/trashcan.lua")
+end
+
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
 TUNING.MUTE_BEE = GetModConfigData("mutebee")
