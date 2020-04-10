@@ -210,8 +210,8 @@ AddComponentPostInit("combat",function(inst)
 			bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
 		end
 		if target.prefab == "oldfish_farmer" and (attacker.prefab == "bunnyman" or
-		attacker.prefab == "bee" or attacker.prefab == "leif") then
-			bonus = 1 - damage
+		attacker.prefab == "bee" or attacker.prefab == "leif" or attacker.prefab == "frog") then
+			bonus = 0 - damage
 		end
 		return bonus
 	end

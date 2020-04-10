@@ -28,7 +28,8 @@ local function OnLoadPostPass(inst, newents, data)
 end
 
 local function OnAttacked(inst, data)
-    if data.attacker.prefab == "bunnyman" or data.attacker.prefab == "bee" or data.attacker.prefab == "leif" then
+    if data.attacker.prefab == "bunnyman" or data.attacker.prefab == "bee" or data.attacker.prefab == "leif" 
+    or data.attacker.prefab == "frog" then
         return
     end
     inst:PushEvent("gohome")
@@ -61,7 +62,8 @@ local function OnPreLoad(inst, data)
 end
 
 local function ReflectDamageFn(inst, attacker, damage, weapon, stimuli)
-    if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" then
+    if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" 
+    or attacker.prefab == "frog" then
         return 5000
     end
 end

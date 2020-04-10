@@ -151,7 +151,7 @@ local function fn()
     inst.AnimState:SetBank("farm_home")
     inst.AnimState:SetBuild("farm_home")
     inst.AnimState:PlayAnimation("idle")
-    inst.AnimState:SetScale(1.8, 1.8)
+    inst.AnimState:SetScale(PLACER_SCALE, PLACER_SCALE)
     inst.AnimState:OverrideSymbol("swap_meter", "firefighter_meter", "10")
 
     local minimap = inst.entity:AddMiniMapEntity()
@@ -232,7 +232,7 @@ local function placer_postinit_fn(inst)
     placer2.AnimState:SetBuild("farm_home")
     placer2.AnimState:PlayAnimation("idle")
     placer2.AnimState:SetLightOverride(1)
-    placer2.AnimState:SetScale(1.8, 1.8)
+    placer2.AnimState:SetScale(PLACER_SCALE, PLACER_SCALE)
 
     placer2.entity:SetParent(inst.entity)
 
