@@ -54,6 +54,10 @@ local prefabName = {
     ,"charcoal"
     ,"twiggy_nut"
     ,"acorn"
+    ,"silk"
+    ,"spidergland"
+    ,"spidereggsack"
+    ,"spiderhat"
     -- ,"eggplant"
     -- ,"durian"
     -- ,"pumpkin"
@@ -304,7 +308,12 @@ local function makeNewPlantAction(inst)
     end
 
     local seends = inst.components.container:FindItem(function(v)
-        return v.prefab == "pinecone" or v.prefab == "marblebean"
+        return (v.prefab == "pinecone" and 
+        inst.components.container:GetItemInSlot(1) ~= nil and 
+        inst.components.container:GetItemInSlot(1).prefab == "log") or 
+        (v.prefab == "marblebean" and 
+        inst.components.container:GetItemInSlot(2) ~= nil and 
+        inst.components.container:GetItemInSlot(2).prefab == "marble")
         -- return v.prefab == "dug_sapling"
         --         or v.prefab == "dug_sapling_moon"
         --         or v.prefab == "dug_berrybush"

@@ -170,6 +170,60 @@ for k,v in ipairs(needTags) do
     end)
 end
 
+local function FindTarget(inst, radius)
+    return FindEntity(
+        inst,
+        SpringCombatMod(radius),
+        function(guy)
+            return (not guy:HasTag("monster") or guy:HasTag("player") or guy:HasTag("oldfish_farmer"))
+                and inst.components.combat:CanTarget(guy)
+                and not (inst.components.follower ~= nil and inst.components.follower.leader == guy)
+        end,
+        { "_combat", "character" },
+        { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
+        { "oldfish_farmer", "player" }
+    )
+end
+
+local function NormalRetarget(inst)
+    return FindTarget(inst, inst.components.knownlocations:GetLocation("investigate") ~= nil and TUNING.SPIDER_INVESTIGATETARGET_DIST or TUNING.SPIDER_TARGET_DIST)
+end
+
+AddPrefabPostInit("spider", function(inst)
+    if inst.components.combat ~= nil then
+        inst.components.combat:SetRetargetFunction(1, NormalRetarget)
+    end
+end)
+AddPrefabPostInit("spider_warrior", function(inst)
+    if inst.components.combat ~= nil then
+        inst.components.combat:SetRetargetFunction(1, NormalRetarget)
+    end
+end)
+
+local function Retarget(inst)
+    if not inst.components.health:IsDead() and not inst.components.sleeper:IsAsleep() then
+        local oldtarget = inst.components.combat.target
+        local newtarget = FindEntity(inst, 10, 
+            function(guy) 
+                return (not guy:HasTag("monster") or guy:HasTag("player") or guy:HasTag("oldfish_farmer"))
+                    and inst.components.combat:CanTarget(guy) 
+            end,
+            { "character", "_combat" },
+            { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
+            { "oldfish_farmer", "player" }
+        )
+
+        if newtarget ~= nil and newtarget ~= oldtarget then
+            inst.components.combat:SetTarget(newtarget)
+        end
+    end
+end
+AddPrefabPostInit("spiderqueen", function(inst)
+    if inst.components.combat ~= nil then
+        inst.components.combat:SetRetargetFunction(3, Retarget)
+    end
+end)
+
 local function is_meat(item)
     return item.components.edible ~= nil and item.components.edible.foodtype == FOODTYPE.MEAT and not item:HasTag("smallcreature")
 end
@@ -210,7 +264,8 @@ AddComponentPostInit("combat",function(inst)
 			bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
 		end
 		if target.prefab == "oldfish_farmer" and (attacker.prefab == "bunnyman" or
-		attacker.prefab == "bee" or attacker.prefab == "leif" or attacker.prefab == "frog") then
+        attacker.prefab == "bee" or attacker.prefab == "leif" or attacker.prefab == "frog" or 
+        attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or attacker.prefab == "spiderqueen") then
 			bonus = 0 - damage
 		end
 		return bonus
