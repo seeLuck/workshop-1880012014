@@ -176,10 +176,11 @@ local function FindTarget(inst, radius)
         SpringCombatMod(radius),
         function(guy)
             return inst.components.combat:CanTarget(guy) and 
-            (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) or 
-            (guy:HasTag("oldfish_farmer") and 
-            guy.components.container:GetItemInSlot(4) ~= nil and 
-            guy.components.container:GetItemInSlot(4).prefab == "spear"))
+            (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) 
+            or (guy:HasTag("oldfish_farmer") and 
+                guy.components.container:GetItemInSlot(4) ~= nil and 
+                guy.components.container:GetItemInSlot(4).prefab == "spear")
+            )
         end,
         { "_combat", "character" },
         { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
@@ -208,10 +209,11 @@ local function QueenTarget(inst)
         local newtarget = FindEntity(inst, 10, 
             function(guy) 
                 return inst.components.combat:CanTarget(guy) and 
-                (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) or 
-                (guy:HasTag("oldfish_farmer") and 
-                guy.components.container:GetItemInSlot(4) ~= nil and 
-                guy.components.container:GetItemInSlot(4).prefab == "spear"))
+                (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) 
+                or (guy:HasTag("oldfish_farmer") and 
+                    guy.components.container:GetItemInSlot(4) ~= nil and 
+                    guy.components.container:GetItemInSlot(4).prefab == "spear")
+                )
             end,
             { "character", "_combat" },
             { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
@@ -239,15 +241,16 @@ local function BunnymanTarget(inst)
                 inst,
                 TUNING.PIG_TARGET_DIST,
                 function(guy)
-                    return inst.components.combat:CanTarget(guy)
-                        and (guy:HasTag("monster") or 
-                        (guy:HasTag("oldfish_farmer") and 
+                    return inst.components.combat:CanTarget(guy) and 
+                    (guy:HasTag("monster") 
+                    or (guy:HasTag("oldfish_farmer") and 
                         guy.components.container:GetItemInSlot(3) ~= nil and 
                         guy.components.container:GetItemInSlot(3).prefab == "hammer")
-                            or (not guy:HasTag("oldfish_farmer") and
-                                guy.components.inventory ~= nil and
-                                guy:IsNear(inst, TUNING.BUNNYMAN_SEE_MEAT_DIST) and
-                                guy.components.inventory:FindItem(is_meat) ~= nil))
+                    or (not guy:HasTag("oldfish_farmer") and
+                        guy.components.inventory ~= nil and
+                        guy:IsNear(inst, TUNING.BUNNYMAN_SEE_MEAT_DIST) and
+                        guy.components.inventory:FindItem(is_meat) ~= nil)
+                    )
                 end,
                 { "_combat", "_health" }, -- see entityreplica.lua
                 nil,
