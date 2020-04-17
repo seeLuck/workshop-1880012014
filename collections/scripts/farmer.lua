@@ -175,12 +175,11 @@ local function FindTarget(inst, radius)
         inst,
         SpringCombatMod(radius),
         function(guy)
-            return (not guy:HasTag("monster") or guy:HasTag("player") or 
+            return inst.components.combat:CanTarget(guy) and 
+            (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) or 
             (guy:HasTag("oldfish_farmer") and 
             guy.components.container:GetItemInSlot(4) ~= nil and 
             guy.components.container:GetItemInSlot(4).prefab == "spear"))
-                and inst.components.combat:CanTarget(guy)
-                and not (inst.components.follower ~= nil and inst.components.follower.leader == guy)
         end,
         { "_combat", "character" },
         { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
@@ -208,11 +207,11 @@ local function QueenTarget(inst)
         local oldtarget = inst.components.combat.target
         local newtarget = FindEntity(inst, 10, 
             function(guy) 
-                return (not guy:HasTag("monster") or guy:HasTag("player") or 
+                return inst.components.combat:CanTarget(guy) and 
+                (not guy:HasTag("oldfish_farmer") and (not guy:HasTag("monster") or guy:HasTag("player")) or 
                 (guy:HasTag("oldfish_farmer") and 
                 guy.components.container:GetItemInSlot(4) ~= nil and 
                 guy.components.container:GetItemInSlot(4).prefab == "spear"))
-                    and inst.components.combat:CanTarget(guy) 
             end,
             { "character", "_combat" },
             { "spiderwhisperer", "spiderdisguise", "INLIMBO" },
@@ -245,7 +244,8 @@ local function BunnymanTarget(inst)
                         (guy:HasTag("oldfish_farmer") and 
                         guy.components.container:GetItemInSlot(3) ~= nil and 
                         guy.components.container:GetItemInSlot(3).prefab == "hammer")
-                            or (guy.components.inventory ~= nil and
+                            or (not guy:HasTag("oldfish_farmer") and
+                                guy.components.inventory ~= nil and
                                 guy:IsNear(inst, TUNING.BUNNYMAN_SEE_MEAT_DIST) and
                                 guy.components.inventory:FindItem(is_meat) ~= nil))
                 end,
