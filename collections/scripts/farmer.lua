@@ -175,7 +175,10 @@ local function FindTarget(inst, radius)
         inst,
         SpringCombatMod(radius),
         function(guy)
-            return (not guy:HasTag("monster") or guy:HasTag("player") or guy:HasTag("oldfish_farmer"))
+            return (not guy:HasTag("monster") or guy:HasTag("player") or 
+            (guy:HasTag("oldfish_farmer") and 
+            guy.components.container:GetItemInSlot(4) ~= nil and 
+            guy.components.container:GetItemInSlot(4).prefab == "spear"))
                 and inst.components.combat:CanTarget(guy)
                 and not (inst.components.follower ~= nil and inst.components.follower.leader == guy)
         end,
@@ -185,27 +188,30 @@ local function FindTarget(inst, radius)
     )
 end
 
-local function NormalRetarget(inst)
+local function SpiderTarget(inst)
     return FindTarget(inst, inst.components.knownlocations:GetLocation("investigate") ~= nil and TUNING.SPIDER_INVESTIGATETARGET_DIST or TUNING.SPIDER_TARGET_DIST)
 end
 
 AddPrefabPostInit("spider", function(inst)
     if inst.components.combat ~= nil then
-        inst.components.combat:SetRetargetFunction(1, NormalRetarget)
+        inst.components.combat:SetRetargetFunction(1, SpiderTarget)
     end
 end)
 AddPrefabPostInit("spider_warrior", function(inst)
     if inst.components.combat ~= nil then
-        inst.components.combat:SetRetargetFunction(1, NormalRetarget)
+        inst.components.combat:SetRetargetFunction(1, SpiderTarget)
     end
 end)
 
-local function Retarget(inst)
+local function QueenTarget(inst)
     if not inst.components.health:IsDead() and not inst.components.sleeper:IsAsleep() then
         local oldtarget = inst.components.combat.target
         local newtarget = FindEntity(inst, 10, 
             function(guy) 
-                return (not guy:HasTag("monster") or guy:HasTag("player") or guy:HasTag("oldfish_farmer"))
+                return (not guy:HasTag("monster") or guy:HasTag("player") or 
+                (guy:HasTag("oldfish_farmer") and 
+                guy.components.container:GetItemInSlot(4) ~= nil and 
+                guy.components.container:GetItemInSlot(4).prefab == "spear"))
                     and inst.components.combat:CanTarget(guy) 
             end,
             { "character", "_combat" },
@@ -220,7 +226,7 @@ local function Retarget(inst)
 end
 AddPrefabPostInit("spiderqueen", function(inst)
     if inst.components.combat ~= nil then
-        inst.components.combat:SetRetargetFunction(3, Retarget)
+        inst.components.combat:SetRetargetFunction(3, QueenTarget)
     end
 end)
 
@@ -228,14 +234,17 @@ local function is_meat(item)
     return item.components.edible ~= nil and item.components.edible.foodtype == FOODTYPE.MEAT and not item:HasTag("smallcreature")
 end
 
-local function NormalRetargetFn(inst)
+local function BunnymanTarget(inst)
     return not inst:IsInLimbo()
         and FindEntity(
                 inst,
                 TUNING.PIG_TARGET_DIST,
                 function(guy)
                     return inst.components.combat:CanTarget(guy)
-                        and (guy:HasTag("monster") or guy:HasTag("oldfish_farmer")
+                        and (guy:HasTag("monster") or 
+                        (guy:HasTag("oldfish_farmer") and 
+                        guy.components.container:GetItemInSlot(3) ~= nil and 
+                        guy.components.container:GetItemInSlot(3).prefab == "hammer")
                             or (guy.components.inventory ~= nil and
                                 guy:IsNear(inst, TUNING.BUNNYMAN_SEE_MEAT_DIST) and
                                 guy.components.inventory:FindItem(is_meat) ~= nil))
@@ -249,7 +258,7 @@ end
 
 AddPrefabPostInit("bunnyman", function(inst)
     if inst.components.combat ~= nil then
-        inst.components.combat:SetRetargetFunction(3, NormalRetargetFn)
+        inst.components.combat:SetRetargetFunction(3, BunnymanTarget)
     end
 end)
 

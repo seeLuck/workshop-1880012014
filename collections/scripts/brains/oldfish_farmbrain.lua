@@ -310,10 +310,10 @@ local function makeNewPlantAction(inst)
     local seends = inst.components.container:FindItem(function(v)
         return (v.prefab == "pinecone" and 
         inst.components.container:GetItemInSlot(1) ~= nil and 
-        inst.components.container:GetItemInSlot(1).prefab == "log") or 
+        inst.components.container:GetItemInSlot(1).prefab == "axe") or 
         (v.prefab == "marblebean" and 
         inst.components.container:GetItemInSlot(2) ~= nil and 
-        inst.components.container:GetItemInSlot(2).prefab == "marble")
+        inst.components.container:GetItemInSlot(2).prefab == "pickaxe")
         -- return v.prefab == "dug_sapling"
         --         or v.prefab == "dug_sapling_moon"
         --         or v.prefab == "dug_berrybush"
