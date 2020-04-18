@@ -42,6 +42,7 @@ local prefabName = {
     -- ,"red_cap"
     -- ,"drumstick"
     ,"spoiled_food"
+    ,"glommerfuel"
     ,"carrot"
     -- ,"watermelon"
     -- ,"boards"
