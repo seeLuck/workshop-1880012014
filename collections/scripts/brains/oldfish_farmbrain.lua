@@ -383,7 +383,7 @@ local function PickBerriesAction(inst)
         -- elseif target:HasTag("dried") then
         --     return BufferedAction(inst, target, ACTIONS.HARVEST)
 
-        if ((target:HasTag("beebox") and target.components.harvestable.produce >= 6)
+        if ((target:HasTag("beebox") and target.components.harvestable.produce >= 6 and inst.components.container:GetItemInSlot(5).prefab == "bugnet")
             or (target:HasTag("mushroom_farm") and target.components.harvestable.produce >= 6)
             or target:HasTag("dried")) 
             and not target:HasTag("burnt") then   
