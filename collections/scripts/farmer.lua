@@ -265,6 +265,46 @@ AddPrefabPostInit("bunnyman", function(inst)
     end
 end)
 
+
+local function PigmanTarget(inst)
+	local exclude_tags = { "playerghost", "INLIMBO" }
+	if inst.components.follower.leader ~= nil then
+		table.insert(exclude_tags, "abigail")
+	end
+	if inst.components.minigame_spectator ~= nil then
+		table.insert(exclude_tags, "player") -- prevent spectators from auto-targeting webber
+	end
+
+    local oneof_tags = {"monster", "oldfish_farmer"}
+    if not inst:HasTag("merm") then
+        table.insert(oneof_tags, "merm")
+    end
+
+    return not inst:IsInLimbo()
+        and FindEntity(
+                inst,
+                TUNING.PIG_TARGET_DIST,
+                function(guy)
+                    return (guy:HasTag("oldfish_farmer") and 
+                    guy.components.container:GetItemInSlot(3) ~= nil and 
+                    guy.components.container:GetItemInSlot(3).prefab == "hammer")
+                        or (not guy:HasTag("oldfish_farmer") and 
+                        (guy.LightWatcher == nil or guy.LightWatcher:IsInLight()) and 
+                        inst.components.combat:CanTarget(guy))
+                end,
+                { "_combat" }, -- see entityreplica.lua
+                exclude_tags,
+                oneof_tags
+            )
+        or nil
+end
+
+AddPrefabPostInit("pigman", function(inst)
+    if inst.components.combat ~= nil then
+        inst.components.combat:SetRetargetFunction(3, PigmanTarget)
+    end
+end)
+
 AddComponentPostInit("combat",function(inst)
 	if not GLOBAL.TheWorld.ismastersim then
 		return
@@ -275,7 +315,7 @@ AddComponentPostInit("combat",function(inst)
 		if oldbonusdamagefn then
 			bonus = oldbonusdamagefn(attacker, target, damage, weapon) or 0
 		end
-		if target.prefab == "oldfish_farmer" and (attacker.prefab == "bunnyman" or
+		if target.prefab == "oldfish_farmer" and (attacker.prefab == "bunnyman" or attacker.prefab == "pigman" or
         attacker.prefab == "bee" or attacker.prefab == "leif" or attacker.prefab == "frog" or 
         attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or attacker.prefab == "spiderqueen") then
 			bonus = 0 - damage

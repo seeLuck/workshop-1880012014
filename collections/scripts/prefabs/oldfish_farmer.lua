@@ -30,7 +30,7 @@ end
 local function OnAttacked(inst, data)
     if data.attacker.prefab == "bunnyman" or data.attacker.prefab == "bee" or data.attacker.prefab == "leif" 
     or data.attacker.prefab == "frog" or data.attacker.prefab == "spider" or data.attacker.prefab == "spider_warrior" or 
-    data.attacker.prefab == "spiderqueen" then
+    data.attacker.prefab == "spiderqueen" or data.attacker.prefab == "pigman" then
         return
     end
     inst:PushEvent("gohome")
@@ -65,7 +65,7 @@ end
 local function ReflectDamageFn(inst, attacker, damage, weapon, stimuli)
     if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" 
     or attacker.prefab == "frog" or attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or 
-    attacker.prefab == "spiderqueen" then
+    attacker.prefab == "spiderqueen" or attacker.prefab == "pigman" then
         return 5000
     end
 end
