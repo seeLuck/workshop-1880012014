@@ -32,6 +32,7 @@ local prefabName = {
     ,"poop"
     ,"guano"
     ,"manrabbit_tail"
+    ,"pigskin"
     ,"stinger"
     ,"houndstooth"
     ,"honey"
