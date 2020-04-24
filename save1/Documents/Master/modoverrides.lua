@@ -82,7 +82,6 @@ return {
     configuration_options={ faster=true, info=false, keybind=108, language="En" },
     enabled=true 
   },
-  ["workshop-1621458706"]={ configuration_options={  }, enabled=true },
   ["workshop-1758907750"]={ configuration_options={ BSONOFFCOUNT=true, XSONOFFCOUNT=true }, enabled=true },
   ["workshop-1839858501"]={ configuration_options={  }, enabled=true },
   ["workshop-1868443140"]={
