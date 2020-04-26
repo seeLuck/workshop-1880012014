@@ -26,6 +26,10 @@ if GetModConfigData("dart") then
 	modimport("scripts/dart.lua")
 end
 
+if TUNING.FARMERPREFABS then
+	modimport("scripts/farmer.lua")
+end
+
 if GetModConfigData("trashcan") then
 	modimport("scripts/trashcan.lua")
 end
@@ -33,4 +37,3 @@ end
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
 TUNING.MUTE_BEE = GetModConfigData("mutebee")
-TUNING.FARMERPREFABS = true
