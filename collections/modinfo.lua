@@ -1,7 +1,7 @@
 name = "Mod Collections"
 description = "自用。整合并小修改了一些我常用的mod，随时可能再改，最好别订阅。\nSelf-use mod collections. Updating at any time. No recommend to subscribe it."
 author = "雪绕风飞"
-version = "1.76"
+version = "1.77"
 forumthread = ""
 api_version = 10
 icon_atlas = "modicon.xml"
@@ -88,7 +88,7 @@ configuration_options =
     -- },
     {
         name = "farmer",
-        label = "Farmer",
+        label = "农场(有问题，别开)",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
