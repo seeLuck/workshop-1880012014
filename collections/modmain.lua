@@ -26,7 +26,7 @@ if GetModConfigData("dart") then
 	modimport("scripts/dart.lua")
 end
 
-if TUNING.FARMERPREFABS then
+if GLOBAL.KnownModIndex:IsModEnabled("workshop-1872958406") then
 	modimport("scripts/farmer.lua")
 end
 
