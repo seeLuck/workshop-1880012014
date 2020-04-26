@@ -97,3 +97,4 @@ local function trashWidget(inst)
 end
 
 AddPrefabPostInit("researchlab2", trashWidget)
+AddPrefabPostInit("researchlab2_pod", trashWidget)

@@ -107,6 +107,7 @@ return {
       salt=true,
       smartIceMachine=true,
       usercmd=true,
+      farmer=true,
       wx78drop=true 
     },
     enabled=true 
@@ -116,7 +117,6 @@ return {
       combinerepair=true,
       dart=true,
       epichealthbar=true,
-      farmer=true,
       fiveslot=true,
       minisign=true,
       mutebee=true,
