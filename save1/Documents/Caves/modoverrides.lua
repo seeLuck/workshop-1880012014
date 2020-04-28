@@ -107,7 +107,9 @@ return {
       salt=true,
       smartIceMachine=true,
       usercmd=true,
-      farmer=true,
+      seasonStart=true,
+      worldClean=true,
+      fridgeFresh=true,
       wx78drop=true 
     },
     enabled=true 
@@ -123,6 +125,7 @@ return {
       mutelucy=true,
       noentrancebat=true,
       refiller=true,
+      farmer=true,
       trashcan=true 
     },
     enabled=true 
