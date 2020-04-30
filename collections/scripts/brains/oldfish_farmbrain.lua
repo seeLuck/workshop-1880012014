@@ -80,7 +80,7 @@ local prefabName = {
     ,"marble"
     ,"marblebean"
     ,"goldnugget"
-    ,"rock_avocado_fruit_sprout"
+    ,"rock_avocado_fruit_ripe"
     -- ,"peach"
 }
 
@@ -183,7 +183,8 @@ local function HasBerry(item, inst)
                     and (item.components.pickable.product == "berries"
                     or item.components.pickable.product == "berries_juicy"
                     or item.components.pickable.product == "cutgrass"
-                    or item.components.pickable.product == "twigs")
+                    or item.components.pickable.product == "twigs"
+                    or item.components.pickable.product == "rock_avocado_fruit")
         end
     end
 end
@@ -393,13 +394,11 @@ local function PickBerriesAction(inst)
             return BufferedAction(inst, target, ACTIONS.HARVEST)
         elseif target.components.stewer ~= nil and target.components.stewer:IsDone() then
             return BufferedAction(inst, target, ACTIONS.HARVEST)
+        elseif target.prefab == "rock_avocado_bush" and target.components.growable ~= nil and target.components.growable.stage == 3 then
+                return BufferedAction(inst, target, ACTIONS.PICK)
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
                 return BufferedAction(inst, target, ACTIONS.HARVEST)
-            end
-        elseif target.components.growable ~= nil then
-            if target:HasTag("rock_avocado_bush") and target.components.growable.stages == 3 then
-                return BufferedAction(inst, target, ACTIONS.PICK)
             end
         elseif target.components.pickable and not target:HasTag("fire") then
             return BufferedAction(inst, target, ACTIONS.PICK)
