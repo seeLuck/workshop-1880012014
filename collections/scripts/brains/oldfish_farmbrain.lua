@@ -80,6 +80,7 @@ local prefabName = {
     ,"marble"
     ,"marblebean"
     ,"goldnugget"
+    ,"rock_avocado_fruit_sprout"
     -- ,"peach"
 }
 
@@ -395,6 +396,10 @@ local function PickBerriesAction(inst)
         elseif target.components.crop ~= nil then
             if target.components.crop:IsReadyForHarvest() or target:HasTag("withered") then
                 return BufferedAction(inst, target, ACTIONS.HARVEST)
+            end
+        elseif target.components.growable ~= nil then
+            if target:HasTag("rock_avocado_bush") and target.components.growable.stages == 3 then
+                return BufferedAction(inst, target, ACTIONS.PICK)
             end
         elseif target.components.pickable and not target:HasTag("fire") then
             return BufferedAction(inst, target, ACTIONS.PICK)
