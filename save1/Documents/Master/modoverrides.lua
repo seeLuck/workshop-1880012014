@@ -48,6 +48,7 @@ return {
       ["MemSpikeFixworkshop-1951468597"]="default",
       ["MemSpikeFixworkshop-2032577827"]="default",
       ["MemSpikeFixworkshop-2033458869"]="default",
+      ["MemSpikeFixworkshop-2034314229"]="default",
       ["MemSpikeFixworkshop-345692228"]="default",
       ["MemSpikeFixworkshop-351325790"]="default",
       ["MemSpikeFixworkshop-361994110"]="default",
@@ -102,14 +103,14 @@ return {
     configuration_options={
       beenice=true,
       boatHealth=true,
+      fridgeFresh=true,
       lanternColor=true,
       natureSpawn=true,
       salt=true,
+      seasonStart=true,
       smartIceMachine=true,
       usercmd=true,
-      seasonStart=true,
       worldClean=true,
-      fridgeFresh=true,
       wx78drop=true 
     },
     enabled=true 
@@ -119,19 +120,25 @@ return {
       combinerepair=true,
       dart=true,
       epichealthbar=true,
+      farmer=true,
       fiveslot=true,
       minisign=true,
       mutebee=true,
       mutelucy=true,
       noentrancebat=true,
       refiller=true,
-      farmer=true,
       trashcan=true 
     },
     enabled=true 
   },
   ["workshop-1951468597"]={
-    configuration_options={ HouseHammered=true, HouseLanguage=false, NewWalls=true },
+    configuration_options={
+      HouseHammered=true,
+      HouseLanguage=false,
+      NewInteriors=true,
+      NewWalls=true,
+      Tardis=true 
+    },
     enabled=true 
   },
   ["workshop-378160973"]={
