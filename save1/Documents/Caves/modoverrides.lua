@@ -102,12 +102,13 @@ return {
   ["workshop-1872958406"]={
     configuration_options={
       beenice=true,
-      boatHealth=true,
+      boatHealth=false,
       fridgeFresh=true,
       lanternColor=true,
       natureSpawn=true,
       salt=true,
-      seasonStart=true,
+      seasonStart=1,
+      bossFastRespawn=true,
       smartIceMachine=true,
       usercmd=true,
       worldClean=true,
