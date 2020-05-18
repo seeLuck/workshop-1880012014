@@ -90,6 +90,7 @@ return {
       beenice=true,
       boatHealth=false,
       bossFastRespawn=true,
+      farmer=true,
       fridgeFresh=true,
       lanternColor=true,
       natureSpawn=false,
@@ -97,7 +98,6 @@ return {
       seasonStart=2,
       smartIceMachine=true,
       usercmd=true,
-      farmer=true,
       worldClean=false,
       wx78drop=true 
     },
