@@ -97,6 +97,7 @@ return {
       seasonStart=2,
       smartIceMachine=true,
       usercmd=true,
+      farmer=true,
       worldClean=false,
       wx78drop=true 
     },

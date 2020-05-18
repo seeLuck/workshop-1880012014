@@ -111,6 +111,7 @@ return {
       bossFastRespawn=true,
       smartIceMachine=true,
       usercmd=true,
+      farmer=true,
       worldClean=true,
       wx78drop=true 
     },
