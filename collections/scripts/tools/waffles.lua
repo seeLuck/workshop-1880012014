@@ -67,7 +67,7 @@ Waffles =
 		end
 		return t
 	end,
-					
+	
 	GetPath = function(root, path)		
 		local t = root
 		for i, v in ipairs(cutpath(path)) do
@@ -111,14 +111,35 @@ Waffles =
 
 if rawget(_G, "Waffles") ~= nil then
 	for name, data in pairs(Waffles) do
-		if type(data) == "table" then
-			for subname, subdata in pairs(data) do				
-				Waffles.GetPath(_G, "Waffles/" .. name)[subname] = subdata
-			end
-		else
-			_G["Waffles"][name] = data
-		end
+		_G["Waffles"][name] = data
 	end
 else
 	rawset(_G, "Waffles", Waffles)
+end
+
+--------------------------------------------------------------------------
+--[[ Config Import ]]
+--------------------------------------------------------------------------
+
+config = {}
+
+local _config, temp_options = KnownModIndex:GetModConfigurationOptions_Internal(modname)
+if type(_config) == "table" then
+	if temp_options then
+		for k, v in pairs(_config) do
+			if k ~= "" then
+				config[k] = v
+			end
+		end
+	else
+		for i, v in pairs(_config) do
+			if v.name ~= "" then
+				if v.saved ~= nil then
+					config[v.name] = v.saved
+				else
+					config[v.name] = v.default
+				end
+			end
+		end
+	end
 end

@@ -3,20 +3,33 @@ local UIAnim = require "widgets/uianim"
 local Text = require "widgets/text"
 local Widget = require "widgets/widget"
 
-local THEMES = require "widgets/epichealthbar/themes"
-
 local MUSTTAGS = { "epic", "_health", "_combat" }
 local NOTAGS = { "INLIMBO", "player", "flight", "sleeping" }
 
-local function onboss(self, boss, oldboss)
-	if boss ~= nil and boss ~= oldboss then
-		if oldboss ~= nil then
+local function removetarget(self, target)
+	self.inst:RemoveEventCallback(TheWorld.ismastersim and "entitysleep" or "onremove", self.targets[target], target)
+	self.targets[target] = nil
+	self:OnHide()
+end
+
+local function ontarget(self, target, oldtarget)
+	if target ~= nil and target ~= oldtarget then
+		if self.targets[target] == nil then
+			self.targets[target] = function(target) removetarget(self, target) end
+			self.inst:ListenForEvent(TheWorld.ismastersim and "entitysleep" or "onremove", self.targets[target], target)
+		end
+		
+		if oldtarget ~= nil then
 			self:DoFlick()
 		end
-		 
-		self.name:SetString(boss:GetBasicDisplayName())
 		
-		local theme = THEMES[WORLD_SPECIAL_EVENT] and THEMES[WORLD_SPECIAL_EVENT][boss.prefab] or THEMES.none[boss.prefab] or THEMES.none.generic
+		self.name:SetString(target:GetBasicDisplayName())
+		
+		local themes = TUNING.EPICHEALTHBAR.THEMES
+		local event = string.upper(WORLD_SPECIAL_EVENT)
+		local prefab = string.upper(target.prefab)
+		local theme = themes[event] and themes[event][prefab] or themes.DEFAULT[prefab] or themes.DEFAULT.GENERIC
+		
 		self.blood:SetTint(theme[1], theme[2], theme[3], 0.8)
 	end
 end
@@ -56,7 +69,7 @@ local function onpercent(self, percent, oldpercent)
 	end
 end
 
-local function HasPlayerTarget(inst)
+local function InPlayerCombat(inst)
 	local target = inst.replica.combat and inst.replica.combat:GetTarget()
 	return target ~= nil and target:HasTag("player") or not inst:HasTag("locomotor")
 end
@@ -66,14 +79,14 @@ local function HasHealthData(inst)
 end
 
 local function FindBoss(inst)
-	return HasHealthData(inst) and HasPlayerTarget(inst)
+	return HasHealthData(inst) and InPlayerCombat(inst)
 end
 
 local function ValidateBoss(inst)
 	if HasHealthData(inst) then
 		for i, v in ipairs(NOTAGS) do
 			if inst:HasTag(v) then
-				if v ~= "sleeping" or not HasPlayerTarget(inst) then
+				if v ~= "sleeping" or not InPlayerCombat(inst) then
 					return false
 				end
 			end
@@ -95,10 +108,6 @@ local function OnAttacked(self, owner, data)
 	end
 end
 
-local function OnTriggeredEvent(self, owner, data)
-	self:StartUpdating()
-end
-
 local function PullEventAnnouncer(owner, y)
 	local eventannouncer = Waffles.Return(owner, "HUD/eventannouncer")
 	if eventannouncer ~= nil then
@@ -109,6 +118,9 @@ end
 local EpicHealthbar = Class(Widget, function(self, owner)
 	Widget._ctor(self, "EpicHealthbar")
 	self.owner = owner
+	
+	self.targets = {}
+	setmetatable(self.targets, { __mode = "kv" })
 	
 	self.scale = 0.94
 	self.flick_scale = self.scale + 0.05
@@ -149,7 +161,7 @@ local EpicHealthbar = Class(Widget, function(self, owner)
 	self.blood_empty:SetTint(1, 1, 1, 0.55)
 	self.blood_empty:SetBlendMode(1)
 	
-	self.frame = self:AddChild(Image("images/ui/boss_hb.xml", "boss_hb.tex"))
+	self.frame = self:AddChild(Image("images/hud/epichealthbar.xml", "epichealthbar.tex"))
 	self.frame:SetPosition(-1, -8.2, 0)
 	
 	self.name = self:AddChild(Text(TALKINGFONT, 28))
@@ -170,13 +182,14 @@ local EpicHealthbar = Class(Widget, function(self, owner)
 	self.maxhealth_text.pt = self.maxhealth_text:GetPosition()
 	
 	self:Hide()
-		
+	
+	self.inst:ListenForEvent("enterepiccombat", function(...) self:StartUpdating() end, owner)
 	self.inst:ListenForEvent("performaction", function(...) OnPerformAction(self, ...) end, owner)
 	self.inst:ListenForEvent("attacked", function(...) OnAttacked(self, ...) end, owner)
-	self.inst:ListenForEvent("triggeredevent", function(...) OnTriggeredEvent(self, ...) end, owner)
+	self.inst:ListenForEvent("triggeredevent", function(...) self:StartUpdating() end, owner)
 end,
 {
-	boss = onboss,
+	target = ontarget,
 	currenthealth = oncurrenthealth,
 	maxhealth = onmaxhealth,
 	percent = onpercent,
@@ -197,11 +210,11 @@ function EpicHealthbar:Disappear()
 		self:MoveTo(self:GetPosition(), { x = 0, y = 39.5 * self.scale, z = 0 }, 0.5, function() if not self.expanded then self:Hide() end end)
 		PullEventAnnouncer(self.owner)
 		
-		if not HasHealthData(self.boss) then
+		if not HasHealthData(self.target) then
 			self.currenthealth = 0
 			self.percent = 0
 		end
-		self.boss = nil
+		self.target = nil
 	end
 end
 
@@ -211,28 +224,44 @@ function EpicHealthbar:DoFlick()
 	end
 end
 
-function EpicHealthbar:OnUpdate(dt)
-	local boss = FindEntity(self.owner, TUNING.EPICHEALTHBAR_SEARCH_DIST, FindBoss, MUSTTAGS, NOTAGS)
-	if boss ~= nil then
-		self.boss = boss
-		self.time = GetTime()
+function EpicHealthbar:OnHide()
+	if not self.expanded and next(self.targets) == nil then
+		self:StopUpdating()
 	end
-		
-	if not ValidateBoss(self.boss)
+end
+
+function EpicHealthbar:OnUpdate(dt)
+	self.time_since_validation = (self.time_since_validation or 0) + dt
+	if self.time_since_validation >= 1 then
+		self.time_since_validation = 0
+		for target, callback in pairs(self.targets) do
+			if target ~= self.target and not InPlayerCombat(target) then
+				removetarget(self, target)
+			end
+		end
+	end
+	
+	local target = FindEntity(self.owner, TUNING.EPICHEALTHBAR.TRIGGER_DIST, FindBoss, MUSTTAGS, NOTAGS)
+	if target ~= nil then
+		self.target = target
+		self.timeout = 0
+	else
+		self.timeout = (self.timeout or 0) + dt
+	end
+	
+	if not ValidateBoss(self.target)
 		or self.owner:HasTag("playerghost")
-		or not self.owner:IsNear(self.boss, TUNING.EPICHEALTHBAR_SEARCH_DIST + 10)
-		or GetTime() - self.time >= TUNING.EPICHEALTHBAR_TIMEOUT then
+		or not self.owner:IsNear(self.target, TUNING.EPICHEALTHBAR.TRIGGER_DIST + 10)
+		or self.timeout >= TUNING.EPICHEALTHBAR.COMBAT_TIMEOUT then
 		
 		self:Disappear()
 	else
 		self:Appear()
 		
-		self.currenthealth = self.boss.epichealthbar.currenthealth
-		self.maxhealth = self.boss.epichealthbar.maxhealth
+		self.currenthealth = self.target.epichealthbar.currenthealth
+		self.maxhealth = self.target.epichealthbar.maxhealth
 		self.percent = self.currenthealth / self.maxhealth
 	end
 end
-
-EpicHealthbar.OnHide = EpicHealthbar.StopUpdating
 
 return EpicHealthbar

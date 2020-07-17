@@ -85,34 +85,20 @@ return {
   },
   ["workshop-1758907750"]={ configuration_options={ BSONOFFCOUNT=true, XSONOFFCOUNT=true }, enabled=true },
   ["workshop-1839858501"]={ configuration_options={  }, enabled=true },
-  ["workshop-1868443140"]={
-    configuration_options={
-      [""]=0,
-      days=0,
-      daysGap=0,
-      houndMode="never",
-      houndNumber=1,
-      safeKey=111,
-      wargNumber=0,
-      wargStrength=1,
-      wormMode="never" 
-    },
-    enabled=true 
-  },
   ["workshop-1872958406"]={
     configuration_options={
       beenice=true,
       boatHealth=false,
+      bossFastRespawn=true,
+      farmer=true,
       fridgeFresh=true,
       lanternColor=true,
-      natureSpawn=true,
+      natureSpawn=false,
       salt=true,
-      seasonStart=1,
-      bossFastRespawn=true,
+      seasonStart=2,
       smartIceMachine=true,
       usercmd=true,
-      farmer=true,
-      worldClean=true,
+      worldClean=false,
       wx78drop=true 
     },
     enabled=true 
@@ -120,7 +106,7 @@ return {
   ["workshop-1880012014"]={
     configuration_options={
       combinerepair=true,
-      dart=true,
+      dart=false,
       epichealthbar=true,
       farmer=true,
       fiveslot=true,
@@ -128,18 +114,8 @@ return {
       mutebee=true,
       mutelucy=true,
       noentrancebat=true,
-      refiller=true,
+      refiller=false,
       trashcan=true 
-    },
-    enabled=true 
-  },
-  ["workshop-1951468597"]={
-    configuration_options={
-      HouseHammered=true,
-      HouseLanguage=false,
-      NewInteriors=true,
-      NewWalls=true,
-      Tardis=true 
     },
     enabled=true 
   },
