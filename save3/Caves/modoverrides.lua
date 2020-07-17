@@ -102,7 +102,7 @@ return {
       farmer=true,
       fridgeFresh=true,
       lanternColor=true,
-      natureSpawn=true,
+      natureSpawn=1,
       salt=true,
       seasonStart=1,
       smartIceMachine=true,
