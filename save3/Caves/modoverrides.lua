@@ -1,4 +1,5 @@
 return {
+  ["workshop-1185229307"]={ configuration_options={ distance=20, timeout=10 }, enabled=true },
   ["workshop-1378549454"]={
     configuration_options={
       ["MemSpikeFix:"]=false,
@@ -116,7 +117,6 @@ return {
     configuration_options={
       combinerepair=true,
       dart=true,
-      epichealthbar=true,
       farmer=true,
       fiveslot=true,
       minisign=true,

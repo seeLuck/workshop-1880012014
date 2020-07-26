@@ -10,10 +10,6 @@ if GetModConfigData("refiller") then
 	modimport("scripts/refiller.lua")
 end
 
-if GetModConfigData("epichealthbar") then
-	modimport("scripts/epichealthbar.lua")
-end
-
 if GetModConfigData("combinerepair") then
 	modimport("scripts/combinerepair.lua")
 end

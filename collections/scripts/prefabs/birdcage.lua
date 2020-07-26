@@ -15,9 +15,6 @@ local assets =
     Asset("IMAGE", "images/neck.tex"),
     Asset("ATLAS", "images/neck.xml"),
 
-    -- epichealthbar
-    Asset("ATLAS", "images/ui/boss_hb.xml"),
-
     -- minisign
     Asset("ANIM", "anim/sign_mini.zip"),
 }
