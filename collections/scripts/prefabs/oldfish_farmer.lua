@@ -63,7 +63,7 @@ local function OnPreLoad(inst, data)
 end
 
 local function ReflectDamageFn(inst, attacker, damage, weapon, stimuli)
-    if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" 
+    if attacker.prefab == "bunnyman" or attacker.prefab == "bee" or attacker.prefab == "leif" or attacker.prefab == "moonspider_spike" 
     or attacker.prefab == "frog" or attacker.prefab == "spider" or attacker.prefab == "spider_warrior" or 
     attacker.prefab == "spiderqueen" or attacker.prefab == "pigman" then
         return 5000
