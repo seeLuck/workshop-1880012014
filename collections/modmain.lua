@@ -30,6 +30,10 @@ if GetModConfigData("trashcan") then
 	modimport("scripts/trashcan.lua")
 end
 
+if GetModConfigData("buildingCloser") then
+	modimport("scripts/buildingcloser.lua")
+end
+
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
 TUNING.MUTE_BEE = GetModConfigData("mutebee")
