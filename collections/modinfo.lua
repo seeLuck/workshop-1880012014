@@ -128,7 +128,7 @@ configuration_options =
     },
     {
         name = "buildingCloser",
-        label = "BuildingCloser",
+        label = "建筑靠近",
         options =
         {
             {description = "OFF", data = false, hover = "OFF"},
