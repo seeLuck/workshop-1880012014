@@ -28,3 +28,8 @@ AddPrefabPostInit("dug_rock_avocado_bush", function(inst)
         inst.components.deployable:SetDeploySpacing(GLOBAL.DEPLOYSPACING.MEDIUM)
     end
 end)
+AddPrefabPostInit("butterfly", function(inst)
+    if inst.components.deployable then
+        inst.components.deployable:SetDeploySpacing(GLOBAL.DEPLOYSPACING.MEDIUM)
+    end
+end)
