@@ -85,14 +85,18 @@ return {
     configuration_options={
       [""]=0,
       days=0,
-      daysGap=6,
-      houndMode=false,
-      houndNumber=0.5,
+      daysGap=14,
+      houndMode="customized",
+      houndNumber=1,
       safeKey=111,
-      wargNumber=1,
+      wargNumber=0,
       wargStrength=4,
-      wormMode=false 
+      wormMode="never"
     },
+    enabled=true 
+  },
+  ["workshop-1000377420"]={
+    configuration_options={ collardomesticated=0.25, privatebeef="none", saddleshake=1 },
     enabled=true 
   },
   ["workshop-1872958406"]={
@@ -124,7 +128,8 @@ return {
       mutelucy=true,
       noentrancebat=true,
       refiller=true,
-      trashcan=true 
+      trashcan=true,
+      buildingCloser=true
     },
     enabled=true 
   },
@@ -197,7 +202,7 @@ return {
       cactus=0,
       carrot_planted=0,
       cave_banana_tree=0,
-      cave_fern=1,
+      cave_fern=0,
       cook=1,
       draw=1,
       flower=1,
