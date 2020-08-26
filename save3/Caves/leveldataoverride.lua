@@ -25,7 +25,7 @@ return {
     fern="rare",
     fissure="rare",
     flint="never",
-    flower_cave="rare",
+    flower_cave="default",
     grass="rare",
     layout_mode="RestrictNodesByKey",
     lichen="rare",
@@ -52,11 +52,11 @@ return {
     trees="rare",
     weather="rare",
     world_size="small",
-    worldseed=1594976246,
+    worldseed=1598271537,
     wormattacks="default",
     wormhole_prefab="tentacle_pillar",
-    wormlights="rare",
-    worms="rare" 
+    wormlights="default",
+    worms="default" 
   },
   required_prefabs={ "multiplayer_portal" },
   substitutes={  },

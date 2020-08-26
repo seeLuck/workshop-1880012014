@@ -1,9 +1,13 @@
 return {
-  ["workshop-1185229307"]={ configuration_options={ distance=20, timeout=10 }, enabled=true },
+  ["workshop-1000377420"]={
+    configuration_options={ collardomesticated=0.25, privatebeef="none", saddleshake=1 },
+    enabled=true 
+  },
   ["workshop-1378549454"]={
     configuration_options={
       ["MemSpikeFix:"]=false,
       MemSpikeFixmaster_override=true,
+      ["MemSpikeFixworkshop-1000377420"]="default",
       ["MemSpikeFixworkshop-1079538195"]="default",
       ["MemSpikeFixworkshop-1120124958"]="default",
       ["MemSpikeFixworkshop-1185229307"]="default",
@@ -28,6 +32,7 @@ return {
       ["MemSpikeFixworkshop-1621458706"]="default",
       ["MemSpikeFixworkshop-1659235004"]="default",
       ["MemSpikeFixworkshop-1686705509"]="default",
+      ["MemSpikeFixworkshop-1704104804"]="default",
       ["MemSpikeFixworkshop-1714836927"]="default",
       ["MemSpikeFixworkshop-1758907750"]="default",
       ["MemSpikeFixworkshop-1768821433"]="default",
@@ -85,13 +90,13 @@ return {
     configuration_options={
       [""]=0,
       days=0,
-      daysGap=6,
-      houndMode=false,
-      houndNumber=0.5,
+      daysGap=14,
+      houndMode="customized",
+      houndNumber=1,
       safeKey=111,
-      wargNumber=1,
-      wargStrength=4,
-      wormMode=false 
+      wargNumber=0,
+      wargStrength=1,
+      wormMode="never" 
     },
     enabled=true 
   },
@@ -115,6 +120,7 @@ return {
   },
   ["workshop-1880012014"]={
     configuration_options={
+      buildingCloser=true,
       combinerepair=true,
       dart=true,
       farmer=true,
@@ -181,7 +187,7 @@ return {
       food_estimation=-1,
       food_order=0,
       food_style=0,
-      lang="auto",
+      lang="chs",
       show_food_units=-1,
       show_uses=-1 
     },
@@ -194,9 +200,9 @@ return {
       berrybush_juicy=0,
       blue_mushroom=0,
       build=2,
-      cactus=0,
-      carrot_planted=0,
-      cave_banana_tree=0,
+      cactus=1,
+      carrot_planted=1,
+      cave_banana_tree=1,
       cave_fern=1,
       cook=1,
       draw=1,
@@ -211,13 +217,13 @@ return {
       heal=1,
       lichen=1,
       mandrake_planted=1,
-      marsh_bush=0,
-      oasis_cactus=0,
+      marsh_bush=1,
+      oasis_cactus=1,
       red_mushroom=0,
-      reeds=0,
+      reeds=1,
       resetmine=1,
       sapling=0,
-      statueglommer=0,
+      statueglommer=1,
       tallbirdnest=1,
       tumbleweed=1,
       wormlight_plant=1 

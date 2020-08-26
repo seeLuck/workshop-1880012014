@@ -9,16 +9,16 @@ KLEI     1 return {
         encode_user_path=true,
         game_mode="endless",
         intention="social",
-        max_players=2,
+        max_players=1,
         name="雪绕风飞的世界",
         online_mode=true,
         password="",
-        privacy_type=0,
+        privacy_type=2,
         pvp=false,
         server_language="zh",
         use_cluster_path=true 
       },
-      session_id="7CA33AA0EDF0D881",
+      session_id="2A185629B1006A3C",
       world={
         options={
           {
@@ -48,7 +48,7 @@ KLEI     1 return {
               fern="rare",
               fissure="rare",
               flint="never",
-              flower_cave="rare",
+              flower_cave="default",
               grass="rare",
               layout_mode="RestrictNodesByKey",
               lichen="rare",
@@ -77,8 +77,8 @@ KLEI     1 return {
               world_size="small",
               wormattacks="default",
               wormhole_prefab="tentacle_pillar",
-              wormlights="rare",
-              worms="rare" 
+              wormlights="default",
+              worms="default" 
             },
             required_prefabs={ "multiplayer_portal" },
             substitutes={  },
