@@ -100,6 +100,10 @@ return {
     },
     enabled=true 
   },
+  ["workshop-1000377420"]={
+    configuration_options={ collardomesticated=0.25, privatebeef="none", saddleshake=1 },
+    enabled=true 
+  },
   ["workshop-1872958406"]={
     configuration_options={
       beenice=true,
@@ -130,7 +134,8 @@ return {
       mutelucy=true,
       noentrancebat=true,
       refiller=true,
-      trashcan=true 
+      trashcan=true,
+      buildingCloser=true
     },
     enabled=true 
   },
