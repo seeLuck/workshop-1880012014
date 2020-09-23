@@ -6,7 +6,6 @@ local Action = _G.Action
 local ACTIONS = _G.ACTIONS
 local ActionHandler = _G.ActionHandler
 local STRINGS = _G.STRINGS
-local ALLOW = TUNING.ALLOW
 
 TUNING.ALLOW={}
 TUNING.ALLOW["nightstick"] = true
@@ -15,6 +14,7 @@ TUNING.ALLOW["tornado"] = true
 RET.SEWLIST = {}
 RET.LIST = {}
 
+local ALLOW = TUNING.ALLOW
 if ALLOW["nightstick"] then
 RET.SEWLIST.NIGHTSTICK={
     {"lightbulb",{
