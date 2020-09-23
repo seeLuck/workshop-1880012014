@@ -12,6 +12,7 @@ end
 
 if GetModConfigData("combinerepair") then
 	modimport("scripts/combinerepair.lua")
+	modimport("scripts/rarerepair.lua")
 end
 
 -- if GetModConfigData("largeboat") then
