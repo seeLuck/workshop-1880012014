@@ -38,3 +38,7 @@ end
 TUNING.NO_CAVE_ENTRANCE_BAT = GetModConfigData("noentrancebat")
 TUNING.MUTE_LUCY = GetModConfigData("mutelucy")
 TUNING.MUTE_BEE = GetModConfigData("mutebee")
+
+if GetModConfigData("waterballoon") then
+	modimport("scripts/waterballoon.lua")
+end
