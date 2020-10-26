@@ -17,7 +17,7 @@ STRINGS.NAMES.OLDFISH_FARMHOME = "农屋"
 STRINGS.RECIPE_DESC.OLDFISH_FARMHOME = "帮你干活的农民"
 STRINGS.CHARACTERS.GENERIC.DESCRIBE.OLDFISH_FARMHOME = "漂亮的农屋"
 STRINGS.NAMES.OLDFISH_FARMER = "农民"
-STRINGS.CHARACTERS.GENERIC.DESCRIBE.OLDFISH_FARMER = "斧稿锤矛网"
+STRINGS.CHARACTERS.GENERIC.DESCRIBE.OLDFISH_FARMER = "铲斧稿锤矛网"
 
 PrefabFiles = {
     "oldfish_farmer",
@@ -161,7 +161,28 @@ end
 oldfish_widgetcreation()
 
 
-local needTags = {"berrybush","grass","berrybush2","berrybush_juicy","firesuppressor","berries","beebox","berries_juicy","cutgrass","twigs","mushroom_farm","meatrack","slow_farmplot","fast_farmplot"}
+local needTags = {
+    "berrybush",    
+    "berrybush2",
+    "berrybush_juicy",
+    "grass",
+    "sapling",
+    "sapling_moon",
+    "firesuppressor",
+    "berries",
+    "beebox",
+    "berries_juicy",
+    "cutgrass",
+    "twigs",
+    "mushroom_farm",
+    "meatrack",
+    "evergreen",
+    "slow_farmplot",
+    "fast_farmplot",
+    "rock_avocado_bush",
+    "rock_avocado_fruit",
+    "marbleshrub_tall"
+}
 
 --添加独一无二的标签，方便农民快速定位
 for k,v in ipairs(needTags) do
