@@ -8,11 +8,11 @@ end
 
 if GetModConfigData("refiller") then
 	modimport("scripts/refiller.lua")
-	modimport("scripts/refillerweapon.lua")
 end
 
 if GetModConfigData("combinerepair") then
 	modimport("scripts/combinerepair.lua")
+	modimport("scripts/refillerweapon.lua")
 end
 
 -- if GetModConfigData("largeboat") then
