@@ -1,7 +1,3 @@
-if GetModConfigData("fiveslot") then
-	modimport("scripts/fiveslot.lua")
-end
-
 if GetModConfigData("minisign") then
 	modimport("scripts/minisign.lua")
 end
