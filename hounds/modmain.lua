@@ -14,6 +14,7 @@ local houndNumber = houndMode and GetModConfigData("houndNumber") or 1 -- 1 = us
 local daysGap = houndMode and GetModConfigData("daysGap") or 1 -- 1 = use the game's default
 local wargStrength = houndMode and GetModConfigData("wargStrength") or 1 -- 1 = use the game's default
 local wargNumber = houndMode == "customized" and GetModConfigData("wargNumber") or 0
+local seasonHound = GetModConfigData("seasonHound") or 0 -- 1 = use the game's default
 local wargRealsed = 0
 TUNING.WARG_BOSS_STRENGTH = wargStrength
 
@@ -26,8 +27,8 @@ PrefabFiles =
 local houndCfg =
 {
     base_prefab = "hound",
-    winter_prefab = "hound",
-    summer_prefab = "hound",
+    winter_prefab = "icehound",
+    summer_prefab = "firehound",
 
     attack_levels =
     {
@@ -59,6 +60,11 @@ local houndCfg =
 
 if wargNumber == 0 then
     wargStrength = 1
+end
+
+if seasonHound == 0 then
+    houndCfg.winter_prefab = "hound"
+    houndCfg.summer_prefab = "hound"
 end
 
 if wargStrength == 4 and wargNumber > 1 then
@@ -150,14 +156,14 @@ local function IsDefaultScreen()
     return HUD_IF
 end
 
-AddSimPostInit(function()
-    if not _G.TheNet:IsDedicated() then
-        _G.TheInput:AddKeyDownHandler(safeKey, function()
-            if not IsDefaultScreen() or not _G.TheWorld:HasTag("forest") then return end
-            SendModRPCToServer(MOD_RPC[modname]["EraseCtrl"])
-        end)
-    end
-end)
+-- AddSimPostInit(function()
+--     if not _G.TheNet:IsDedicated() then
+--         _G.TheInput:AddKeyDownHandler(safeKey, function()
+--             if not IsDefaultScreen() or not _G.TheWorld:HasTag("forest") then return end
+--             SendModRPCToServer(MOD_RPC[modname]["EraseCtrl"])
+--         end)
+--     end
+-- end)
 
 AddModRPCHandler(modname, "EraseCtrl", EraseCtrl)
 

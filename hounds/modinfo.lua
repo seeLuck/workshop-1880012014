@@ -5,7 +5,7 @@
 name = "Hounds Attack"
 description = "Adjust hound attacks.\n- Numbers of hound\n- Days gap\n- Add wargs\nAll settings can be configured."
 author = "雪绕风飞"
-version = "1.25"
+version = "1.26"
 api_version = 10
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
@@ -85,6 +85,17 @@ configuration_options =
         },
         default = 1,
 	},
+    {
+        name = "seasonHound",
+        label = "Season Hound",
+        hover = "Spawn summer or winter hounds.",
+        options =
+        {
+            {description = "YES", data = 1, hover = "Season Hounds"},
+            {description = "NO", data = 0, hover = "Original Hounds Only"}
+        },
+        default = 1,
+	},
 	{
         name = "wargNumber",
         label = "Warg Number",
@@ -113,25 +124,25 @@ configuration_options =
         },
         default = 1,
 	},
-	{
-		name = "safeKey",
-		label = "Clear All Hounds Button",
-		hover = "Press it while hounds are ruling your world.\nSave your time from rolling back.",
-		options = (function()
-			local KEY_A  = 97 -- ASCII code for "a"
-			local values = {}
-			local chars  = {
-				"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-				"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
-			}
-			for i = 1, #chars do
-				values[#values + 1] = { description = chars[i], data = i + KEY_A - 1 }
-			end
+	-- {
+	-- 	name = "safeKey",
+	-- 	label = "Clear All Hounds Button",
+	-- 	hover = "Press it while hounds are ruling your world.\nSave your time from rolling back.",
+	-- 	options = (function()
+	-- 		local KEY_A  = 97 -- ASCII code for "a"
+	-- 		local values = {}
+	-- 		local chars  = {
+	-- 			"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+	-- 			"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+	-- 		}
+	-- 		for i = 1, #chars do
+	-- 			values[#values + 1] = { description = chars[i], data = i + KEY_A - 1 }
+	-- 		end
 
-			return values
-		end)(),
-		default = 111, -- ASCII code for "o"
-	},
+	-- 		return values
+	-- 	end)(),
+	-- 	default = 111, -- ASCII code for "o"
+	-- },
 	{
 		name = "",
 		label = "",
