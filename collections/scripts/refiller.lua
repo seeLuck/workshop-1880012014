@@ -1,8 +1,8 @@
-local multiplier_guano = 0.4
-local multiplier_poop = 1
-local multiplier_spoiled_food = 2
-local multiplier_rotten_egg = 2
-local multiplier_glommer_fuel = 2
+local multiplier_guano = 1
+local multiplier_poop = 0.5
+local multiplier_spoiled_food = 0.5
+local multiplier_rotten_egg = 1
+local multiplier_glommer_fuel = 1.5
 TUNING.FERTILIZER_USES = 10
 
 local REFILL = AddAction("REFILL", "Refill Bucket", function(act)
@@ -53,27 +53,27 @@ end)
 
 AddPrefabPostInit("poop", function(inst)
     inst:AddComponent("refiller")
-    inst.components.refiller.refill_value = 5 * multiplier_poop
+    inst.components.refiller.refill_value = multiplier_poop
 end)
 
 AddPrefabPostInit("guano", function(inst)
     inst:AddComponent("refiller")
-    inst.components.refiller.refill_value = 7.5 * multiplier_guano
+    inst.components.refiller.refill_value = multiplier_guano
 end)
 
 AddPrefabPostInit("spoiled_food", function(inst)
     inst:AddComponent("refiller")
-    inst.components.refiller.refill_value = 1.25 * multiplier_spoiled_food
+    inst.components.refiller.refill_value = multiplier_spoiled_food
 end)
 
 AddPrefabPostInit("rottenegg", function(inst)
     inst:AddComponent("refiller")
-    inst.components.refiller.refill_value = 1.25 * multiplier_rotten_egg
+    inst.components.refiller.refill_value = multiplier_rotten_egg
 end)
 
 AddPrefabPostInit("glommerfuel", function(inst)
     inst:AddComponent("refiller")
-    inst.components.refiller.refill_value = 5 * multiplier_glommer_fuel
+    inst.components.refiller.refill_value = multiplier_glommer_fuel
 end)
 
 
