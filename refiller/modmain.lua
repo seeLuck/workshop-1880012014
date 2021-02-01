@@ -1,8 +1,8 @@
-local multiplier_guano = 1
-local multiplier_poop = 0.5
-local multiplier_spoiled_food = 0.5
-local multiplier_rotten_egg = 1
-local multiplier_glommer_fuel = 1.5
+local multiplier_guano = GetModConfigData("consumption") and 3 or 1
+local multiplier_poop = GetModConfigData("consumption") and 2 or 0.5
+local multiplier_spoiled_food = GetModConfigData("consumption") and 2 or 0.5
+local multiplier_rotten_egg = GetModConfigData("consumption") and 3 or 1
+local multiplier_glommer_fuel = GetModConfigData("consumption") and 5 or 1.5
 TUNING.FERTILIZER_USES = 10
 
 local REFILL = AddAction("REFILL", "Refill Bucket", function(act)
