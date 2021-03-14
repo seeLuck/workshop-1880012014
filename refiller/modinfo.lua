@@ -2,19 +2,15 @@ name = "Refillable Bucket(Fixed)"
 description =   "You are now able to refill your Bucket-o-poop! \n\n" ..
                 "You can refill it with every natural item that could also fertilize."
 author = "雪绕风飞"
-version = "1.0.3"
-
-forumthread = ""
-
-dst_compatible = true
-dont_starve_compatible = false
-reign_of_giants_compatible = true
-all_clients_require_mod = true
-client_only_mod = false
+version = "1.0.4"
 api_version = 10
-
 icon_atlas = "modicon.xml"
 icon = "modicon.tex"
+client_only_mod = false
+all_clients_require_mod = true
+dst_compatible = false
+dont_starve_compatible = false
+reign_of_giants_compatible = false
 
 priority = 1
 
