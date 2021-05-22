@@ -48,3 +48,10 @@ AddPrefabPostInit("boneshard", function(inst)
 		end
 	end
 end)
+AddPrefabPostInit("walrus_tusk", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)
