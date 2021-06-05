@@ -55,3 +55,10 @@ AddPrefabPostInit("walrus_tusk", function(inst)
 		end
 	end
 end)
+AddPrefabPostInit("pigskin", function(inst)
+	if GLOBAL.TheWorld.ismastersim then
+		if not inst.components.tradable then
+			inst:AddComponent("tradable")
+		end
+	end
+end)

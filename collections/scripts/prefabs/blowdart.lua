@@ -272,7 +272,8 @@ local function AbleToAcceptTest(inst, item)
     item.prefab == "feather_crow" or 
     item.prefab == "feather_canary" or 
     item.prefab == "boneshard" or 
-    item.prefab == "walrus_tusk"
+    item.prefab == "walrus_tusk" or 
+    item.prefab == "pigskin"
 end
 
 local function OnAccept(inst, giver, item)
