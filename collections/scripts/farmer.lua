@@ -30,8 +30,14 @@ Assets = {
 local oldfish_farmhome = GLOBAL.Recipe(
     "oldfish_farmhome",
     {
-        Ingredient("boards", 10),
-        Ingredient("cutstone", 5)
+        Ingredient("boards", 40),
+        Ingredient("cutstone", 20),
+        Ingredient("twigs", 40),
+        Ingredient("cutgrass", 40),
+        Ingredient("goldnugget", 20),
+        Ingredient("silk", 20),
+        Ingredient("stinger", 20),
+        Ingredient("pigskin", 10)
     },
     RECIPETABS.FARM,
     TECH.SCIENCE_TWO,
