@@ -1,0 +1,6 @@
+c_spawn("oceanfish_shoalspawner")
+
+worm1 = c_spawn("wormhole")
+worm2 = c_spawn("wormhole")
+worm1.components.teleporter.targetTeleporter = worm2
+worm2.components.teleporter.targetTeleporter = worm1

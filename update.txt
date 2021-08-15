@@ -1,5 +1,6 @@
 ./steamcmd.sh +login anonymous +force_install_dir dst +app_update 343050 validate +exit
 cd /home/dst/mods/workshop-1872958406/
+git reset --hard
 git pull
-mv /home/dst/mods/workshop-1872958406/scripts/brains/oldfish_farmbrain.lua /home/dst/mods/workshop-1880012014/scripts/brains/
-cp /home/dedicated_server_mods_setup.lua /home/dst/mods/
+cp -f /home/dedicated_server_mods_setup.lua /home/dst/mods/
+cp -f /home/dst/mods/workshop-1872958406/scripts/brains/oldfish_farmbrain.lua /home/dst/ugc_mods/Documents/Master/content/322330/1880012014/scripts/brains/
