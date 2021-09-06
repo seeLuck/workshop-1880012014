@@ -1,8 +1,8 @@
 local G = GLOBAL
 
 local TUNING = 	{
-	duration = 60,
-	maximum = 300,
+	duration = 90,
+	maximum = 360,
 }
 
 AddPrefabPostInitAny(function(inst)
