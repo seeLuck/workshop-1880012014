@@ -1,4 +1,4 @@
-local NewDamage = 50;
+local NewDamage = 25;
 local NewRange = 10;
 
 local assets =
@@ -287,7 +287,7 @@ local function OnAccept(inst, giver, item)
 	if not inst.components.weapon then
 		inst:AddComponent("weapon")
 		inst.components.weapon:SetDamage(NewDamage)
-		inst.components.weapon:SetRange(NewRange)
+		inst.components.weapon:SetRange(NewRange - 2, NewRange)
 		inst.components.weapon:SetProjectile("blowdart_walrus")
 	end
 end
@@ -333,7 +333,7 @@ local function commonN(anim, tags)
 
 	inst:AddComponent("weapon")
     inst.components.weapon:SetDamage(NewDamage)
-    inst.components.weapon:SetRange(NewRange)
+    inst.components.weapon:SetRange(NewRange - 2, NewRange)
 	inst.components.weapon:SetProjectile("blowdart_walrus")
 	
     -------
